@@ -31,18 +31,21 @@ module.exports = {
             },
             {
                 test: /\.s?css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader', {
-                    loader: 'sass-resources-loader',
-                    options: {
-                        resources: ['./src/client/styles/vars.scss']
-                    }
-                }]
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'
+                    // , {
+                    //     loader: 'sass-resources-loader',
+                    //     options: {
+                    //         resources: ['./src/client/styles/vars.scss']
+                    //     }
+                    // }
+                ]
             }
         ]
     },
     plugins: [
         new HTMLWebpackPlugin({
             template: './src/client/views/index.html'
-        })
+        }),
+        new MiniCssExtractPlugin()
     ]
 };
