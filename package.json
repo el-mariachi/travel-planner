@@ -6,6 +6,7 @@
   "scripts": {
     "build": "rm -rf dist && webpack --config webpack.prod.js",
     "dev": "webpack serve --open --config webpack.dev.js",
+    "static": "webpack serve --open --config webpack.static.js",
     "test": "jest",
     "start": "node src/server/server.js"
   },

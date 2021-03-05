@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
-// static assets path
+// assets path
 app.use('/', express.static(path.join(__dirname, '../../dist')));
 
 app.get('/', (req, res) => {
