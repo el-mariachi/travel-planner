@@ -1,0 +1,19 @@
+.header {
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to bottom,  #0061bc 0%,#eaf2f9 59%,#007780 59%,#00869e 61%,#1eb8d7 67%,#ccf4e5 76%,#cca223 76%,#fff6de 100%);
+    border-bottom: 1px solid $sandDark;
+}
+
+.header__title {
+    color: $yelloWhite;
+    font-weight: 300;
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 4px;
+    font-size: 3.6em;
+    max-width: 1024px;
+    height: 80px;
+    background: url(../media/Sun40.svg) no-repeat right 0px top 0px, url(../media/palm_tree.svg) no-repeat left;
+    background-size: 40px, 80px;
+}
