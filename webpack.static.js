@@ -1,8 +1,12 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/static/index.js',
+    entry: {
+        index: './src/static/index.js',
+        current: './src/static/current.js'
+    },
     output: {
+        filename: '[name].js',
         libraryTarget: 'var',
         library: 'Client',
         clean: true
@@ -32,7 +36,12 @@ module.exports = {
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: './src/static/index.html'
+            template: './src/static/index.html',
+            filename: 'index.html',
         }),
+        new HTMLWebpackPlugin({
+            template: './src/static/current.html',
+            filename: 'current.html',
+        })
     ]
 };
