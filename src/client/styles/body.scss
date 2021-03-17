@@ -3,10 +3,16 @@
 @import 'button.scss';
 @import 'header.scss';
 @import 'newtrip.scss';
-// @import 'locations.scss';
+@import 'trips.scss';
 
 body {
     font-family: 'Lato', sans-serif;
     font-size: 62.5%;
     margin: 0;
+    background: $sandVeryLite;
+}
+
+main {
+    max-width: 1024px;
+    margin: 0 auto;
 }
