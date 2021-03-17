@@ -15,6 +15,40 @@
         <header class="header">
             <h1 class="header__title">Travel Planner</h1>
         </header>
+        <main class="main">
+            <form action="#" class="newtrip" name="newtrip">
+                <div class="newtrip__inner">
+                    <h2 class="newtrip__header">New Trip</h2>
+                    <div class="newtrip__section">
+                        <label for="destination" class="newtrip__label">Destinantion</label>
+                        <input class="input newtrip__input " type="text" name="destination" id="destination"
+                            placeholder="Enter destination">
+                        <div class="locations newtrip__locations locations--visible">
+                            <ul class="locations__inner">
+                                <li class="locations__item" data-location="Москва, Россия">Москва, Россия</li>
+                                <li class="locations__item" data-location="Петушки">Петушки</li>
+                                <li class="locations__item" data-location="Снежинск">Снежинск</li>
+                                <li class="locations__item" data-location="San Francisco, USA">San Francisco, USA</li>
+                                <li class="locations__item" data-location="San Diego, USA">San Diego, USA</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="newtrip__section newtrip--type-dates">
+                        <div class="newtrip__group newtrip__date">
+                            <label for="date" class="newtrip__label">Departure date</label>
+                            <input class="input newtrip__input" type="date" name="from" id="from">
+                        </div>
+                        <div class="newtrip__group newtrip__date">
+                            <label for="date" class="newtrip__label">Return date</label>
+                            <input class="input newtrip__input" type="date" name="to" id="to">
+                        </div>
+                    </div>
+                    <div class="newtrip__section"><button class="newtrip__submit button" type="submit">Create
+                            Trip</button>
+                    </div>
+                </div>
+            </form>
+        </main>
     </div>
     <script>
 

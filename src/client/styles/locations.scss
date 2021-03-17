@@ -1,0 +1,40 @@
+.locations {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px dotted $blue;
+    max-height: 120px;
+    overflow-y: auto;
+    display: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.locations--visible {
+    display: block;
+}
+
+.locations__inner {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    height: max-content;
+}
+
+.locations__item {
+    width: 100%;
+    box-sizing: border-box;
+    background: $white;
+    color: $blue;
+    font-size: 1.6em;
+    line-height: 2.5em;
+    padding: 0 0.5em;
+    overflow-x: hidden;
+    border-bottom: 1px dotted $blue;
+}
+
+.locations__item:last-child {
+    border-bottom: none;
+}
+
+.locations__item:hover {
+    background: $placeholder;
+}
