@@ -18,8 +18,10 @@
 }
 
 .newtrip__section {
-    width: 100;
+    width: 100%;
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .newtrip__input {
@@ -40,11 +42,15 @@
     color: $blue;
     font-size: 1.4em;
     font-weight: 700;
-    margin: 8px 0;
+    margin: 8px 0.3em 8px 0;
+}
+
+.newtrip__error {
+    color: $error;
 }
 
 .newtrip__submit {
-    margin: 32px 0 16px;
+    margin: 16px 0;
 }
 
 .newtrip__locations {

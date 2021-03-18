@@ -1,0 +1,19 @@
+.unit--type-c::after {
+    content: "°C";
+}
+
+.unit--type-f::after {
+    content: "°F";
+}
+
+.unit--type-mm::after {
+    content: " mm";
+}
+
+.unit--type-in::after {
+    content: " in";
+}
+
+.unit--type-percent::after {
+    content: " %";
+}
