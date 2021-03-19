@@ -246,6 +246,35 @@
     }
 }
 
+.trip--selector-metric {
+    background: $blue;
+    color: $sandLite;
+}
+
+.trip--selector-imperial {
+    color: $blue;
+    background: $sandLite;
+    cursor: pointer;
+}
+
+.trip--selector-imperial:hover,
+.trip--units-imperial .trip--selector-metric:hover {
+    background: $rusty;
+    color: $sandLite;
+}
+
+.trip--units-imperial .trip--selector-metric {
+    color: $blue;
+    background: $sandLite;
+    cursor: pointer;
+}
+
+.trip--units-imperial .trip--selector-imperial {
+    background: $blue;
+    color: $sandLite;
+    cursor: unset;
+}
+
 @media screen and (min-width: 760px) {
     .trip__image {
         height: 64vw;
