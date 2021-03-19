@@ -205,6 +205,51 @@
     padding-bottom: 0;
 }
 
+.trip--control-save {
+    display: block;
+}
+
+.trip--control-close {
+    display: none;
+}
+
+.trip--saved .trip--control-save {
+    display: none;
+}
+
+.trip--saved .trip--control-close {
+    display: block;
+}
+
+.trip--selector-metric {
+    background: $blue;
+    color: $sandLite;
+}
+
+.trip--selector-imperial {
+    color: $blue;
+    background: $sandLite;
+    cursor: pointer;
+}
+
+.trip--selector-imperial:hover,
+.trip--units-imperial .trip--selector-metric:hover {
+    background: $rusty;
+    color: $sandLite;
+}
+
+.trip--units-imperial .trip--selector-metric {
+    color: $blue;
+    background: $sandLite;
+    cursor: pointer;
+}
+
+.trip--units-imperial .trip--selector-imperial {
+    background: $blue;
+    color: $sandLite;
+    cursor: unset;
+}
+
 @media screen and (orientation: landscape) {
     .trip__image {
         height: 80vh;
@@ -244,35 +289,6 @@
         width: calc(50% - 8px);
         padding-bottom: 0;
     }
-}
-
-.trip--selector-metric {
-    background: $blue;
-    color: $sandLite;
-}
-
-.trip--selector-imperial {
-    color: $blue;
-    background: $sandLite;
-    cursor: pointer;
-}
-
-.trip--selector-imperial:hover,
-.trip--units-imperial .trip--selector-metric:hover {
-    background: $rusty;
-    color: $sandLite;
-}
-
-.trip--units-imperial .trip--selector-metric {
-    color: $blue;
-    background: $sandLite;
-    cursor: pointer;
-}
-
-.trip--units-imperial .trip--selector-imperial {
-    background: $blue;
-    color: $sandLite;
-    cursor: unset;
 }
 
 @media screen and (min-width: 760px) {
