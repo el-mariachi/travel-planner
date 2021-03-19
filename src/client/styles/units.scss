@@ -1,3 +1,29 @@
 .units {
-    display: none;
+    font-size: 1.8em;
+    font-weight: 300;
+    display: flex;
+}
+
+.units__item {
+    border: 1px solid $blue;
+    padding: 4px;
+    color: $blue;
+    cursor: pointer;
+}
+
+.units--active {
+    color: $sandLite;
+    background-color: $blue;
+    cursor: unset;
+}
+
+.units__item:not(.units--active):hover {
+    color: $sandLite;
+    background-color: $rusty;
+}
+
+@media screen and (min-width: 568px) {
+    .units {
+        font-size: 2.2em;
+    }
 }

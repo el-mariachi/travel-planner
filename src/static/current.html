@@ -16,67 +16,76 @@
         <main class="main">
             <div class="trip trip--status-scheduled">
                 <div class="trip__inner">
-                    <div class="trip__section trip--data-main">
-                        <div class="trip__head">
-                            <div class="trip__countdown">125</div>
-                            <h2 class="trip__destination">Nizhniy Novgorod, Russia</h2>
-                            <div class="trip__dates">
-                                <span class="trip__date trip__from">12/5/2021</span>
-                                <span class="trip__date trip__to">12/15/2021</span>
-                            </div>
+                    <div class="trip__head">
+                        <div class="trip__countdown">125</div>
+                        <h2 class="trip__destination">Nizhniy Novgorod, Russia</h2>
+                        <div class="trip__dates">
+                            <span class="trip__date trip__from">12/5/2021</span>
+                            <span class="trip__date trip__to">12/15/2021</span>
                         </div>
+                    </div>
+                    <div class="trip__section trip--data-main">
                         <div class="trip__image"></div>
                     </div>
                     <div class="trip__section trip--data-meta">
                         <div class="trip__category trip--meta-weather">
-                            <header class="trip__header">
-                                <h3 class="trip__category_title">Usual weather</h3>
-                                <div class="units"></div>
-                            </header>
-                            <div class="trip__temps">
-                                <span id="trip__low" class="trip__temp unit--type-c">-50</span>
-                                <span id="trip__high" class="trip__temp unit--type-c">-20</span>
-                            </div>
-                            <div class="trip__param trip__coverage">
-                                <span class="trip__param_name">Average cloud coverage:</span><span
-                                    class="trip__param_value unit--type-percent">50</span>
-                            </div>
-                            <div class="trip__param trip__precipitation">
-                                <span class="trip__param_name">Average precipitation:</span><span
-                                    class="trip__param_value unit--type-mm">0.2346</span>
-                            </div>
-                            <div id="conditions" class="trip_param">
-                                <img src="https://www.weatherbit.io/static/img/icons/a04d.png" alt="Weather icon"
-                                    width="60" height="60">
-                                <span class="trip__param_name">Overcast clouds</span>
+                            <div class="trip__category_inner">
+                                <header class="trip__header">
+                                    <h3 class="trip__category_title">Usual weather</h3>
+                                    <div class="units">
+                                        <span class="units__item units--active">°C/mm</span>
+                                        <span class="units__item">°F/in</span>
+                                    </div>
+                                </header>
+                                <div class="trip__temps">
+                                    <span id="trip__low" class="trip__temp unit--type-c">-50</span>
+                                    <span id="trip__high" class="trip__temp unit--type-c">-20</span>
+                                </div>
+                                <div class="trip__param trip__coverage">
+                                    <span class="trip__param_name">Average cloud coverage:</span><span
+                                        class="trip__param_value unit--type-percent">50</span>
+                                </div>
+                                <div class="trip__param trip__precipitation">
+                                    <span class="trip__param_name">Avg precipitation:</span><span
+                                        class="trip__param_value unit--type-mm">0.234</span>
+                                </div>
+                                <div id="conditions" class="trip_param">
+                                    <img src="https://www.weatherbit.io/static/img/icons/a04d.png" alt="Weather icon"
+                                        width="60" height="60">
+                                    <span class="trip__param_name">Overcast clouds</span>
+                                </div>
                             </div>
                         </div>
                         <div class="trip__category trip--meta-country">
-                            <header class="trip__header">
-                                <h3 class="trip__category_title">Country info</h3>
-                            </header>
-                            <div class="trip__param">
-                                <span class="trip__param_name">Name</span>
-                                <span class="trip__param_value">Russia</span>
-                            </div>
-                            <div class="trip__param">
-                                <span class="trip__param_name">Capital</span>
-                                <span class="trip__param_value">Moscow</span>
-                            </div>
-                            <div class="trip__param">
-                                <span class="trip__param_name">Currency</span>
-                                <span class="trip__param_value">Russian ruble</span>
-                            </div>
-                            <div class="trip__param">
-                                <span class="trip__param_name">Language</span>
-                                <span class="trip__param_value">Russian</span>
+                            <div class="trip__category_inner">
+                                <header class="trip__header">
+                                    <h3 class="trip__category_title">Country info</h3>
+                                </header>
+                                <div class="trip__param">
+                                    <span class="trip__param_name">Name</span>
+                                    <span class="trip__param_value">Russia</span>
+                                </div>
+                                <div class="trip__param">
+                                    <span class="trip__param_name">Capital</span>
+                                    <span class="trip__param_value">Moscow</span>
+                                </div>
+                                <div class="trip__param">
+                                    <span class="trip__param_name">Currency</span>
+                                    <span class="trip__param_value">Russian ruble</span>
+                                </div>
+                                <div class="trip__param">
+                                    <span class="trip__param_name">Language</span>
+                                    <span class="trip__param_value">Russian</span>
+                                </div>
                             </div>
                         </div>
                         <div class="trip__category trip__control">
-                            <div class="trip__control_item"><button class="button">Save
-                                    Trip</button></div>
-                            <div class="trip__control_item"><button class="button">Remove
-                                    Trip</button></div>
+                            <div class="trip__category_inner">
+                                <div class="trip__control_item"><button class="button">Save
+                                        Trip</button></div>
+                                <div class="trip__control_item"><button class="button">Remove
+                                        Trip</button></div>
+                            </div>
                         </div>
                     </div>
                 </div>
