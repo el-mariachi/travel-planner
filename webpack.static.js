@@ -2,7 +2,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        index: './src/static/index.js',
+        form: './src/static/form.js',
         current: './src/static/current.js'
     },
     output: {
@@ -36,8 +36,8 @@ module.exports = {
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: './src/static/index.html',
-            filename: 'index.html',
+            template: './src/static/form.html',
+            filename: 'form.html',
         }),
         new HTMLWebpackPlugin({
             template: './src/static/current.html',
