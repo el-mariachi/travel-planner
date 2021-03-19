@@ -14,7 +14,7 @@
             <h1 class="header__title">Travel Planner</h1>
         </header>
         <main class="main">
-            <div class="trip trip--status-scheduled">
+            <div class="trip trip--status-scheduled trip--units-imperial">
                 <div class="trip__inner">
                     <div class="trip__head">
                         <div class="trip__countdown">125</div>
@@ -38,16 +38,19 @@
                                     </div>
                                 </header>
                                 <div class="trip__temps">
-                                    <span id="trip__low" class="trip__temp unit--type-c">-50</span>
-                                    <span id="trip__high" class="trip__temp unit--type-c">-20</span>
+                                    <span class="trip__temp trip__low trip--unit-metric unit--type-c">-50</span>
+                                    <span class="trip__temp trip__high trip--unit-metric unit--type-c">-20</span>
+                                    <span class="trip__temp trip__low trip--unit-imperial unit--type-f">-58</span>
+                                    <span class="trip__temp trip__high trip--unit-imperial unit--type-f">-4</span>
                                 </div>
                                 <div class="trip__param trip__coverage">
                                     <span class="trip__param_name">Average cloud coverage:</span><span
                                         class="trip__param_value unit--type-percent">50</span>
                                 </div>
                                 <div class="trip__param trip__precipitation">
-                                    <span class="trip__param_name">Avg precipitation:</span><span
-                                        class="trip__param_value unit--type-mm">0.234</span>
+                                    <span class="trip__param_name">Avg precipitation:</span>
+                                    <span class="trip__param_value trip--unit-metric unit--type-mm">0.234</span>
+                                    <span class="trip__param_value trip--unit-imperial unit--type-in">0.012</span>
                                 </div>
                                 <div id="conditions" class="trip_param">
                                     <img src="https://www.weatherbit.io/static/img/icons/a04d.png" alt="Weather icon"

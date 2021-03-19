@@ -2,10 +2,6 @@
  background: $sandLite
 }
 
-.trip__inner {
-
-}
-
 .trip__section {
     display: flex;
     flex-direction: column;
@@ -14,10 +10,6 @@
 
 .trip--data-main {
     border-bottom: $stb;
-}
-
-.trip--data-meta {
-
 }
 
 .trip__head {
@@ -136,29 +128,45 @@
     margin-bottom: 1em;
 }
 
+.trip--unit-metric {
+    display: flex;
+}
+
+.trip--unit-imperial {
+    display: none;
+}
+
+.trip--units-imperial .trip--unit-imperial {
+    display: flex;
+}
+
+.trip--units-imperial .trip--unit-metric {
+    display: none;
+}
+
 .trip__temp {
     width: calc(50% - 8px);
     font-size: 2.2em;
     font-weight: 300;
     color: $blue;
-    display: flex;
+    // display: flex;
     flex-wrap: wrap;
     align-items: baseline;
 }
 
-#trip__low::before,
-#trip__high::before {
+.trip__low::before,
+.trip__high::before {
     margin-right: 0.3em;
     font-size: 0.6em;
     font-weight: 900;
     width: 100%;
 }
 
-#trip__low::before {
+.trip__low::before {
     content: "Lows:";
 }
 
-#trip__high::before {
+.trip__high::before {
     content: "Highs:";
 }
 
@@ -223,8 +231,8 @@
         font-size: 2.4em;
     }
 
-    #trip__low::before,
-    #trip__high::before {
+    .trip__low::before,
+    .trip__high::before {
         width: auto;
     }
 
