@@ -6,11 +6,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Planner</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div id="root">
-        <h1>Not rendered</h1>
+        <header class="header">
+            <h1 class="header__title">Travel Planner</h1>
+        </header>
+        <main class="main">
+            <form action="#" class="newtrip" name="newtrip">
+                <div class="newtrip__inner">
+                    <h2 class="newtrip__header">New Trip</h2>
+                    <div class="newtrip__section">
+                        <label for="destination" class="newtrip__label">Destinantion</label>
+                        <span id="destination_error" class="newtrip__label newtrip__error"></span>
+                        <input class="input newtrip__input" type="text" name="destination" id="destination"
+                            placeholder="Enter destination">
+                        <div class="locations newtrip__locations">
+                            <ul class="locations__inner">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="newtrip__section newtrip--type-dates">
+                        <div class="newtrip__group newtrip__date">
+                            <label for="date" class="newtrip__label">Departure date</label>
+                            <input class="input newtrip__input" type="date" name="from" id="from">
+                            <span id="from_error" class="newtrip__label newtrip__error"></span>
+                        </div>
+                        <div class="newtrip__group newtrip__date">
+                            <label for="date" class="newtrip__label">Return date*</label>
+                            <input class="input newtrip__input" type="date" name="to" id="to">
+                            <span id="to_error" class="newtrip__label newtrip__error"></span>
+                        </div>
+                    </div>
+                    <div class="newtrip__section"><button class="newtrip__submit button" type="submit">Create
+                            Trip</button>
+                    </div>
+                </div>
+            </form>
+            <div class="trips"></div>
+        </main>
+        <footer class="footer">
+            <p class="footer__text">*The return date can be entered for informational purposes only. It is not being
+                used
+                in retrieveng the weather forecast.</p>
+        </footer>
     </div>
     <script>
         // TODO uncomment service worker

@@ -1,0 +1,18 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 2019,
+        "sourceType": "module"
+    },
+    "extends": ["eslint:recommended"],
+    "rules": {
+        "valid-typeof": "error"
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "jest": true
+    },
+    "globals": {
+        "Client": "readonly"
+    }
+}

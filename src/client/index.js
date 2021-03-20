@@ -1,8 +1,8 @@
 import './styles/body.scss'
-
+import { formSetup } from './js/formSetup';
 import { newTripSubmitHandler } from './js/newtrip';
 
-console.log(document.forms);
+formSetup();
 
 export {
     newTripSubmitHandler
