@@ -20,10 +20,13 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/env']
+                }
             },
             {
-                test: /\.(jpe?g|png|svg)$/i,
+                test: /\.(jpe?g|png|svg|ico)$/i,
                 use: [{ loader: 'url-loader', options: { limit: 5000 } }]
             },
             {
