@@ -26,8 +26,12 @@ module.exports = {
                 }
             },
             {
-                test: /\.(jpe?g|png|svg|ico)$/i,
+                test: /\.(jpe?g|png|svg)$/i,
                 use: [{ loader: 'url-loader', options: { limit: 5000 } }]
+            },
+            {
+                test: /\.ico$/i,
+                use: [{ loader: 'file-loader' }]
             },
             {
                 test: /\.scss$/i,
@@ -41,15 +45,18 @@ module.exports = {
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: './src/client/views/index.html'
+            template: './src/client/views/index.html',
+            chunks: ['index']
         }),
         new HTMLWebpackPlugin({
             template: './src/static/form.html',
             filename: 'form.html',
+            chunks: ['form']
         }),
         new HTMLWebpackPlugin({
             template: './src/static/current.html',
             filename: 'current.html',
+            chunks: ['current']
         })
         // new WorkboxPlugin.GenerateSW({
         //     exclude: [/\.(?:jpe?g|png)$/]
