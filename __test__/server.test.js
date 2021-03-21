@@ -1,10 +1,11 @@
+import 'regenerator-runtime/runtime';
 const request = require('supertest');
 const app = require('../src/server/app');
 
 describe('Test root path', () => {
     test('It shoud respond to GET method. Using async/await', async () => {
         const response = await request(app).get('/');
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toEqual(200);
     });
 });
 
