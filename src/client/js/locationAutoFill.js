@@ -1,9 +1,11 @@
 import { getLocations } from './getLocations';
 
-const destRegEx = /[\w, ]{2,}/;
+const destRegEx = /^[\w, ]{2,}$/;
 // using regular function declaration here in order
 // to be able to use 'this' inside the function
 export function locationAutoFill(event) {
+    // set verified to false
+    this.form.querySelector('#verified').value = 0;
     if (!destRegEx.test(this.value)) {
         return;
     }
