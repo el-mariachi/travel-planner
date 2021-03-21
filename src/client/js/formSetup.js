@@ -11,8 +11,7 @@ const formSetup = () => {
     form.addEventListener('click', locationSelect);
     form.addEventListener('submit', newTripSubmitHandler);
     form.elements.destination.addEventListener('keyup', predict);
-    // here we should create an Obsevable instead
-    form.elements.destination.addEventListener('blur', hideLocations);
+    // form.elements.destination.addEventListener('blur', hideLocations);
 };
 
 export { formSetup };
