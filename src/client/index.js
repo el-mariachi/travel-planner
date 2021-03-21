@@ -1,7 +1,7 @@
+import 'regenerator-runtime/runtime';
 import './styles/body.scss'
 import { formSetup } from './js/formSetup';
 import { newTripSubmitHandler } from './js/newtrip';
-// import { EventBus } from './js/event-bus';
 import { Storage } from './js/Storage';
 
 // set up local storage

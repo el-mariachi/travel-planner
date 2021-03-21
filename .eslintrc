@@ -6,7 +6,8 @@
     "parser": "@babel/eslint-parser",
     "extends": ["eslint:recommended"],
     "rules": {
-        "valid-typeof": "error"
+        "valid-typeof": "error",
+        "no-unused-vars": "off"
     },
     "env": {
         "browser": true,
