@@ -11,6 +11,6 @@ export function locationAutoFill(event) {
     }
     // found locations list div
     const locations = this.closest('.newtrip__section').querySelector('.locations__inner');
-    const query = this.value;
+    const query = encodeURIComponent(this.value);
     const response = getLocations(query);
 }
