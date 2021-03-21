@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 app.post('/locations', async (req, res) => {
     const { query } = req.body;
     console.log(query);
-    if (!(/^[\w, ]{2,}$/.test(query))) {
+    if (!(/^[\w, ]{2,}$/.test(decodeURIComponent(query)))) {
         res.sendStatus(400);
         return;
     }
