@@ -2,9 +2,9 @@ import { locationSelect } from './locationSelect';
 import { newTripSubmitHandler } from './newtrip';
 import { locationAutoFill } from './locationAutoFill';
 import { debounce } from './debounce';
-import { hideLocations } from './hideLocations';
+
 // too expensive to call API on every keyup, so
-const predict = debounce(locationAutoFill, 500);
+const predict = debounce(locationAutoFill, 300);
 
 const formSetup = () => {
     const form = document.forms.newtrip;
