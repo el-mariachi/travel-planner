@@ -20,16 +20,11 @@
 .newtrip__section {
     width: 100%;
     position: relative;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.newtrip__input {
-    
 }
 
 .newtrip--type-dates {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 
