@@ -1,5 +1,5 @@
 import { locationSelect } from './locationSelect';
-import { newTripSubmitHandler } from './newtrip';
+import { newTripSubmitHandler } from './formHandler';
 import { locationAutoFill } from './locationAutoFill';
 import { debounce } from './debounce';
 
@@ -7,6 +7,7 @@ import { debounce } from './debounce';
 const predict = debounce(locationAutoFill, 300);
 
 const formSetup = () => {
+    const today = new Date();
     const form = document.forms.newtrip;
     form.addEventListener('click', locationSelect);
     form.addEventListener('submit', newTripSubmitHandler);
