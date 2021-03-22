@@ -3,10 +3,10 @@ import { newTripSubmitHandler } from './formHandler';
 import { predictLocation } from './predictLocation';
 import { dateString } from './dateString';
 import { setReturnDate } from './setReturnDate';
-import { debounce } from './debounce';
+// import { debounce } from './debounce';
 
 // too expensive to call API on every keyup, so
-const predict = debounce(predictLocation, 300);
+// const predict = debounce(predictLocation, 300);
 
 const clear = el => {
     el.textContent = '';
@@ -40,7 +40,7 @@ const formSetup = () => {
     from.addEventListener('change', setReturnDate);
     form.addEventListener('click', locationSelect);
     form.addEventListener('submit', newTripSubmitHandler);
-    form.elements.destination.addEventListener('keyup', predict);
+    form.elements.destination.addEventListener('keyup', predictLocation);
     // form.elements.destination.addEventListener('blur', hideLocations);
 };
 

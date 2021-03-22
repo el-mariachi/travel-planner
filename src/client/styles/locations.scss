@@ -38,3 +38,12 @@
 .locations__item:hover {
     background: $placeholder;
 }
+
+.locations__wait,
+.locations__wait:hover {
+    background: $white url(../media/200.gif) no-repeat;
+    background-position: left -40px center;
+    background-size: 25%;
+    padding-left: 60px;
+}
+

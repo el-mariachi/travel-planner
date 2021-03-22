@@ -30,6 +30,10 @@ module.exports = {
                 use: [{ loader: 'url-loader', options: { limit: 5000 } }]
             },
             {
+                test: /\.(gif)$/i,
+                use: [{ loader: 'url-loader', options: { limit: 5000, mimeType: 'image/gif' } }]
+            },
+            {
                 test: /\.ico$/i,
                 use: [{ loader: 'file-loader' }]
             },
