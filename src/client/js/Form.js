@@ -2,13 +2,14 @@ import { EventBus } from './event-bus';
 import { Primitive } from './Primitive';
 
 import { newTripSubmitHandler } from './formHandler';
-// import { predictLocation } from './predictLocation';
 import { dateString } from './dateString';
 
 import { getLocations } from './getLocations';
-import { suggestionsHTML } from './suggestionsHTML';
+import { suggestionsFragment } from './suggestionsFragment';
 import { debounceAsync } from './debounceAsync';
 
+// debounce the function that calls the API by 1/2 second
+// in order not to make too many expensive network requests
 const debouncedLocation = debounceAsync(getLocations, 500);
 
 
@@ -19,7 +20,7 @@ export class Form {
         FLOW_CDU: "flow:component-did-update",
         FLOW_RENDER: "flow:render"
     }
-    _destination = {};
+    _destination = null;
     _fromDate = null;
     _toDate = null;
 
@@ -53,11 +54,14 @@ export class Form {
     init() {
         this.from.addEventListener('change', this.fromDateChange.bind(this));
         this.el.addEventListener('click', this.selectLocation.bind(this));
+        // clear error messages on focus
         this.destination.addEventListener('focus', this.clearDestErr.bind(this));
         this.from.addEventListener('focus', this.clearFromErr.bind(this));
         this.to.addEventListener('focus', this.clearToErr.bind(this));
         this.clearErrors();
+        // submit event handler
         this.el.addEventListener('submit', newTripSubmitHandler);
+        // "kinda typeahead"
         this.destination.addEventListener('keyup', this.predict.bind(this));
         // this.eventBus().emit(Form.EVENTS.FLOW_CDM);
     }
@@ -91,7 +95,8 @@ export class Form {
             this.hideList();
             return;
         }
-        this._destination = this.destination.value = target.dataset.location;
+        this._destination = Object.assign({}, target.dataset);
+        this.destination.value = target.textContent;
         // set loc_id to geoname ID
         this.loc_id.value = target.dataset.geonameId;
         this.hideList();
@@ -103,8 +108,9 @@ export class Form {
         this.locations.classList.remove('locations--visible');
     }
     predict() {
-        // reset loc_id
-        this.loc_id.value = 0;
+        // reset loc_id and a saved destination
+        this.loc_id.value = 0; // TODO this will probably go away
+        this._destination = null;
         // validate value
         if (!this.destRegEx.test(this.destination.value)) {
             return;
@@ -121,7 +127,8 @@ export class Form {
                     return;
                 }
                 // otherwise render list of predictions
-                this.list.innerHTML = suggestionsHTML(response);
+                this.list.innerHTML = '';
+                this.list.appendChild(suggestionsFragment(response));
                 this.showList();
             })
             .catch(err => {
