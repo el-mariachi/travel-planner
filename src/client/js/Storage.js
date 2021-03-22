@@ -4,8 +4,8 @@ const md5 = require('md5');
 export class Storage {
     static EVENTS = {
         INIT: "init",
-        FLOW_SDM: "flow:storage-did-mount",
-        FLOW_SDU: "flow:storage-did-update",
+        FLOW_CDM: "flow:component-did-mount",
+        FLOW_CDU: "flow:component-did-update",
         FLOW_LSDU: "flow:localstorage-did-update",
         FLOW_RENDER: "flow:render"
     }
@@ -24,15 +24,15 @@ export class Storage {
     registerEvents(eventBus) {
         window.addEventListener('storage', this.localStorageDidUpdate.bind(this));
         eventBus.on(Storage.EVENTS.INIT, this.init.bind(this));
-        eventBus.on(Storage.EVENTS.FLOW_SDM, this.storageDidMount.bind(this));
-        eventBus.on(Storage.EVENTS.FLOW_SDU, this.storageDidUpdate.bind(this));
+        eventBus.on(Storage.EVENTS.FLOW_CDM, this.componentDidMount.bind(this));
+        eventBus.on(Storage.EVENTS.FLOW_CDU, this.componentDidUpdate.bind(this));
         eventBus.on(Storage.EVENTS.FLOW_RENDER, this.render.bind(this));
     }
     init() {
         this._trips = this.loadSaved(); // all saved trips
-        this.eventBus().emit(Storage.EVENTS.FLOW_SDM); // emit store did mount
+        this.eventBus().emit(Storage.EVENTS.FLOW_CDM); // emit store did mount
     }
-    storageDidMount() {
+    componentDidMount() {
         this.eventBus().emit(Storage.EVENTS.FLOW_RENDER);
     }
     localStorageDidUpdate(event) {
@@ -41,7 +41,7 @@ export class Storage {
         const newTrips = this.loadSaved();
         if (newTrips.length !== this._trips.length) { // length differs -> load & render
             this._trips = newTrips;
-            this.eventBus().emit(Storage.EVENTS.FLOW_SDU); // emit store did update
+            this.eventBus().emit(Storage.EVENTS.FLOW_CDU); // emit store did update
             return;
         }
         // compare hash values
@@ -54,10 +54,10 @@ export class Storage {
         }
         if (changes) {
             this._trips = newTrips;
-            this.eventBus().emit(Storage.EVENTS.FLOW_SDU); // emit store did update
+            this.eventBus().emit(Storage.EVENTS.FLOW_CDU); // emit store did update
         }
     }
-    storageDidUpdate() {
+    componentDidUpdate() {
         this.saveTrips();
         this.eventBus().emit(Storage.EVENTS.FLOW_RENDER);
     }
@@ -75,7 +75,7 @@ export class Storage {
     set current(obj = {}) {
         // TODO implement this method
         this._current = obj;
-        this.eventBus().emit(Storage.EVENTS.FLOW_SDU);
+        this.eventBus().emit(Storage.EVENTS.FLOW_CDU);
     }
     saveCurrent() {
         // check if it already exists
@@ -87,7 +87,7 @@ export class Storage {
                 ...this._current
             });
             this.sort();
-            this.eventBus().emit(Storage.EVENTS.FLOW_SDU); // emit store did update
+            this.eventBus().emit(Storage.EVENTS.FLOW_CDU); // emit store did update
             this.saveTrips();
         }
 
