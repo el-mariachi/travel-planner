@@ -5,7 +5,7 @@ import { suggestionsHTML } from './suggestionsHTML';
 const destRegEx = /^[\w, ]{2,}$/;
 // using regular function declaration here in order
 // to be able to use 'this' inside the function
-export async function locationAutoFill(event) {
+export async function predictLocation(event) {
     // reset loc_id
     this.form.querySelector('#loc_id').value = 0;
     if (!destRegEx.test(this.value)) {

@@ -1,12 +1,12 @@
 import { locationSelect } from './locationSelect';
 import { newTripSubmitHandler } from './formHandler';
-import { locationAutoFill } from './locationAutoFill';
+import { predictLocation } from './predictLocation';
 import { dateString } from './dateString';
 import { setReturnDate } from './setReturnDate';
 import { debounce } from './debounce';
 
 // too expensive to call API on every keyup, so
-const predict = debounce(locationAutoFill, 300);
+const predict = debounce(predictLocation, 300);
 
 const clear = el => {
     el.textContent = '';
