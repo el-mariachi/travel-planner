@@ -32,7 +32,7 @@
     "express": "^4.17.1",
     "md5": "^2.3.0",
     "node-fetch": "^2.6.1",
-    "webpack": "^5.24.2",
+    "webpack": "^5.27.2",
     "webpack-cli": "^4.5.0",
     "workbox-webpack-plugin": "^6.1.1"
   },
