@@ -3,7 +3,7 @@ const request = require('supertest');
 const app = require('../src/server/app');
 
 describe('Test root path', () => {
-    test('It shoud respond to GET method. Using async/await', async () => {
+    test('If the project is built correctly for production it shoud respond to GET method. Using async/await', async () => {
         const response = await request(app).get('/');
         expect(response.statusCode).toEqual(200);
     });

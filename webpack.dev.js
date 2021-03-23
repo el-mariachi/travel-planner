@@ -1,4 +1,5 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
@@ -11,7 +12,6 @@ module.exports = {
         filename: '[name].js',
         libraryTarget: 'var',
         library: 'Client',
-        clean: true
     },
     mode: 'development',
     devtool: 'source-map',
@@ -61,6 +61,15 @@ module.exports = {
             template: './src/static/current.html',
             filename: 'current.html',
             chunks: ['current']
+        }),
+        new CleanWebpackPlugin({
+            // Simulate the removal of files
+            dry: true,
+            // Write Logs to Console
+            verbose: true,
+            // Automatically remove all unused webpack assets on rebuild
+            cleanStaleWebpackAssets: true,
+            protectWebpackAssets: false
         })
         // new WorkboxPlugin.GenerateSW({
         //     exclude: [/\.(?:jpe?g|png)$/]
