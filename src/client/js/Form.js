@@ -42,7 +42,7 @@ export class Form {
         this.from.setAttribute('min', dateString(today));
         this.to.setAttribute('min', dateString(today));
 
-        this.destRegEx = /^[\w, ]{2,}$/;
+        this.destRegEx = /^[\w, -]{2,}$/;
 
         const eventBus = new EventBus;
         this.eventBus = () => eventBus;
@@ -189,7 +189,7 @@ export class Form {
         yesterday.setMinutes(59);
         let valid = true;
         // check destination input
-        if (!this.destination.value.trim() || !/^[\w, ]{2,}$/.test(this.destination.value.trim())) {
+        if (!this.destination.value.trim() || !this.destRegEx.test(this.destination.value.trim())) {
             this.destinationError.set('Value not valid');
             valid = false;
         } else {
@@ -217,7 +217,7 @@ export class Form {
             // inc submitNo
             // send event to appStore with data
             console.log(this._destination);
-            // console.log(Client);
+            Client.appStore.eventBus().emit('flow:new-data', this._destination);
         } else {
             alert('Could not create trip');
         }

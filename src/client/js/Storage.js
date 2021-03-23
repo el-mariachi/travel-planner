@@ -7,6 +7,7 @@ export class Storage {
         FLOW_CDM: "flow:component-did-mount",
         FLOW_CDU: "flow:component-did-update",
         FLOW_LSDU: "flow:localstorage-did-update",
+        FLOW_DATA: "flow:new-data",
         FLOW_RENDER: "flow:render"
     }
     _key = null;
@@ -26,6 +27,7 @@ export class Storage {
         eventBus.on(Storage.EVENTS.INIT, this.init.bind(this));
         eventBus.on(Storage.EVENTS.FLOW_CDM, this.componentDidMount.bind(this));
         eventBus.on(Storage.EVENTS.FLOW_CDU, this.componentDidUpdate.bind(this));
+        eventBus.on(Storage.EVENTS.FLOW_DATA, this.render.bind(this)); // TODO set up fuctions chain
         eventBus.on(Storage.EVENTS.FLOW_RENDER, this.render.bind(this));
     }
     init() {
@@ -67,7 +69,8 @@ export class Storage {
     }
     render() {
         // ??
-        console.log('render');
+        // test receive args
+        console.log(arguments[0]);
     }
     get current() {
         return this._current;
