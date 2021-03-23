@@ -24,6 +24,7 @@ export class Form {
     _destination = null;
     _fromDate = null;
     _toDate = null;
+    _submitNo = 0;
 
     constructor(el) {
         this.el = el;
@@ -84,25 +85,28 @@ export class Form {
         if (this.validate()) {
             // submit with saved location
             this.eventBus().emit(Form.EVENTS.USER_SUBMIT);
+            // double check location without debounce
+            const query = encodeURIComponent(this.destination.value);
+            // only fetch the first result
+            getLocations(query, 1)
+                .then(response => {
+                    // if response.length > 0
+                    if (!Array.isArray(response) || response.length === 0) {
+                        return;
+                    }
+                    //  compare new location name with the saved one
+                    if (locationFullName(response[0]) === locationFullName(this._destination)) {
+                        // location is same
+                        return;
+                    }
+                    // if diferent, save new data and submit again
+                    this._destination = response[0];
+                    this.eventBus().emit(Form.EVENTS.USER_SUBMIT);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
-        // double check location without debounce
-        const query = encodeURIComponent(this.destination.value);
-        // only fetch the first result
-        getLocations(query, 1)
-            .then(response => {
-                // if response.length > 0
-                if (!Array.isArray(response) || response.length === 0) {
-                    return;
-                }
-                //  compare new location name with the saved one
-                if (locationFullName(response[0]) === locationFullName(this._destination)) {
-                    // location is same
-                    return;
-                }
-                // if diferent, save new data and submit again
-                this._destination = response[0];
-                this.eventBus().emit(Form.EVENTS.USER_SUBMIT);
-            });
     }
     clearErrors() {
         this.clearDestErr();
@@ -210,7 +214,10 @@ export class Form {
     submit() {
         if (this._destination) {
             // add dates
+            // inc submitNo
+            // send event to appStore with data
             console.log(this._destination);
+            // console.log(Client);
         } else {
             alert('Could not create trip');
         }
