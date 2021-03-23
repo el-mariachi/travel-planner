@@ -18,9 +18,9 @@ app.use('/', express.static(path.join(__dirname, '../../dist')));
 /*--------------------API CALLS----------------------*/
 
 // calls Geonames API, returns an array of found locations or an empty array
-const fetchLocations = async (query) => {
+const fetchLocations = async (query, maxRows) => {
     const base_url = 'http://api.geonames.org/searchJSON';
-    const searchParams = 'featureClass=P&maxRows=30';
+    const searchParams = `featureClass=P&maxRows=${maxRows}`;
     const request_url = `${base_url}?name_startsWith=${query}&${searchParams}&username=${process.env.GEO_NAME}`;
     try {
         const result = await fetch(request_url).then(res => res.json());
@@ -42,13 +42,13 @@ app.get('/', (req, res) => {
 });
 // route for displaying suggested results
 app.post('/locations', async (req, res) => {
-    const { query } = req.body;
+    const { query, maxRows } = req.body;
     console.log(query);
     if (!(/^[\w, ]{2,}$/.test(decodeURIComponent(query)))) {
         res.sendStatus(400);
         return;
     }
-    const result = await fetchLocations(query);
+    const result = await fetchLocations(query, maxRows);
     res.status(200).json(result);
 });
 

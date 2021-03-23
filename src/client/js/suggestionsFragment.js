@@ -1,3 +1,5 @@
+import { locationFullName } from './locationFullName';
+
 // returns a document fragment
 const suggestionsFragment = data => {
     const fragment = new DocumentFragment();
@@ -7,7 +9,7 @@ const suggestionsFragment = data => {
 
         const listItem = document.createElement('li');
         listItem.className = 'locations__item';
-        listItem.textContent = `${picked.name}, ${picked.adminName1}, ${picked.countryName}`;
+        listItem.textContent = locationFullName(geoname);
         Object.keys(picked).forEach(key => {
             listItem.dataset[key] = picked[key];
         });

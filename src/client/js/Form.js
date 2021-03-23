@@ -1,8 +1,8 @@
 import { EventBus } from './event-bus';
 import { Primitive } from './Primitive';
 
-import { newTripSubmitHandler } from './formHandler';
 import { dateString } from './dateString';
+import { locationFullName } from './locationFullName';
 
 import { getLocations } from './getLocations';
 import { suggestionsFragment } from './suggestionsFragment';
@@ -18,7 +18,8 @@ export class Form {
         INIT: "init",
         FLOW_CDM: "flow:component-did-mount",
         FLOW_CDU: "flow:component-did-update",
-        FLOW_RENDER: "flow:render"
+        RESET: "reset",
+        USER_SUBMIT: "user:submit"
     }
     _destination = null;
     _fromDate = null;
@@ -50,6 +51,9 @@ export class Form {
     }
     registerEvents(eventBus) {
         eventBus.on(Form.EVENTS.INIT, this.init.bind(this));
+        eventBus.on(Form.EVENTS.FLOW_CDM, this.componentDidMount.bind(this));
+        eventBus.on(Form.EVENTS.USER_SUBMIT, this.submit.bind(this));
+        eventBus.on(Form.EVENTS.RESET, this.reset.bind(this));
     }
     init() {
         this.from.addEventListener('change', this.fromDateChange.bind(this));
@@ -60,10 +64,45 @@ export class Form {
         this.to.addEventListener('focus', this.clearToErr.bind(this));
         this.clearErrors();
         // submit event handler
-        this.el.addEventListener('submit', newTripSubmitHandler);
+        this.el.addEventListener('submit', this.formSubmitted.bind(this));
         // "kinda typeahead"
         this.destination.addEventListener('keyup', this.predict.bind(this));
-        // this.eventBus().emit(Form.EVENTS.FLOW_CDM);
+        this.eventBus().emit(Form.EVENTS.FLOW_CDM);
+    }
+    componentDidMount() {
+        this.destination.focus();
+    }
+    reset() {
+        // clears saved location data
+        this._destination = null;
+        this.loc_id.value = 0;
+    }
+    formSubmitted(event) {
+        // stay on this page
+        event.preventDefault();
+        // validate form values as much as we can
+        if (this.validate()) {
+            // submit with saved location
+            this.eventBus().emit(Form.EVENTS.USER_SUBMIT);
+        }
+        // double check location without debounce
+        const query = encodeURIComponent(this.destination.value);
+        // only fetch the first result
+        getLocations(query, 1)
+            .then(response => {
+                // if response.length > 0
+                if (!Array.isArray(response) || response.length === 0) {
+                    return;
+                }
+                //  compare new location name with the saved one
+                if (locationFullName(response[0]) === locationFullName(this._destination)) {
+                    // location is same
+                    return;
+                }
+                // if diferent, save new data and submit again
+                this._destination = response[0];
+                this.eventBus().emit(Form.EVENTS.USER_SUBMIT);
+            });
     }
     clearErrors() {
         this.clearDestErr();
@@ -109,15 +148,16 @@ export class Form {
     }
     predict() {
         // reset loc_id and a saved destination
-        this.loc_id.value = 0; // TODO this will probably go away
-        this._destination = null;
+        this.eventBus().emit(Form.EVENTS.RESET);
+        // this.loc_id.value = 0; // TODO this will probably go away
+        // this._destination = null;
         // validate value
         if (!this.destRegEx.test(this.destination.value)) {
             return;
         }
         // prep string for fetch
         const query = encodeURIComponent(this.destination.value);
-        // make a call to backend. fill list upon resolve
+        // make a call to backend. fill list upon resolving the promise
         // in the meantime display spinner
         debouncedLocation(query)
             .then(response => {
@@ -136,5 +176,43 @@ export class Form {
             });
         this.list.innerHTML = `<li class="locations__item locations__wait">Loading suggested locations...</li>`;
         this.showList();
+    }
+    validate() {
+        const today = new Date();
+        // for comparisons to work correctly we need to reference midnight yesterday
+        const yesterday = new Date(today - (1000 * 60 * 60 * 24));
+        yesterday.setHours(23);
+        yesterday.setMinutes(59);
+        let valid = true;
+        // check destination input
+        if (!this.destination.value.trim() || !/^[\w, ]{2,}$/.test(this.destination.value.trim())) {
+            this.destinationError.set('Value not valid');
+            valid = false;
+        } else {
+            this.destinationError.clear();
+        }
+        // validate departure date
+        if (!this.from.value || (new Date(this.from.value) <= yesterday)) {
+            this.fromError.set('Wrong date');
+            valid = false;
+        } else {
+            this.fromError.clear();
+        }
+        // validate return date
+        if (this.to.value && new Date(this.to.value) < new Date(this.from.value)) {
+            this.toError.set("Can't return before you leave");
+            valid = false;
+        } else {
+            this.toError.clear();
+        }
+        return valid;
+    }
+    submit() {
+        if (this._destination) {
+            // add dates
+            console.log(this._destination);
+        } else {
+            alert('Could not create trip');
+        }
     }
 }
