@@ -1,44 +1,24 @@
-import { EventBus } from './event-bus';
+import { Component } from './Component';
 const md5 = require('md5');
 
-export class Storage {
-    static EVENTS = {
-        INIT: "init",
-        FLOW_CDM: "flow:component-did-mount",
-        FLOW_CDU: "flow:component-did-update",
-        FLOW_LSDU: "flow:localstorage-did-update",
-        FLOW_DATA: "flow:new-data",
-        FLOW_RENDER: "flow:render"
-    }
-    _key = null;
-    _current = null;
+export class Storage extends Component {
+
+    // _key = null;
+    // _current = null;
     _trips = null;
 
     constructor(key) {
-        this._key = key; // the key for localstorage
+        super(key);
+        // this.props = key; // the key for localstorage
         this._current = {}; // current trip
-        const eventBus = new EventBus;
-        this.eventBus = () => eventBus;
-        this.registerEvents(eventBus);
-        eventBus.emit(Storage.EVENTS.INIT);
+        this._trips = this.loadSaved(); // all saved trips
     }
     registerEvents(eventBus) {
         window.addEventListener('storage', this.localStorageDidUpdate.bind(this));
-        eventBus.on(Storage.EVENTS.INIT, this.init.bind(this));
-        eventBus.on(Storage.EVENTS.FLOW_CDM, this.componentDidMount.bind(this));
-        eventBus.on(Storage.EVENTS.FLOW_CDU, this.componentDidUpdate.bind(this));
         eventBus.on(Storage.EVENTS.FLOW_DATA, this.render.bind(this)); // TODO set up fuctions chain
-        eventBus.on(Storage.EVENTS.FLOW_RENDER, this.render.bind(this));
-    }
-    init() {
-        this._trips = this.loadSaved(); // all saved trips
-        this.eventBus().emit(Storage.EVENTS.FLOW_CDM); // emit store did mount
-    }
-    componentDidMount() {
-        this.eventBus().emit(Storage.EVENTS.FLOW_RENDER);
     }
     localStorageDidUpdate(event) {
-        if (event.key !== this._key) return;
+        if (event.key !== this.props) return;
         let changes = false;
         const newTrips = this.loadSaved();
         if (newTrips.length !== this._trips.length) { // length differs -> load & render
@@ -61,16 +41,15 @@ export class Storage {
     }
     componentDidUpdate() {
         this.saveTrips();
-        this.eventBus().emit(Storage.EVENTS.FLOW_RENDER);
     }
     loadSaved() {
-        const localString = localStorage.getItem(this._key);
+        const localString = localStorage.getItem(this.props);
         return localString ? JSON.parse(localString) : [];
     }
     render() {
         // ??
         // test receive args
-        console.log(arguments[0]);
+        // console.log(arguments[0]);
     }
     get current() {
         return this._current;
@@ -107,6 +86,6 @@ export class Storage {
         this._trips.sort((a, b) => (new Date(a.date)) >= (new Date(b.date)));
     }
     saveTrips() {
-        localStorage.setItem(this._key, JSON.stringify(this._trips));
+        localStorage.setItem(this.props, JSON.stringify(this._trips));
     }
 }

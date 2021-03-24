@@ -1,4 +1,4 @@
-import { EventBus } from './event-bus';
+import { Component } from './Component';
 import { Primitive } from './Primitive';
 
 import { dateString } from './dateString';
@@ -13,70 +13,54 @@ import { debounceAsync } from './debounceAsync';
 const debouncedLocation = debounceAsync(getLocations, 500);
 
 
-export class Form {
-    static EVENTS = {
-        INIT: "init",
-        FLOW_CDM: "flow:component-did-mount",
-        FLOW_CDU: "flow:component-did-update",
-        RESET: "reset",
-        USER_SUBMIT: "user:submit"
-    }
+export class Form extends Component {
+
     _destination = null;
     _fromDate = null;
     _toDate = null;
     _submitNo = 0;
 
-    constructor(el) {
-        this.el = el;
-        const today = new Date();
-        this.loc_id = this.el.querySelector('#loc_id');
-        this.destination = this.el.elements.destination;
-        this.destinationError = new Primitive(this.el.querySelector('#destination_error'));
-        this.from = this.el.elements.from;
-        this.fromError = new Primitive(this.el.querySelector('#from_error'));
-        this.to = this.el.elements.to;
-        this.toError = new Primitive(this.el.querySelector('#to_error'));
-        this.locations = this.el.querySelector('.locations');
-        this.list = this.el.querySelector('.locations__inner');
-
-        this.from.setAttribute('min', dateString(today));
-        this.to.setAttribute('min', dateString(today));
-
+    constructor(props) {
+        super(props);
+        console.log('Form');
+        this.today = new Date();
         this.destRegEx = /^[\w, -]{2,}$/;
-
-        const eventBus = new EventBus;
-        this.eventBus = () => eventBus;
-
-        this.registerEvents(eventBus);
-        eventBus.emit(Form.EVENTS.INIT);
     }
     registerEvents(eventBus) {
-        eventBus.on(Form.EVENTS.INIT, this.init.bind(this));
-        eventBus.on(Form.EVENTS.FLOW_CDM, this.componentDidMount.bind(this));
         eventBus.on(Form.EVENTS.USER_SUBMIT, this.submit.bind(this));
         eventBus.on(Form.EVENTS.RESET, this.reset.bind(this));
     }
-    init() {
+    componentDidMount() {
+        this.loc_id = this.props.querySelector('#loc_id'); // TODO this has to go
+        this.destination = this.props.elements.destination;
+        this.destinationError = new Primitive(this.props.querySelector('#destination_error'));
+        this.from = this.props.elements.from;
+        this.fromError = new Primitive(this.props.querySelector('#from_error'));
+        this.to = this.props.elements.to;
+        this.toError = new Primitive(this.props.querySelector('#to_error'));
+        this.locations = this.props.querySelector('.locations');
+        this.list = this.props.querySelector('.locations__inner');
+
+        this.from.setAttribute('min', dateString(this.today));
+        this.to.setAttribute('min', dateString(this.today));
         this.from.addEventListener('change', this.fromDateChange.bind(this));
-        this.el.addEventListener('click', this.selectLocation.bind(this));
+        this.props.addEventListener('click', this.selectLocation.bind(this));
         // clear error messages on focus
         this.destination.addEventListener('focus', this.clearDestErr.bind(this));
         this.from.addEventListener('focus', this.clearFromErr.bind(this));
         this.to.addEventListener('focus', this.clearToErr.bind(this));
         this.clearErrors();
         // submit event handler
-        this.el.addEventListener('submit', this.formSubmitted.bind(this));
+        this.props.addEventListener('submit', this.formSubmitted.bind(this));
         // "kinda typeahead"
         this.destination.addEventListener('keyup', this.predict.bind(this));
-        this.eventBus().emit(Form.EVENTS.FLOW_CDM);
-    }
-    componentDidMount() {
+
         this.destination.focus();
     }
     reset() {
         // clears saved location data
         this._destination = null;
-        this.loc_id.value = 0;
+        this.loc_id.value = 0; // TODO this has to go
     }
     formSubmitted(event) {
         // stay on this page
