@@ -22,7 +22,6 @@ export class Form extends Component {
 
     constructor(props) {
         super(props);
-        console.log('Form');
         this.today = new Date();
         this.destRegEx = /^[\w, -]{2,}$/;
     }
@@ -205,12 +204,13 @@ export class Form extends Component {
             const dataToSend = Object.assign(this._destination, {
                 from: this.from.value,
                 to: this.to.value,
-                submitNo: this._submitNo++
+                submitNo: this._submitNo++,
+                saved: false
             })
             // send event to appStore with data
             console.log(this._destination);
             // console.log(dataToSend);
-            Client.appStore.eventBus().emit('flow:new-data', dataToSend);
+            Client.trip.eventBus().emit('flow:new-data', dataToSend);
         } else {
             alert('Could not create trip');
         }
