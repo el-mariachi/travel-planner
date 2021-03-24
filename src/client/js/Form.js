@@ -20,9 +20,9 @@ export class Form extends Component {
     _toDate = null;
     _submitNo = 0;
 
-    constructor(props) {
-        super(props);
-        this.today = new Date();
+    constructor(el) {
+        super(el);
+        // this.today = new Date();
         this.destRegEx = /^[\w, -]{2,}$/;
     }
     registerEvents(eventBus) {
@@ -30,27 +30,27 @@ export class Form extends Component {
         eventBus.on(Form.EVENTS.RESET, this.reset.bind(this));
     }
     componentDidMount() {
-        this.loc_id = this.props.querySelector('#loc_id'); // TODO this has to go
-        this.destination = this.props.elements.destination;
-        this.destinationError = new Primitive(this.props.querySelector('#destination_error'));
-        this.from = this.props.elements.from;
-        this.fromError = new Primitive(this.props.querySelector('#from_error'));
-        this.to = this.props.elements.to;
-        this.toError = new Primitive(this.props.querySelector('#to_error'));
-        this.locations = this.props.querySelector('.locations');
-        this.list = this.props.querySelector('.locations__inner');
-
-        this.from.setAttribute('min', dateString(this.today));
-        this.to.setAttribute('min', dateString(this.today));
+        this.loc_id = this.el.querySelector('#loc_id'); // TODO this has to go
+        this.destination = this.el.elements.destination;
+        this.destinationError = new Primitive(this.el.querySelector('#destination_error'));
+        this.from = this.el.elements.from;
+        this.fromError = new Primitive(this.el.querySelector('#from_error'));
+        this.to = this.el.elements.to;
+        this.toError = new Primitive(this.el.querySelector('#to_error'));
+        this.locations = this.el.querySelector('.locations');
+        this.list = this.el.querySelector('.locations__inner');
+        const today = new Date();
+        this.from.setAttribute('min', dateString(today));
+        this.to.setAttribute('min', dateString(today));
         this.from.addEventListener('change', this.fromDateChange.bind(this));
-        this.props.addEventListener('click', this.selectLocation.bind(this));
+        this.el.addEventListener('click', this.selectLocation.bind(this));
         // clear error messages on focus
         this.destination.addEventListener('focus', this.clearDestErr.bind(this));
         this.from.addEventListener('focus', this.clearFromErr.bind(this));
         this.to.addEventListener('focus', this.clearToErr.bind(this));
         this.clearErrors();
         // submit event handler
-        this.props.addEventListener('submit', this.formSubmitted.bind(this));
+        this.el.addEventListener('submit', this.formSubmitted.bind(this));
         // "kinda typeahead"
         this.destination.addEventListener('keyup', this.predict.bind(this));
 

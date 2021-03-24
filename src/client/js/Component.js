@@ -12,7 +12,8 @@ export class Component {
         RESET: "reset",
         USER_SUBMIT: "user:submit"
     }
-    constructor(props) {
+    constructor(el, props = {}) {
+        this.el = el;
         this.props = props;
         const eventBus = new EventBus;
         this.eventBus = () => eventBus;

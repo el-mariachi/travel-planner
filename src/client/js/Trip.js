@@ -3,9 +3,9 @@ import { EventBus } from './event-bus';
 
 export class Trip extends Component {
     _image = '';
-    constructor(props) {
-        super(props);
-        // this.props = div 
+    constructor(el, props) {
+        super(el, props);
+        // this.el = div 
     }
     registerEvents(eventBus) {
         eventBus.on(Trip.EVENTS.FLOW_DATA, this.init.bind(this)); // TODO set up fuctions chain

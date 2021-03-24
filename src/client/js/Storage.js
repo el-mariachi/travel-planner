@@ -7,9 +7,9 @@ export class Storage extends Component {
     // _current = null;
     _trips = null;
 
-    constructor(key) {
-        super(key);
-        // this.props = key; // the key for localstorage
+    constructor(el, props) {
+        super(el, props);
+        // this.props.key is the the key for localstorage
         this._current = {}; // current trip
         this._trips = this.loadSaved(); // all saved trips
     }
@@ -18,7 +18,7 @@ export class Storage extends Component {
         eventBus.on(Storage.EVENTS.FLOW_DATA, this.render.bind(this)); // TODO set up fuctions chain
     }
     localStorageDidUpdate(event) {
-        if (event.key !== this.props) return;
+        if (event.key !== this.props.key) return;
         let changes = false;
         const newTrips = this.loadSaved();
         if (newTrips.length !== this._trips.length) { // length differs -> load & render
@@ -43,7 +43,7 @@ export class Storage extends Component {
         this.saveTrips();
     }
     loadSaved() {
-        const localString = localStorage.getItem(this.props);
+        const localString = localStorage.getItem(this.props.key);
         return localString ? JSON.parse(localString) : [];
     }
     render() {
@@ -86,6 +86,6 @@ export class Storage extends Component {
         this._trips.sort((a, b) => (new Date(a.date)) >= (new Date(b.date)));
     }
     saveTrips() {
-        localStorage.setItem(this.props, JSON.stringify(this._trips));
+        localStorage.setItem(this.props.key, JSON.stringify(this._trips));
     }
 }
