@@ -100,7 +100,9 @@ export class Form {
                         return;
                     }
                     // if diferent, save new data and submit again
-                    this._destination = response[0];
+                    this._destination = Object.assign({}, response[0], {
+                        locationFullName: locationFullName(response[0])
+                    });
                     this.eventBus().emit(Form.EVENTS.USER_SUBMIT);
                 })
                 .catch(err => {
@@ -138,10 +140,12 @@ export class Form {
             this.hideList();
             return;
         }
-        this._destination = Object.assign({}, target.dataset);
+        this._destination = Object.assign({}, target.dataset, {
+            locationFullName: target.textContent
+        });
         this.destination.value = target.textContent;
         // set loc_id to geoname ID
-        this.loc_id.value = target.dataset.geonameId;
+        this.loc_id.value = target.dataset.geonameId; // TODO this has to go
         this.hideList();
     }
     showList() {
@@ -213,11 +217,16 @@ export class Form {
     }
     submit() {
         if (this._destination) {
-            // add dates
-            // inc submitNo
+            // add dates, inc submitNo
+            const dataToSend = Object.assign(this._destination, {
+                from: this.from.value,
+                to: this.to.value,
+                submitNo: this._submitNo++
+            })
             // send event to appStore with data
             console.log(this._destination);
-            Client.appStore.eventBus().emit('flow:new-data', this._destination);
+            // console.log(dataToSend);
+            Client.appStore.eventBus().emit('flow:new-data', dataToSend);
         } else {
             alert('Could not create trip');
         }
