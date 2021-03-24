@@ -2,7 +2,6 @@ import { Component } from './Component';
 import { Primitive } from './Primitive';
 
 import { dateString } from './dateString';
-import { locationFullName } from './locationFullName';
 
 import { getLocations } from './getLocations';
 import { suggestionsFragment } from './suggestionsFragment';
@@ -32,10 +31,12 @@ export class Form extends Component {
     componentDidMount() {
         this.loc_id = this.el.querySelector('#loc_id'); // TODO this has to go
         this.destination = this.el.elements.destination;
+        this.destination.removeAttribute('required')
         this.destinationError = new Primitive(this.el.querySelector('#destination_error'));
         this.from = this.el.elements.from;
         this.fromError = new Primitive(this.el.querySelector('#from_error'));
         this.to = this.el.elements.to;
+        this.to.removeAttribute('required')
         this.toError = new Primitive(this.el.querySelector('#to_error'));
         this.locations = this.el.querySelector('.locations');
         this.list = this.el.querySelector('.locations__inner');
@@ -68,29 +69,8 @@ export class Form extends Component {
         if (this.validate()) {
             // submit with saved location
             this.eventBus().emit(Form.EVENTS.USER_SUBMIT);
-            // double check location without debounce
-            const query = encodeURIComponent(this.destination.value);
-            // only fetch the first result
-            getLocations(query, 1)
-                .then(response => {
-                    // if response.length > 0
-                    if (!Array.isArray(response) || response.length === 0) {
-                        return;
-                    }
-                    //  compare new location name with the saved one
-                    if (locationFullName(response[0]) === locationFullName(this._destination)) {
-                        // location is same
-                        return;
-                    }
-                    // if diferent, save new data and submit again
-                    this._destination = Object.assign({}, response[0], {
-                        locationFullName: locationFullName(response[0])
-                    });
-                    this.eventBus().emit(Form.EVENTS.USER_SUBMIT);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+            return;
+
         }
     }
     clearErrors() {
@@ -169,48 +149,23 @@ export class Form extends Component {
         this.showList();
     }
     validate() {
-        const today = new Date();
-        // for comparisons to work correctly we need to reference midnight yesterday
-        const yesterday = new Date(today - (1000 * 60 * 60 * 24));
-        yesterday.setHours(23);
-        yesterday.setMinutes(59);
-        let valid = true;
-        // check destination input
-        if (!this.destination.value.trim() || !this.destRegEx.test(this.destination.value.trim())) {
-            this.destinationError.set('Value not valid');
-            valid = false;
-        } else {
-            this.destinationError.clear();
-        }
-        // validate departure date
-        if (!this.from.value || (new Date(this.from.value) <= yesterday)) {
-            this.fromError.set('Wrong date');
-            valid = false;
-        } else {
-            this.fromError.clear();
-        }
-        // validate return date
-        if (this.to.value && new Date(this.to.value) < new Date(this.from.value)) {
-            this.toError.set("Can't return before you leave");
-            valid = false;
-        } else {
-            this.toError.clear();
-        }
-        return valid;
+        return true;
+
     }
     submit() {
-        if (this._destination) {
-            // add dates, inc submitNo
-            const dataToSend = Object.assign(this._destination, {
-                from: this.from.value,
-                to: this.to.value,
-                submitNo: this._submitNo++,
-                saved: false
-            })
-            // send event to appStore with data
-            Client.trip.eventBus().emit('flow:new-data', dataToSend);
-        } else {
-            alert('Could not create trip');
-        }
+        Client.trip.eventBus().emit('flow:new-data', {
+            adminName1: "Minsk City",
+            countryName: "Belarus",
+            from: "2021-03-27",
+            geonameId: "625144",
+            lat: "53.9",
+            lng: "27.56667",
+            locationFullName: "Minsk, Minsk City, Belarus",
+            name: "Minsk",
+            saved: false,
+            submitNo: 1,
+            to: "2021-03-28"
+        });
+
     }
 }
