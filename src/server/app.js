@@ -61,12 +61,23 @@ const fetchHistorical = (lat, lng, date) => {
         .catch(err => ({ error: err }));
 };
 
-// calls fetchHistorical to calculate average values over X years
+// calls fetchHistorical to calculate average values over 5 years (max allowed by API)
 const fetchHistoricalAvg = async (lat, lng, date) => {
     const baseDate = new Date(date);
-    let thisYear = new Date().getFullYear;
-    const weatherAvg = Array(10).fill('').map(() => dateString(new Date(baseDate.setFullYear(--thisYear))))
-        .map(year => year);
+    let thisYear = new Date().getFullYear();
+    return await Promise.allSettled(Array(5).fill('').map(() => dateString(new Date(baseDate.setFullYear(--thisYear))))
+        .map(date => fetchHistorical(lat, lng, date)))
+        .then(results => results
+            .filter(result => result.status === 'fulfilled')
+            .flatMap(result => result.value)
+            .reduce((acc, day, i, arr) => {
+                return {
+                    clouds: acc.clouds + day.clouds / arr.length,
+                    precip: acc.precip + day.precip / arr.length,
+                    min_temp: acc.min_temp + day.min_temp / arr.length,
+                    max_temp: acc.max_temp + day.max_temp / arr.length
+                }
+            }, { clouds: 0, precip: 0, min_temp: 0, max_temp: 0 }));
 }
 
 /*--------------------ROUTES-------------------------*/
@@ -105,6 +116,7 @@ app.post('/historical', async (req, res) => {
 app.post('/historical/average', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
     const weatherAvg = await fetchHistoricalAvg(lat, lng, from);
+    res.status(200).json({ submitNo, ...weatherAvg });
 });
 
 // test json response with mock
