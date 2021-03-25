@@ -3,6 +3,7 @@ import { CountryInfo } from './CountryInfo';
 import { daysDiff } from './daysDiff';
 import { getCountry } from './getCountry';
 import { Primitive } from './Primitive';
+import { TripHead } from './TripHead';
 
 export class Trip extends Component {
     static ROUTES = {
@@ -27,10 +28,14 @@ export class Trip extends Component {
         // get DOM refs
         this.countryEl = this.el.querySelector('.trip--meta-country');
         this.country = new CountryInfo(this.countryEl);
+        this.headEl = this.el.querySelector('.trip__head');
+        this.head = new TripHead(this.headEl);
         this.mode = new Primitive(this.el.querySelector('#mode'));
+        // set click hanler for units
+        this.el.querySelector('.units').addEventListener('click', this.unitSelector.bind(this));
     }
     componentDidUpdate() {
-        // TODO set classes on elements
+        // TODO set classes on elements depending on received data
         if (this._completed) {
             this.el.classList.add('trip--status-completed');
             this.el.classList.remove('trip--status-scheduled');
@@ -38,8 +43,8 @@ export class Trip extends Component {
             this.el.classList.add('trip--status-scheduled');
             this.el.classList.remove('trip--status-completed');
         }
-        // set click hanlers for units
-        this.el.querySelector('.units').addEventListener('click', this.unitSelector.bind(this));
+        // update head
+        this.head.setProps(Object.assign({ countdown: this.countDown }, this.data));
         // fetch all data
         // const weather = getWeather(this._weatherRoute, this.data.from); // TODO don't forget submitNo !!!!!!!!!!!!!!!!!
         if (this.data.countryInfo) {
