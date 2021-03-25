@@ -2,6 +2,7 @@ import { Component } from './Component';
 import { CountryInfo } from './CountryInfo';
 import { daysDiff } from './daysDiff';
 import { getCountry } from './getCountry';
+import { Primitive } from './Primitive';
 
 export class Trip extends Component {
     static ROUTES = {
@@ -26,9 +27,19 @@ export class Trip extends Component {
         // get DOM refs
         this.countryEl = this.el.querySelector('.trip--meta-country');
         this.country = new CountryInfo(this.countryEl);
+        this.mode = new Primitive(this.el.querySelector('#mode'));
     }
     componentDidUpdate() {
         // TODO set classes on elements
+        if (this._completed) {
+            this.el.classList.add('trip--status-completed');
+            this.el.classList.remove('trip--status-scheduled');
+        } else {
+            this.el.classList.add('trip--status-scheduled');
+            this.el.classList.remove('trip--status-completed');
+        }
+        // set click hanlers for units
+        this.el.querySelector('.units').addEventListener('click', this.unitSelector.bind(this));
         // fetch all data
         // const weather = getWeather(this._weatherRoute, this.data.from); // TODO don't forget submitNo !!!!!!!!!!!!!!!!!
         if (this.data.countryInfo) {
@@ -47,7 +58,7 @@ export class Trip extends Component {
         }
         // const image = getImage(this.data.name);
         // return true or false for render
-        return false;
+        return true;
     }
     dataReceived(data) {
         this.eventBus().emit(Trip.EVENTS.RESET);
@@ -58,24 +69,34 @@ export class Trip extends Component {
         this.countDown = daysDiff(new Date(data.from), this.today);
         if (this.countDown < 0) {
             this._completed = true;
-            // get hstorical (Recorded weather)
+            // get hstorical
+            this.mode.set('Recorded weather');
             this._weatherRoute = Trip.ROUTES.W_HS;
         } else if (this.countDown === 0) {
             this._completed = false;
-            // get forecast (Weather forecast)
+            // get forecast
+            this.mode.set('Weather forecast');
             this._weatherRoute = Trip.ROUTES.W_FC;
         } else if (this.countDown < 16) {
             this._completed = false;
-            // get forecast (Weather forecast)
+            // get forecast
+            this.mode.set('Weather forecast');
             this._weatherRoute = Trip.ROUTES.W_FC;
         } else {
             this._completed = false;
-            // get average historical (Usual weather)
+            // get average historical
+            this.mode.set('Usual weather');
             this._weatherRoute = Trip.ROUTES.W_HSA;
         }
-        console.log(this.countDown);
         // fire _component did update
         this.eventBus().emit(Trip.EVENTS.FLOW_CDU);
+    }
+    unitSelector(event) {
+        if (event.target.classList.contains('trip--selector-metric')) {
+            this.el.classList.remove('trip--units-imperial');
+        } else if (event.target.classList.contains('trip--selector-imperial')) {
+            this.el.classList.add('trip--units-imperial');
+        }
     }
     reset() {
         // clears old infos
@@ -84,6 +105,7 @@ export class Trip extends Component {
     render() {
         // first emit event to form or have form listen to render/save/delete
         // forcast or usual depending on from date
+        this.show();
     }
     setImage(url) {
         if (url) {

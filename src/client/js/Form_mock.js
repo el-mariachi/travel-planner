@@ -14,6 +14,7 @@ const debouncedLocation = debounceAsync(getLocations, 500);
 
 export class Form extends Component {
 
+    _base_class = 'newtrip';
     _destination = null;
     _fromDate = null;
     _toDate = null;
@@ -166,6 +167,6 @@ export class Form extends Component {
             submitNo: 1,
             to: "2021-03-28"
         });
-
+        this.hide();
     }
 }

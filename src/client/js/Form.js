@@ -15,6 +15,7 @@ const debouncedLocation = debounceAsync(getLocations, 500);
 
 export class Form extends Component {
 
+    _base_class = 'newtrip';
     _destination = null;
     _fromDate = null;
     _toDate = null;
@@ -209,6 +210,7 @@ export class Form extends Component {
             })
             // send event to appStore with data
             Client.trip.eventBus().emit('flow:new-data', dataToSend);
+            this.hide();
         } else {
             alert('Could not create trip');
         }

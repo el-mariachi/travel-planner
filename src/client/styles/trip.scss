@@ -116,6 +116,9 @@
     display: flex;
     justify-content: space-between;
     padding-bottom: 8px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right;
 }
 
 .trip__category_title {
