@@ -49,21 +49,25 @@ const fetchForecast = async (lat, lng, date) => {
     }
 };
 // calls weatherbit API Historical Weather daily
-// returns forecast for <date>
-const fetchHistorical = async (lat, lng, date) => {
+// returns forecast for <date> (Promise)
+const fetchHistorical = (lat, lng, date) => {
     const base_url = 'http://api.weatherbit.io/v2.0/history/daily';
     const next_day = new Date(date);
     next_day.setDate(next_day.getDate() + 1);
     const end_date = dateString(next_day);
     const request_url = `${base_url}?lat=${lat}&lon=${lng}&start_date=${date}&end_date=${end_date}&key=${process.env.WEATHERBIT_KEY}`;
-    try {
-        const { data } = await fetch(request_url).then(res => res.json());
-        return data;
-    } catch (err) {
-        console.log(err);
-        return { error: err };
-    }
+    return fetch(request_url).then(res => res.json())
+        .then(({ data }) => data.map(({ clouds, precip, min_temp, max_temp }) => ({ clouds, precip, min_temp, max_temp })))
+        .catch(err => ({ error: err }));
 };
+
+// calls fetchHistorical to calculate average values over X years
+const fetchHistoricalAvg = async (lat, lng, date) => {
+    const baseDate = new Date(date);
+    let thisYear = new Date().getFullYear;
+    const weatherAvg = Array(10).fill('').map(() => dateString(new Date(baseDate.setFullYear(--thisYear))))
+        .map(year => year);
+}
 
 /*--------------------ROUTES-------------------------*/
 
@@ -88,7 +92,7 @@ app.post('/forecast', async (req, res) => {
     const [forecast] = await fetchForecast(lat, lng, from); // destructure array
     res.status(200).json({ submitNo, ...forecast });
 });
-// historical route
+// historical route is hit whenever the date is in the past
 app.post('/historical', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
     const weather = await fetchHistorical(lat, lng, from);
@@ -97,9 +101,10 @@ app.post('/historical', async (req, res) => {
         res.status(200).json({ submitNo, ...data });
     }
 });
-// average historical route
-app.post('/historical/average', (req, res) => {
-
+// average historical route is hit whenever the date is 16 or more days ahead
+app.post('/historical/average', async (req, res) => {
+    const { lat, lng, from, submitNo } = req.body;
+    const weatherAvg = await fetchHistoricalAvg(lat, lng, from);
 });
 
 // test json response with mock
