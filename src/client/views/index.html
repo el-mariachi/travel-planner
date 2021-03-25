@@ -48,7 +48,67 @@
                     </div>
                 </div>
             </form>
-            <div class="trips"></div>
+            <div class="trip trip--status-scheduled trip--units-imperial trip--saved">
+                <div class="trip__inner">
+                    <div class="trip__head">
+                        <div class="trip__countdown">125</div>
+                        <h2 class="trip__destination">Nizhniy Novgorod, Russia</h2>
+                        <div class="trip__dates">
+                            <span class="trip__date trip__from">12/5/2021</span>
+                            <span class="trip__date trip__to">12/15/2021</span>
+                        </div>
+                    </div>
+                    <div class="trip__section trip--data-main">
+                        <div class="trip__image"></div>
+                    </div>
+                    <div class="trip__section trip--data-meta">
+                        <div class="trip__category trip--meta-weather">
+                            <div class="trip__category_inner">
+                                <header class="trip__header">
+                                    <h3 class="trip__category_title">Usual weather</h3>
+                                    <div class="units">
+                                        <span class="units__item trip--selector-metric">°C/mm</span>
+                                        <span class="units__item trip--selector-imperial">°F/in</span>
+                                    </div>
+                                </header>
+                                <div class="trip__temps">
+                                    <span class="trip__temp trip__low trip--unit-metric unit--type-c">-50</span>
+                                    <span class="trip__temp trip__high trip--unit-metric unit--type-c">-20</span>
+                                    <span class="trip__temp trip__low trip--unit-imperial unit--type-f">-58</span>
+                                    <span class="trip__temp trip__high trip--unit-imperial unit--type-f">-4</span>
+                                </div>
+                                <div class="trip__param trip__coverage">
+                                    <span class="trip__param_name">Average cloud coverage:</span><span
+                                        class="trip__param_value unit--type-percent">50</span>
+                                </div>
+                                <div class="trip__param trip__precipitation">
+                                    <span class="trip__param_name">Avg precipitation:</span>
+                                    <span class="trip__param_value trip--unit-metric unit--type-mm">0.234</span>
+                                    <span class="trip__param_value trip--unit-imperial unit--type-in">0.012</span>
+                                </div>
+                                <div id="conditions" class="trip_param">
+                                    <img src="https://www.weatherbit.io/static/img/icons/a04d.png" alt="Weather icon"
+                                        width="60" height="60">
+                                    <span class="trip__param_name">Overcast clouds</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="trip__category trip--meta-country">
+
+                        </div>
+                        <div class="trip__category trip__control">
+                            <div class="trip__category_inner">
+                                <div class="trip__control_item trip--control-close"><button
+                                        class="button">Close</button></div>
+                                <div class="trip__control_item trip--control-save"><button class="button">Save
+                                        Trip</button></div>
+                                <div class="trip__control_item"><button class="button">Remove
+                                        Trip</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
         <footer class="footer">
             <p class="footer__text">*The return date can be entered for informational purposes only. It is not being

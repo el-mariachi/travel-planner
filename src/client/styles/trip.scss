@@ -2,6 +2,10 @@
  background: $sandLite
 }
 
+.trip--hidden {
+    display: none;
+}
+
 .trip__section {
     display: flex;
     flex-direction: column;

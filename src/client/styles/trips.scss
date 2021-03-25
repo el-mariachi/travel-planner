@@ -4,6 +4,10 @@
     align-items: stretch;
 }
 
+.trips--hidden {
+    display: none;
+}
+
 .trips__list {
     border-top: $stb;
     background: $white;

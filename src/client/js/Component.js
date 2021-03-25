@@ -49,6 +49,12 @@ export class Component {
         // can be redefined in subclasses
         return true;
     }
+    show() {
+        this.el.classList.remove(`${this._base_class}--hidden`);
+    }
+    hide() {
+        this.el.classList.add(`${this._base_class}--hidden`);
+    }
     _render() {
         this.render();
     }
