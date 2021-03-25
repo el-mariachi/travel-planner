@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
 const mockAPIjsonResponse = require('./mockAPI');
+const dateString = require('./dateString');
 
 const app = express();
 
@@ -47,6 +48,22 @@ const fetchForecast = async (lat, lng, date) => {
         return { error: err };
     }
 };
+// calls weatherbit API Historical Weather daily
+// returns forecast for <date>
+const fetchHistorical = async (lat, lng, date) => {
+    const base_url = 'http://api.weatherbit.io/v2.0/history/daily';
+    const next_day = new Date(date);
+    next_day.setDate(next_day.getDate() + 1);
+    const end_date = dateString(next_day);
+    const request_url = `${base_url}?lat=${lat}&lon=${lng}&start_date=${date}&end_date=${end_date}&key=${process.env.WEATHERBIT_KEY}`;
+    try {
+        const { data } = await fetch(request_url).then(res => res.json());
+        return data;
+    } catch (err) {
+        console.log(err);
+        return { error: err };
+    }
+};
 
 /*--------------------ROUTES-------------------------*/
 
@@ -68,12 +85,17 @@ app.post('/locations', async (req, res) => {
 // forecast route
 app.post('/forecast', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
-    const forecast = await fetchForecast(lat, lng, from);
+    const [forecast] = await fetchForecast(lat, lng, from); // destructure array
     res.status(200).json({ submitNo, ...forecast });
 });
 // historical route
-app.post('/historical', (req, res) => {
-
+app.post('/historical', async (req, res) => {
+    const { lat, lng, from, submitNo } = req.body;
+    const weather = await fetchHistorical(lat, lng, from);
+    if (Array.isArray(weather) && weather.length > 0) {
+        const [data] = weather;
+        res.status(200).json({ submitNo, ...data });
+    }
 });
 // average historical route
 app.post('/historical/average', (req, res) => {
