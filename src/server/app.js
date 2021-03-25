@@ -34,6 +34,19 @@ const fetchLocations = async (query, maxRows) => {
         return [];
     }
 };
+// calls weatherbit API Weather Forecast 16 day / daily
+// returns forecast for <date>
+const fetchForecast = async (lat, lng, date) => {
+    const base_url = 'http://api.weatherbit.io/v2.0/forecast/daily';
+    const request_url = `${base_url}?lat=${lat}&lon=${lng}&key=${process.env.WEATHERBIT_KEY}`;
+    try {
+        const response = await fetch(request_url).then(res => res.json());
+        return response.data.filter(day => day.valid_date === date).map(({ clouds, pop, weather, precip, min_temp, max_temp }) => ({ clouds, pop, weather, precip, min_temp, max_temp }));
+    } catch (err) {
+        console.log(err);
+        return { error: err };
+    }
+};
 
 /*--------------------ROUTES-------------------------*/
 
@@ -50,6 +63,21 @@ app.post('/locations', async (req, res) => {
     }
     const result = await fetchLocations(query, maxRows);
     res.status(200).json(result);
+});
+
+// forecast route
+app.post('/forecast', async (req, res) => {
+    const { lat, lng, from, submitNo } = req.body;
+    const forecast = await fetchForecast(lat, lng, from);
+    res.status(200).json({ submitNo, ...forecast });
+});
+// historical route
+app.post('/historical', (req, res) => {
+
+});
+// average historical route
+app.post('/historical/average', (req, res) => {
+
 });
 
 // test json response with mock

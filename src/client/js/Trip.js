@@ -2,6 +2,7 @@ import { Component } from './Component';
 import { CountryInfo } from './CountryInfo';
 import { daysDiff } from './daysDiff';
 import { getCountry } from './getCountry';
+import { getWeather } from './getWeather';
 import { Primitive } from './Primitive';
 import { TripHead } from './TripHead';
 
@@ -46,7 +47,14 @@ export class Trip extends Component {
         // update head
         this.head.setProps(Object.assign({ countdown: this.countDown }, this.data));
         // fetch all data
-        // const weather = getWeather(this._weatherRoute, this.data.from); // TODO don't forget submitNo !!!!!!!!!!!!!!!!!
+        const { lat, lng, from, submitNo } = this.data;
+        getWeather(this._weatherRoute, { lat, lng, from, submitNo })
+            .then(res => {
+                console.log(res);
+            }) // TODO don't forget submitNo !!!!!!!!!!!!!!!!!
+            .catch(err => {
+                console.log(err); // TODO do something meaningful
+            });
         if (this.data.countryInfo) {
             // display stored
             this.country.setProps(this.data.countryInfo)

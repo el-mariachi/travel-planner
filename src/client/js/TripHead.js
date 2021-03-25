@@ -14,7 +14,6 @@ export class TripHead extends Component {
         if (Object.keys(this.props).length === 0) {
             return;
         }
-        console.log(this.props);
         this.el.innerHTML = '';
 
         this.el.innerHTML = Mustache.render(tripHeadTemplate, {

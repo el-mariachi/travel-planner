@@ -9,3 +9,5 @@ Start typing in the desired destination and the app will display a list of sugge
 After the user submits the form with saved location data the app will double check with the geonames API using the name in the input field. If it differs from what was saved, a resubmission occurs. Mustache templating library is used in a couple of places to escape API data that is inserted via innerHTML. Restcountries API call is made directly from the front end.
 
 ### Setup
+
+.env
