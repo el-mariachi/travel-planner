@@ -96,6 +96,12 @@
     border-top: $stb;
 }
 
+.trip__report {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 .trip__category_inner {
     padding: 16px;
     box-sizing: border-box;
