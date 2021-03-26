@@ -5,6 +5,7 @@ import { getCountry } from './getCountry';
 import { getWeather } from './getWeather';
 import { Primitive } from './Primitive';
 import { TripHead } from './TripHead';
+import { WeatherReport } from './WeatherReport';
 
 export class Trip extends Component {
     static ROUTES = {
@@ -32,6 +33,8 @@ export class Trip extends Component {
         this.headEl = this.el.querySelector('.trip__head');
         this.head = new TripHead(this.headEl);
         this.mode = new Primitive(this.el.querySelector('#mode'));
+        this.weatherEl = this.el.querySelector('#weather');
+        this.weather = new WeatherReport(this.weatherEl);
         // set click hanler for units
         this.el.querySelector('.units').addEventListener('click', this.unitSelector.bind(this));
     }
@@ -50,18 +53,20 @@ export class Trip extends Component {
         const { lat, lng, from, submitNo } = this.data;
         getWeather(this._weatherRoute, { lat, lng, from, submitNo })
             .then(res => {
-                console.log(res);
-            }) // TODO don't forget submitNo !!!!!!!!!!!!!!!!!
+                if (res.submitNo < submitNo) return; // async requests may return in order that's different from how they were sent
+                this.weather.setProps(res);
+            })
             .catch(err => {
-                console.log(err); // TODO do something meaningful
+                this.weather.setProps({ error: err.message });
             });
         if (this.data.countryInfo) {
             // display stored
             this.country.setProps(this.data.countryInfo)
         } else {
             // fetch info
-            getCountry(this.data.countryName)
+            getCountry(this.data.countryCode)
                 .then(info => {
+                    this.props.countryInfo = info;
                     this.country.setProps(info);
                 })
                 .catch(err => {

@@ -100,6 +100,12 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    width: 100%;
+}
+
+.trip__error .trip__param_name,
+.trip__error .trip__param_value {
+    color: $error;
 }
 
 .trip__category_inner {

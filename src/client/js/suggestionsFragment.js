@@ -4,7 +4,7 @@ import { locationFullName } from './locationFullName';
 const suggestionsFragment = data => {
     const fragment = new DocumentFragment();
     fragment.append(...data.map(geoname => {
-        const picked = (({ lng, lat, geonameId, name, countryName, adminName1 }) => ({ lng, lat, geonameId, name, countryName, adminName1 }))(geoname);
+        const picked = (({ lng, lat, geonameId, name, countryName, countryCode, adminName1 }) => ({ lng, lat, geonameId, name, countryName, countryCode, adminName1 }))(geoname);
         // let dataAttrString = Object.keys(picked).map(key => `data-${key}="${picked[key]}"`).join(' ');
 
         const listItem = document.createElement('li');
