@@ -10,4 +10,7 @@ After the user submits the form with saved location data the app will double che
 
 ### Setup
 
-.env
+- Obtain your API key for (geonames)[http://www.geonames.org/]
+- Obtain your API key for (weatherbit)[https://www.weatherbit.io/account/create]
+- Obtain your API key for (pixabay)[https://pixabay.com/]
+- Save all keys into ```dotenv``` file, then rename the file to ```.env```

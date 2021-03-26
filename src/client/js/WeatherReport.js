@@ -25,7 +25,7 @@ export class WeatherReport extends Component {
         }
         // process props
         const precipImp = (this.props.precip / 25.4).toFixed(4);
-        this.props.precip = this.props.precip.toFixed(2);
+        this.props.precip = this.props.precip.toFixed(3);
         const min_tempF = Math.round(this.fahrenheit(this.props.min_temp));
         const max_tempF = Math.round(this.fahrenheit(this.props.max_temp));
         this.el.innerHTML = Mustache.render(weatherReportTemplate, {

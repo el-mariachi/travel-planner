@@ -66,9 +66,23 @@ const fetchHistoricalAvg = async (lat, lng, date) => {
     return average;
 }
 
+// calls weatherbit API Weather Forecast 16 day / daily
+// returns forecast for <date>
+const fetchPix = async name => {
+    const base_url = 'https://pixabay.com/api/';
+    const safeName = encodeURIComponent(name);
+    const request_url = `${base_url}?image_type=photo&q=${safeName}&key=${process.env.PIXABAY_KEY}`;
+    const response = await fetch(request_url).then(res => res.json());
+    if (response.totalhits === 0) {
+        throw new Error('No image found');
+    }
+    return response.hits[0].webformatURL;
+};
+
 module.exports = {
     fetchLocations,
     fetchForecast,
     fetchHistorical,
-    fetchHistoricalAvg
+    fetchHistoricalAvg,
+    fetchPix
 }

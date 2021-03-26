@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const mockAPIjsonResponse = require('./mockAPI');
-const { fetchLocations, fetchForecast, fetchHistorical, fetchHistoricalAvg } = require('./serverFuncs');
+const { fetchLocations, fetchForecast, fetchHistorical, fetchHistoricalAvg, fetchPix } = require('./serverFuncs');
 const app = express();
 
 // set up middleware. bodyparser is not needed since express > 4.16
@@ -20,6 +20,8 @@ app.use('/', express.static(path.join(__dirname, '../../dist')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../../dist/index.html'));
 });
+
+/*----------------API-ROUTES-------------------------*/
 // route for displaying suggested results
 app.post('/locations', async (req, res) => {
     const { query, maxRows } = req.body;
@@ -76,6 +78,18 @@ app.post('/historical/average', async (req, res) => {
         // forward error message to client
         // TODO change status for error responses
         res.status(200).json({ submitNo, error: err.message })
+    }
+
+});
+
+// location image route
+app.post('/pix', async (req, res) => {
+    const { name, submitNo } = req.body;
+    try {
+        const url = await fetchPix(name);
+        res.status(200).json({ url, submitNo });
+    } catch (err) {
+        res.status(404).send({ error: 'No image found' });
     }
 
 });

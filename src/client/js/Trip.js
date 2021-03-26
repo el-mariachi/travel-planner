@@ -3,6 +3,7 @@ import { CountryInfo } from './CountryInfo';
 import { daysDiff } from './daysDiff';
 import { getCountry } from './getCountry';
 import { getWeather } from './getWeather';
+import { getImage } from './getImage';
 import { Primitive } from './Primitive';
 import { TripHead } from './TripHead';
 import { WeatherReport } from './WeatherReport';
@@ -75,6 +76,15 @@ export class Trip extends Component {
                 });
         }
         // const image = getImage(this.data.name);
+        getImage(this.data.name, submitNo)
+            .then(img => {
+                if (img.submitNo < submitNo) return;
+                this.setImage(img.url);
+            })
+            .catch(err => {
+                console.log(err, err.message);
+                this.setImage(undefined);
+            })
         // return true or false for render
         return true;
     }
@@ -128,10 +138,10 @@ export class Trip extends Component {
     setImage(url) {
         if (url) {
             // show image
-            this.props.querySelector('.trip__image').style.backgroundImage = `url(${url})`;
+            this.el.querySelector('.trip__image').style.backgroundImage = `url(${url})`;
         } else {
             // show background from css
-            delete this.props.querySelector('.trip__image').style.backgroundImage;
+            delete this.el.querySelector('.trip__image').style.backgroundImage;
         }
     }
 }
