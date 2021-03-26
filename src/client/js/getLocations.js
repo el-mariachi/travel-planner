@@ -1,7 +1,7 @@
 import { postToBackend } from './postToBackend';
 
 const getLocations = (query, maxRows = 30) => {
-    const base_url = 'http://localhost:3000/locations';
+    const base_url = '/api/locations';
 
     return new Promise((res, rej) => {
         postToBackend(base_url, { query, maxRows })

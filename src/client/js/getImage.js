@@ -1,7 +1,7 @@
 import { postToBackend } from './postToBackend';
 
 const getImage = (name, submitNo) => {
-    const endpoint = 'http://localhost:3000/pix'
+    const endpoint = '/api/pix'
     return new Promise((res, rej) => {
         postToBackend(endpoint, { name, submitNo })
             .then(result => res(result))

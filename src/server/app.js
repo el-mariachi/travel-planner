@@ -23,9 +23,9 @@ app.get('/', (req, res) => {
 
 /*----------------API-ROUTES-------------------------*/
 // route for displaying suggested results
-app.post('/locations', async (req, res) => {
+app.post('/api/locations', async (req, res) => {
     const { query, maxRows } = req.body;
-    if (!(/^[\w, -]{2,}$/.test(decodeURIComponent(query)))) {
+    if (!(/^[\w,. -]{2,}$/i.test(decodeURIComponent(query)))) {
         res.sendStatus(400);
         return;
     }
@@ -40,7 +40,7 @@ app.post('/locations', async (req, res) => {
 });
 
 // forecast route
-app.post('/forecast', async (req, res) => {
+app.post('/api/forecast', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
     try {
         const [forecast] = await fetchForecast(lat, lng, from); // destructure array
@@ -52,7 +52,7 @@ app.post('/forecast', async (req, res) => {
     }
 });
 // historical route is hit whenever the date is in the past
-app.post('/historical', async (req, res) => {
+app.post('/api/historical', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
     try {
         const weather = await fetchHistorical(lat, lng, from);
@@ -69,7 +69,7 @@ app.post('/historical', async (req, res) => {
     }
 });
 // average historical route is hit whenever the date is 16 or more days ahead
-app.post('/historical/average', async (req, res) => {
+app.post('/api/historical/average', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
     try {
         const weatherAvg = await fetchHistoricalAvg(lat, lng, from);
@@ -83,7 +83,7 @@ app.post('/historical/average', async (req, res) => {
 });
 
 // location image route
-app.post('/pix', async (req, res) => {
+app.post('/api/pix', async (req, res) => {
     const { name, submitNo } = req.body;
     try {
         const url = await fetchPix(name);

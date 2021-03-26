@@ -22,7 +22,7 @@
     padding: 16px;
     display: flex;
     justify-content: space-between;
-    max-width: 568px;
+    max-width: $maxW;
 }
 
 .trips--status-completed .trips__inner {
@@ -71,7 +71,7 @@
     justify-content: space-between;
     align-items: baseline;
     width: 100%;
-    max-width: 568px;
+    max-width: $maxW;
 }
 
 .trips__name {

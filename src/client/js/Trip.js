@@ -10,9 +10,9 @@ import { WeatherReport } from './WeatherReport';
 
 export class Trip extends Component {
     static ROUTES = {
-        W_FC: "http://localhost:3000/forecast",
-        W_HS: "http://localhost:3000/historical",
-        W_HSA: "http://localhost:3000/historical/average",
+        W_FC: "/api/forecast",
+        W_HS: "/api/historical",
+        W_HSA: "/api/historical/average",
     };
     _base_class = 'trip';
     _image = '';

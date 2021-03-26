@@ -24,7 +24,7 @@ export class Form extends Component {
     constructor(el) {
         super(el);
         // this.today = new Date();
-        this.destRegEx = /^[\w, -]{2,}$/;
+        this.destRegEx = /^[\w,. -]{2,}$/i;
     }
     registerEvents(eventBus) {
         eventBus.on(Form.EVENTS.USER_SUBMIT, this.submit.bind(this));
