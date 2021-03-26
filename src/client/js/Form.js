@@ -141,8 +141,6 @@ export class Form extends Component {
     predict() {
         // reset loc_id and a saved destination
         this.eventBus().emit(Form.EVENTS.RESET);
-        // this.loc_id.value = 0; // TODO this will probably go away
-        // this._destination = null;
         // validate value
         if (!this.destRegEx.test(this.destination.value)) {
             return;
@@ -154,6 +152,7 @@ export class Form extends Component {
         debouncedLocation(query)
             .then(response => {
                 // if nothing is returned, do nothing
+                console.log(response);
                 if (!Array.isArray(response) || response.length === 0) {
                     this.hideList();
                     return;
