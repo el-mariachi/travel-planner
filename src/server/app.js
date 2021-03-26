@@ -31,6 +31,8 @@ app.post('/locations', async (req, res) => {
         const result = await fetchLocations(query, maxRows);
         res.status(200).json(result);
     } catch (error) {
+        // forward error message to client
+        // TODO change status for error responses
         res.status(200).json([{ lng: 0, lat: 0, geonameId: 0, name: '!!! Error', adminName1: 'Locations service unavailable', countryName: '!!!' }]);
     }
 });
@@ -38,23 +40,44 @@ app.post('/locations', async (req, res) => {
 // forecast route
 app.post('/forecast', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
-    const [forecast] = await fetchForecast(lat, lng, from); // destructure array
-    res.status(200).json({ submitNo, ...forecast });
+    try {
+        const [forecast] = await fetchForecast(lat, lng, from); // destructure array
+        res.status(200).json({ submitNo, ...forecast });
+    } catch (err) {
+        // forward error message to client
+        // TODO change status for error responses
+        res.status(200).json({ submitNo, error: err.message });
+    }
 });
 // historical route is hit whenever the date is in the past
 app.post('/historical', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
-    const weather = await fetchHistorical(lat, lng, from);
-    if (Array.isArray(weather) && weather.length > 0) {
-        const [data] = weather;
-        res.status(200).json({ submitNo, ...data });
+    try {
+        const weather = await fetchHistorical(lat, lng, from);
+        if (Array.isArray(weather) && weather.length > 0) {
+            const [data] = weather;
+            res.status(200).json({ submitNo, ...data });
+        } else {
+            throw new Error('Weather data unavailable')
+        }
+    } catch (err) {
+        // forward error message to client
+        // TODO change status for error responses
+        res.status(200).json({ submitNo, error: err.message })
     }
 });
 // average historical route is hit whenever the date is 16 or more days ahead
 app.post('/historical/average', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
-    const weatherAvg = await fetchHistoricalAvg(lat, lng, from);
-    res.status(200).json({ submitNo, ...weatherAvg });
+    try {
+        const weatherAvg = await fetchHistoricalAvg(lat, lng, from);
+        res.status(200).json({ submitNo, ...weatherAvg });
+    } catch (err) {
+        // forward error message to client
+        // TODO change status for error responses
+        res.status(200).json({ submitNo, error: err.message })
+    }
+
 });
 
 // test json response with mock

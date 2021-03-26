@@ -152,7 +152,6 @@ export class Form extends Component {
         debouncedLocation(query)
             .then(response => {
                 // if nothing is returned, do nothing
-                console.log(response);
                 if (!Array.isArray(response) || response.length === 0) {
                     this.hideList();
                     return;

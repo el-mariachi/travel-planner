@@ -1,7 +1,7 @@
 import 'regenerator-runtime/runtime';
 import './styles/body.scss'
 import { Storage } from './js/Storage';
-import { Form } from './js/Form';
+import { Form } from './js/Form_mock';
 import { Trip } from './js/Trip';
 
 // set up local storage

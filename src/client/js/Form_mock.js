@@ -157,7 +157,7 @@ export class Form extends Component {
         Client.trip.eventBus().emit('flow:new-data', {
             adminName1: "Minsk City",
             countryName: "Belarus",
-            from: "2021-04-27",
+            from: "2021-05-27",
             geonameId: "625144",
             lat: "53.9",
             lng: "27.56667",
