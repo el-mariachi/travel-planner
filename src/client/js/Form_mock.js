@@ -23,7 +23,7 @@ export class Form extends Component {
     constructor(el) {
         super(el);
         // this.today = new Date();
-        this.destRegEx = /^[\w,. -]{2,}$/i;
+        this.destRegEx = /^[\u00BF-\u1FFF\u2C00-\uD7FF\w,. -]{2,}$/i;
     }
     registerEvents(eventBus) {
         eventBus.on(Form.EVENTS.USER_SUBMIT, this.submit.bind(this));

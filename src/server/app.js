@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 // route for displaying suggested results
 app.post('/api/locations', async (req, res) => {
     const { query, maxRows } = req.body;
-    if (!(/^[\w,. -]{2,}$/i.test(decodeURIComponent(query)))) {
+    if (!(/^[\u00BF-\u1FFF\u2C00-\uD7FF\w,. -]{2,}$/i.test(decodeURIComponent(query)))) {
         res.sendStatus(400);
         return;
     }
