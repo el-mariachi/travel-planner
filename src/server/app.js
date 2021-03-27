@@ -34,7 +34,7 @@ app.post('/api/locations', async (req, res) => {
         res.status(200).json(result);
     } catch (error) {
         // forward error message to client
-        // TODO change status for error responses
+        // maybe it's better to send error status instead
         res.status(200).json([{ lng: 0, lat: 0, geonameId: 0, name: '!!! Error', adminName1: 'Locations service unavailable', countryName: '!!!' }]);
     }
 });
@@ -47,7 +47,7 @@ app.post('/api/forecast', async (req, res) => {
         res.status(200).json({ submitNo, ...forecast });
     } catch (err) {
         // forward error message to client
-        // TODO change status for error responses
+        // maybe it's better to send error status instead
         res.status(200).json({ submitNo, error: err.message });
     }
 });
@@ -64,7 +64,7 @@ app.post('/api/historical', async (req, res) => {
         }
     } catch (err) {
         // forward error message to client
-        // TODO change status for error responses
+        // maybe it's better to send error status instead
         res.status(200).json({ submitNo, error: err.message })
     }
 });
@@ -76,7 +76,7 @@ app.post('/api/historical/average', async (req, res) => {
         res.status(200).json({ submitNo, ...weatherAvg });
     } catch (err) {
         // forward error message to client
-        // TODO change status for error responses
+        // maybe it's better to send error status instead
         res.status(200).json({ submitNo, error: err.message })
     }
 

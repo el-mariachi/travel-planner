@@ -30,7 +30,6 @@ export class Form extends Component {
         eventBus.on(Form.EVENTS.USER_SUBMIT, this.submit.bind(this));
     }
     componentDidMount() {
-        this.loc_id = this.el.querySelector('#loc_id'); // TODO this has to go
         this.destination = this.el.elements.destination;
         this.destinationError = new Primitive(this.el.querySelector('#destination_error'));
         this.from = this.el.elements.from;
@@ -130,8 +129,6 @@ export class Form extends Component {
             locationFullName: target.textContent
         });
         this.destination.value = target.textContent;
-        // set loc_id to geoname ID
-        this.loc_id.value = target.dataset.geonameId; // TODO this has to go
         this.hideList();
     }
     showList() {

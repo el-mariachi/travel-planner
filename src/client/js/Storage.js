@@ -104,22 +104,25 @@ export class Storage extends Component {
             });
             this.sort();
             // add index to each item
-            this._trips = this._trips.map((trip, index) => ({ ...trip, index }));
+            this._trips = this._trips.map((trip, index) => {
+                if (trip.hash === currentHash) {
+                    // send index to Trip for successful removal (if needed)
+                    Client.trip.eventBus().emit('index', index);
+                }
+                return { ...trip, index };
+            });
             this.eventBus().emit(Storage.EVENTS.FLOW_CDU); // emit store did update
         }
 
     }
-    // get(index) {
-    //     if ((index === undefined) || (typeof index !== 'number')) return null;
-    //     return this._trips[index];
-    // }
     delete(index) {
         if (index === undefined) return null;
         this._trips.splice(index, 1);
+        // reindex
+        this._trips = this._trips.map((trip, index) => ({ ...trip, index }));
         this.eventBus().emit(Storage.EVENTS.FLOW_CDU);
     }
     sort() {
-        // this._trips.sort((a, b) => (new Date(a.date)) < (new Date(b.date)));
         this._trips.sort((a, b) => a.countdown - b.countdown);
     }
     saveTrips() {

@@ -16,8 +16,8 @@ export class Trip extends Component {
         W_HSA: "/api/historical/average",
     };
     _base_class = 'trip';
-    _image = null; // TODO ????
-    _saved = false; // TODO ????
+    _image = null;
+    _saved = false;
     _completed = false;
 
     constructor(el, props) {
@@ -25,7 +25,8 @@ export class Trip extends Component {
         // this.el = div 
     }
     registerEvents(eventBus) {
-        eventBus.on(Trip.EVENTS.FLOW_DATA, this.dataReceived.bind(this)); // TODO set up fuctions chain
+        eventBus.on(Trip.EVENTS.FLOW_DATA, this.dataReceived.bind(this));
+        eventBus.on('index', this.setIndex.bind(this));
     }
     componentDidMount() {
         // get DOM refs
@@ -43,7 +44,7 @@ export class Trip extends Component {
         this.el.querySelector('.units').addEventListener('click', this.unitSelectorHandler.bind(this));
     }
     componentDidUpdate() {
-        // TODO set classes on elements depending on received data
+        // set classes on elements depending on received data
         // scheduled / completed
         if (this._completed) {
             this.el.classList.add('trip--status-completed');
@@ -131,6 +132,9 @@ export class Trip extends Component {
         this._image = data.image
         // fire _component did update
         this.eventBus().emit(Trip.EVENTS.FLOW_CDU);
+    }
+    setIndex(i) {
+        this.data.index = i;
     }
     unitSelectorHandler(event) {
         if (event.target.classList.contains('trip--selector-metric')) {
