@@ -2,7 +2,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CSSMinimizerPlugin = require('css-minimizer-webpack-plugin');
-// const WorkboxPlugin = require('workbox-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
     entry: './src/client/index.js',
@@ -50,6 +50,9 @@ module.exports = {
         new HTMLWebpackPlugin({
             template: './src/client/views/index.html'
         }),
-        new MiniCssExtractPlugin()
+        new MiniCssExtractPlugin(),
+        new WorkboxPlugin.GenerateSW({
+            exclude: [/\.(?:jpe?g|png)$/]
+        })
     ]
 };
