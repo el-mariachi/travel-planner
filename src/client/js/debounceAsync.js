@@ -1,3 +1,4 @@
+// returns a debounced version of an async function
 export function debounceAsync(func, ms) {
     let timeout;
     return function () {

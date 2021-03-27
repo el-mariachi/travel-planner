@@ -1,3 +1,6 @@
+// renders weather report head upon receiving props with setProps
+
+
 import { Component } from './Component';
 import Mustache from 'mustache';
 import { weatherReportTemplate } from '../views/weatherReport.tmpl';

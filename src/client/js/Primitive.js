@@ -1,3 +1,5 @@
+// used for form error display elements
+// makes Form code more readable
 export class Primitive {
     constructor(el) {
         this.el = el;

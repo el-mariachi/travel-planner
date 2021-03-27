@@ -1,3 +1,6 @@
+// class to handle weater, image and country fetching
+// and displaying/saving/removing trips
+
 import { Component } from './Component';
 import { CountryInfo } from './CountryInfo';
 import { daysDiff } from './daysDiff';
@@ -22,7 +25,6 @@ export class Trip extends Component {
 
     constructor(el, props) {
         super(el, props);
-        // this.el = div 
     }
     registerEvents(eventBus) {
         eventBus.on(Trip.EVENTS.FLOW_DATA, this.dataReceived.bind(this));
@@ -37,10 +39,11 @@ export class Trip extends Component {
         this.mode = new Primitive(this.el.querySelector('#mode'));
         this.weatherEl = this.el.querySelector('#weather');
         this.weather = new WeatherReport(this.weatherEl);
+        // button click handlers
         this.closeBtn = new Button(this.el.querySelector('.trip--control-close'), { click: this.close.bind(this) });
         this.saveBtn = new Button(this.el.querySelector('.trip--control-save'), { click: this.save.bind(this) });
         this.removeBtn = new Button(this.el.querySelector('.trip--control-remove'), { click: this.remove.bind(this) });
-        // set click hanlers
+        // unit selector click hanler
         this.el.querySelector('.units').addEventListener('click', this.unitSelectorHandler.bind(this));
     }
     componentDidUpdate() {
@@ -53,7 +56,7 @@ export class Trip extends Component {
             this.el.classList.add('trip--status-scheduled');
             this.el.classList.remove('trip--status-completed');
         }
-        // new or saved
+        // new / saved
         if (this._saved) {
             this.el.classList.add('trip--saved');
         } else {
@@ -61,7 +64,7 @@ export class Trip extends Component {
         }
         // update head
         this.head.setProps(Object.assign({ countdown: this.countDown }, this.data));
-        // fetch all data
+        // fetch weather
         const { lat, lng, from, submitNo } = this.data;
         getWeather(this._weatherRoute, { lat, lng, from, submitNo })
             .then(res => {
@@ -71,6 +74,7 @@ export class Trip extends Component {
             .catch(err => {
                 this.weather.setProps({ error: err.message });
             });
+        // fetch country info
         if (this.data.countryInfo) {
             // display stored
             this.country.setProps(this.data.countryInfo)
@@ -86,7 +90,7 @@ export class Trip extends Component {
                     console.log(err);
                 });
         }
-        // const image = getImage(this.data.name);
+        // fetch location image
         getImage(this.data.name, this.data.countryName, submitNo)
             .then(img => {
                 if (img.submitNo < submitNo) return;

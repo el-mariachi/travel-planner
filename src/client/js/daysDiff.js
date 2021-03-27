@@ -1,3 +1,4 @@
+// calculates full day difference between two dates
 const daysDiff = (future, now) => {
     return epochFullDays(future) - epochFullDays(now);
 };
