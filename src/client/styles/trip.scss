@@ -1,9 +1,13 @@
 .trip {
- background: $sandLite
+    background: $sandLite;
+    transition: max-height 0.3s ease-in-out;
+    max-height: 1800px;
+    overflow: hidden;
 }
 
 .trip--hidden {
-    display: none;
+    // display: none;
+    max-height: 0;
 }
 
 .trip__section {

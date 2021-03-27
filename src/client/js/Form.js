@@ -24,7 +24,7 @@ export class Form extends Component {
     constructor(el) {
         super(el);
         // this.today = new Date();
-        this.destRegEx = /^[\u00BF-\u1FFF\u2C00-\uD7FF\w,. -]{2,}$/i;
+        this.destRegEx = /^[\u00BF-\u1FFF\u2C00-\uD7FF\w,.'’ -]{2,}$/i;
     }
     registerEvents(eventBus) {
         eventBus.on(Form.EVENTS.USER_SUBMIT, this.submit.bind(this));
@@ -59,6 +59,9 @@ export class Form extends Component {
     reset() {
         // clears saved location data
         this._destination = null;
+        this.destination.value = '';
+        this.from.value = '';
+        this.to.value = '';
         this.show();
     }
     formSubmitted(event) {
@@ -138,8 +141,8 @@ export class Form extends Component {
         this.locations.classList.remove('locations--visible');
     }
     predict() {
-        // reset loc_id and a saved destination
-        this.eventBus().emit(Form.EVENTS.RESET);
+        // reset loc_id and a saved destination ??????
+        // this.eventBus().emit(Form.EVENTS.RESET);
         // validate value
         if (!this.destRegEx.test(this.destination.value)) {
             return;

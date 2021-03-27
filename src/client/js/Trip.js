@@ -86,7 +86,7 @@ export class Trip extends Component {
                 });
         }
         // const image = getImage(this.data.name);
-        getImage(this.data.name, submitNo)
+        getImage(this.data.name, this.data.countryName, submitNo)
             .then(img => {
                 if (img.submitNo < submitNo) return;
                 this.setImage(img.url);
@@ -145,6 +145,7 @@ export class Trip extends Component {
         this._saved = false;
         this._image = null;
         this._completed = false;
+        this.setImage(undefined);
     }
     render() {
         // hide form
@@ -160,7 +161,7 @@ export class Trip extends Component {
             this.el.querySelector('.trip__image').style.backgroundImage = `url(${url})`;
         } else {
             // show background from css
-            delete this.el.querySelector('.trip__image').style.backgroundImage;
+            this.el.querySelector('.trip__image').style.backgroundImage = '';
         }
     }
     save() {

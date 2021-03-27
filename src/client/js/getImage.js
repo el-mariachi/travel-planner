@@ -1,9 +1,9 @@
 import { postToBackend } from './postToBackend';
 
-const getImage = (name, submitNo) => {
+const getImage = (name, country, submitNo) => {
     const endpoint = '/api/pix'
     return new Promise((res, rej) => {
-        postToBackend(endpoint, { name, submitNo })
+        postToBackend(endpoint, { name, country, submitNo })
             .then(result => res(result))
             .catch(err => {
                 console.error(err);

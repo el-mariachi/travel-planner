@@ -2,10 +2,14 @@
 
 .newtrip {
     background: #fff6de;
+    transition: max-height 0.3s ease-in-out;
+    max-height: 400px;
+    overflow: hidden;
 }
 
 .newtrip--hidden {
-    display: none;
+    // display: none;
+    max-height: 0;
 }
 
 .newtrip__inner {
