@@ -14,7 +14,7 @@ After the user submits the form with saved location data the app will double che
 - Obtain your API key for (weatherbit)[https://www.weatherbit.io/account/create]
 - Obtain your API key for (pixabay)[https://pixabay.com/]
 - Save all keys into ```dotenv``` file, then rename the file to ```.env```
-- - ```npm install```
+- ```npm install```
 - ```npm run build```
 - ```npm start``` to start the server
 - go to ```localhost:3000```
