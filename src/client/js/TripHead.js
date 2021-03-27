@@ -1,3 +1,5 @@
+// renders trip head upon receiving props with setProps
+
 import { Component } from './Component';
 import Mustache from 'mustache';
 import { tripHeadTemplate } from '../views/tripHead.tmpl';

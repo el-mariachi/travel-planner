@@ -1,3 +1,4 @@
+// returns a debounced version of a function
 export function debounce(func, ms) {
     let timeout;
     return function () {

@@ -1,3 +1,5 @@
+// class responsible for user form
+
 import { Component } from './Component';
 import { Primitive } from './Primitive';
 
@@ -30,6 +32,7 @@ export class Form extends Component {
         eventBus.on(Form.EVENTS.USER_SUBMIT, this.submit.bind(this));
     }
     componentDidMount() {
+        // set up DOM elements
         this.destination = this.el.elements.destination;
         this.destinationError = new Primitive(this.el.querySelector('#destination_error'));
         this.from = this.el.elements.from;
@@ -112,7 +115,6 @@ export class Form extends Component {
     fromDateChange() {
         this._fromDate = this.from.value;
         this.setReturnDate();
-        // this.eventBus().emit(Form.EVENTS.FLOW_CDU);
     }
     setReturnDate() {
         // you can't return before you leave
@@ -120,6 +122,8 @@ export class Form extends Component {
         this.to.setAttribute('min', this._fromDate);
     }
     selectLocation(event) {
+        // suggested search results list click handler
+        // saves data from the clicked item's dataset into this._destination
         const target = event.target;
         if (target.className !== 'locations__item') {
             this.hideList();
@@ -138,8 +142,7 @@ export class Form extends Component {
         this.locations.classList.remove('locations--visible');
     }
     predict() {
-        // reset loc_id and a saved destination ??????
-        // this.eventBus().emit(Form.EVENTS.RESET);
+        // displays search results list
         // validate value
         if (!this.destRegEx.test(this.destination.value)) {
             return;
@@ -163,6 +166,7 @@ export class Form extends Component {
             .catch(err => {
                 console.log(err);
             });
+        // spinner
         this.list.innerHTML = `<li class="locations__item locations__wait">Loading suggested locations...</li>`;
         this.showList();
     }

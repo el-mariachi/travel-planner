@@ -1,14 +1,14 @@
+// class for handling localstorage
+// trips data is serialized and saved to localstorage 
+// under the key supplied to the constructor
+
 import { Component } from './Component';
 import Mustache from 'mustache';
 const md5 = require('md5');
-// const { SHA256 } = require('crypto-js');
 import { daysDiff } from './daysDiff';
 import { tripsTemplate } from '../views/trips.tmpl';
-import { Trip } from './Trip';
-
 export class Storage extends Component {
 
-    // _key = null;
     _current = {};
 
     constructor(el, props) {
@@ -16,6 +16,7 @@ export class Storage extends Component {
         // this.props.key is the the key for localstorage
     }
     registerEvents(eventBus) {
+        // if localstorage is changed in another window, we'll know
         window.addEventListener('storage', this.localStorageDidUpdate.bind(this));
         eventBus.on(Storage.EVENTS.FLOW_DATA, this.newTrip.bind(this));
         eventBus.on(Storage.EVENTS.DELETE, this.delete.bind(this));
@@ -30,12 +31,12 @@ export class Storage extends Component {
             this.eventBus().emit(Storage.EVENTS.FLOW_CDU); // emit store did update
             return;
         }
-        // compare hash values
+        // compare hash values against saved set
         for (let i = 0, l = newTrips.length; i < l; i++) {
             // using a for loop to be able to break
             if (newTrips[i].hash !== this._trips[i].hash) {
                 changes = true;
-                break;
+                break; // no need to check further
             }
         }
         if (changes) {
@@ -46,7 +47,7 @@ export class Storage extends Component {
     componentDidMount() {
         this._trips = this.loadSaved();
         this.el.addEventListener('click', this.loadTrip.bind(this));
-        // refresh countdowns
+        // refresh countdowns using current date
         this._trips = this._trips.map(trip => this.countDown(trip));
     }
     componentDidUpdate() {
@@ -58,6 +59,8 @@ export class Storage extends Component {
         return { ...trip, countdown: daysDiff(new Date(trip.from), this.today) };
     }
     loadTrip(event) {
+        // trip click handler
+        // sends clicked item to Trip
         const target = event.target.closest('.trips__item');
         if (!target) return;
         Client.trip.eventBus().emit('flow:new-data', this._trips[target.dataset.index]);
@@ -85,9 +88,6 @@ export class Storage extends Component {
             countpast: function () { return -this.countdown }
         });
     }
-    // get current() {
-    //     return this._current;
-    // }
     newTrip(trip = {}) {
         this._current = trip;
         this.saveCurrent();
@@ -102,11 +102,11 @@ export class Storage extends Component {
                 ...this.countDown(this._current),
                 // saved: true
             });
-            this.sort();
-            // add index to each item
+            this.sort(); // first sort trips
+            // then add index to each item
             this._trips = this._trips.map((trip, index) => {
                 if (trip.hash === currentHash) {
-                    // send index to Trip for successful removal (if needed)
+                    // send index to Trip for immediate removal (if needed)
                     Client.trip.eventBus().emit('index', index);
                 }
                 return { ...trip, index };
@@ -126,7 +126,6 @@ export class Storage extends Component {
         this._trips.sort((a, b) => a.countdown - b.countdown);
     }
     saveTrips() {
-        // add index to each trip
         localStorage.setItem(this.props.key, JSON.stringify(this._trips));
     }
 }

@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-
+// goes to restcountries directly
 const getCountry = (query) => {
     const base_url = 'https://restcountries.eu/rest/v2/alpha/';
     const countryQuery = encodeURIComponent(query);

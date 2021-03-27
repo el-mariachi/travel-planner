@@ -1,3 +1,5 @@
+// the part of the Trip that displays the additional country info
+
 import { Component } from './Component';
 import Mustache from 'mustache';
 import { countryInfoTemplate } from '../views/countryInfo.tmpl';
