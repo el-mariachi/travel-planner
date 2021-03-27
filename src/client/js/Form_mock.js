@@ -27,7 +27,6 @@ export class Form extends Component {
     }
     registerEvents(eventBus) {
         eventBus.on(Form.EVENTS.USER_SUBMIT, this.submit.bind(this));
-        eventBus.on(Form.EVENTS.RESET, this.reset.bind(this));
     }
     componentDidMount() {
         this.loc_id = this.el.querySelector('#loc_id'); // TODO this has to go
@@ -61,7 +60,7 @@ export class Form extends Component {
     reset() {
         // clears saved location data
         this._destination = null;
-        this.loc_id.value = 0; // TODO this has to go
+        this.show();
     }
     formSubmitted(event) {
         // stay on this page
@@ -155,18 +154,18 @@ export class Form extends Component {
     }
     submit() {
         Client.trip.eventBus().emit('flow:new-data', {
-            adminName1: "Minsk City",
-            countryName: "Belarus",
-            from: "2021-03-27",
-            geonameId: "625144",
-            lat: "53.9",
-            lng: "27.56667",
-            locationFullName: "Minsk, Minsk City, Belarus",
-            name: "Minsk",
+            adminName1: "Stockholm",
+            countryCode: "SE",
+            countryName: "Sweden",
+            from: "2020-05-31",
+            geonameId: "2673730",
+            lat: "59.32938",
+            lng: "18.06871",
+            locationFullName: "Stockholm, Stockholm, Sweden",
+            name: "Stockholm",
             saved: false,
-            submitNo: 1,
-            to: "2021-03-28"
+            submitNo: 0,
+            to: "2021-03-31"
         });
-        this.hide();
     }
 }

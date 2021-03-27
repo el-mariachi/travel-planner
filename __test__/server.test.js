@@ -25,7 +25,7 @@ describe('Test POST routes', () => {
     test('Test /locations route', async () => {
         const city = 'London';
         const limit = 15;
-        const response = await request(app).post(`/locations`)
+        const response = await request(app).post(`/api/locations`)
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .send({ query: city, maxRows: limit });

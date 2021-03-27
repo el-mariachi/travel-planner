@@ -28,7 +28,6 @@ export class Form extends Component {
     }
     registerEvents(eventBus) {
         eventBus.on(Form.EVENTS.USER_SUBMIT, this.submit.bind(this));
-        eventBus.on(Form.EVENTS.RESET, this.reset.bind(this));
     }
     componentDidMount() {
         this.loc_id = this.el.querySelector('#loc_id'); // TODO this has to go
@@ -60,7 +59,7 @@ export class Form extends Component {
     reset() {
         // clears saved location data
         this._destination = null;
-        this.loc_id.value = 0; // TODO this has to go
+        this.show();
     }
     formSubmitted(event) {
         // stay on this page
@@ -208,7 +207,6 @@ export class Form extends Component {
             })
             // send event to appStore with data
             Client.trip.eventBus().emit('flow:new-data', dataToSend);
-            this.hide();
         } else {
             alert('Could not create trip');
         }

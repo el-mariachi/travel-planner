@@ -9,7 +9,7 @@ describe('Testing getCountry functionality', () => {
         await expect(getCountry()).rejects.toThrow();
     });
     test('getCountry should return correct data', async () => {
-        const country = await getCountry('China');
+        const country = await getCountry('CN');
         const expected = {
             name: 'China',
             capital: 'Beijing'

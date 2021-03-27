@@ -10,6 +10,8 @@ export class Component {
         FLOW_DATA: "flow:new-data",
         FLOW_RENDER: "flow:render",
         RESET: "reset",
+        HIDE: "hide",
+        DELETE: "delete",
         USER_SUBMIT: "user:submit"
     }
     constructor(el, props = {}) {
@@ -25,6 +27,8 @@ export class Component {
         eventBus.on(Component.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
         eventBus.on(Component.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
         eventBus.on(Component.EVENTS.FLOW_RENDER, this._render.bind(this));
+        eventBus.on(Component.EVENTS.RESET, this._reset.bind(this));
+        eventBus.on(Component.EVENTS.HIDE, this.hide.bind(this));
         this.registerEvents(eventBus);
     }
     registerEvents(eventBus) {
@@ -32,6 +36,12 @@ export class Component {
     }
     init() {
         this.eventBus().emit(Component.EVENTS.FLOW_CDM);
+    }
+    _reset() {
+        this.reset();
+    }
+    reset() {
+        // can be redefined in subclass
     }
     _componentDidMount() {
         this.componentDidMount();

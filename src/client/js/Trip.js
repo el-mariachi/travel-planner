@@ -5,6 +5,7 @@ import { getCountry } from './getCountry';
 import { getWeather } from './getWeather';
 import { getImage } from './getImage';
 import { Primitive } from './Primitive';
+import { Button } from './Button';
 import { TripHead } from './TripHead';
 import { WeatherReport } from './WeatherReport';
 
@@ -15,8 +16,8 @@ export class Trip extends Component {
         W_HSA: "/api/historical/average",
     };
     _base_class = 'trip';
-    _image = '';
-    _saved = false;
+    _image = null; // TODO ????
+    _saved = false; // TODO ????
     _completed = false;
 
     constructor(el, props) {
@@ -25,7 +26,6 @@ export class Trip extends Component {
     }
     registerEvents(eventBus) {
         eventBus.on(Trip.EVENTS.FLOW_DATA, this.dataReceived.bind(this)); // TODO set up fuctions chain
-        eventBus.on(Trip.EVENTS.RESET, this.reset.bind(this));
     }
     componentDidMount() {
         // get DOM refs
@@ -36,17 +36,27 @@ export class Trip extends Component {
         this.mode = new Primitive(this.el.querySelector('#mode'));
         this.weatherEl = this.el.querySelector('#weather');
         this.weather = new WeatherReport(this.weatherEl);
-        // set click hanler for units
-        this.el.querySelector('.units').addEventListener('click', this.unitSelector.bind(this));
+        this.closeBtn = new Button(this.el.querySelector('.trip--control-close'), { click: this.close.bind(this) });
+        this.saveBtn = new Button(this.el.querySelector('.trip--control-save'), { click: this.save.bind(this) });
+        this.removeBtn = new Button(this.el.querySelector('.trip--control-remove'), { click: this.remove.bind(this) });
+        // set click hanlers
+        this.el.querySelector('.units').addEventListener('click', this.unitSelectorHandler.bind(this));
     }
     componentDidUpdate() {
         // TODO set classes on elements depending on received data
+        // scheduled / completed
         if (this._completed) {
             this.el.classList.add('trip--status-completed');
             this.el.classList.remove('trip--status-scheduled');
         } else {
             this.el.classList.add('trip--status-scheduled');
             this.el.classList.remove('trip--status-completed');
+        }
+        // new or saved
+        if (this._saved) {
+            this.el.classList.add('trip--saved');
+        } else {
+            this.el.classList.remove('trip--saved');
         }
         // update head
         this.head.setProps(Object.assign({ countdown: this.countDown }, this.data));
@@ -116,10 +126,13 @@ export class Trip extends Component {
             this.mode.set('Usual weather');
             this._weatherRoute = Trip.ROUTES.W_HSA;
         }
+        // set other properties
+        this._saved = data.saved;
+        this._image = data.image
         // fire _component did update
         this.eventBus().emit(Trip.EVENTS.FLOW_CDU);
     }
-    unitSelector(event) {
+    unitSelectorHandler(event) {
         if (event.target.classList.contains('trip--selector-metric')) {
             this.el.classList.remove('trip--units-imperial');
         } else if (event.target.classList.contains('trip--selector-imperial')) {
@@ -128,11 +141,17 @@ export class Trip extends Component {
     }
     reset() {
         // clears old infos
-        console.log('reset');
+        this.el.classList.remove('trip--saved');
+        this._saved = false;
+        this._image = null;
+        this._completed = false;
     }
     render() {
-        // first emit event to form or have form listen to render/save/delete
-        // forcast or usual depending on from date
+        // hide form
+        if (Client) {
+            Client.form.eventBus().emit('hide');
+        }
+        // show trip
         this.show();
     }
     setImage(url) {
@@ -143,5 +162,19 @@ export class Trip extends Component {
             // show background from css
             delete this.el.querySelector('.trip__image').style.backgroundImage;
         }
+    }
+    save() {
+        this.data.saved = true;
+        Client.appStore.eventBus().emit('flow:new-data', Object.assign(this.data, { countryInfo: this.country.props }));
+        this.el.classList.add('trip--saved');
+    }
+    close() {
+        this.hide()
+        Client.form.eventBus().emit('reset');
+        this.reset()
+    }
+    remove() {
+        Client.appStore.eventBus().emit('delete', this.data.index);
+        this.close();
     }
 }
