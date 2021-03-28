@@ -62,6 +62,7 @@ export class Form extends Component {
         // clears saved location data
         this._destination = null;
         this.destination.value = '';
+        this.destination.classList.remove('locations__wait');
         this.from.value = '';
         this.to.value = '';
         this.show();
@@ -212,7 +213,31 @@ export class Form extends Component {
             // send event to appStore with data
             Client.trip.eventBus().emit('flow:new-data', dataToSend);
         } else {
-            alert('Could not create trip');
+            // -------------------- this is a fix of the issue raised by the reviewer -----------------
+            this.destination.classList.add('locations__wait');
+            // fetch location for entered name
+            const query = encodeURIComponent(this.destination.value);
+            getLocations(query, 1)
+                .then(response => {
+                    // if response.length > 0
+                    if (!Array.isArray(response) || response.length === 0) {
+                        return;
+                    }
+                    // save new data and submit 
+                    this._destination = Object.assign({}, response[0], {
+                        locationFullName: locationFullName(response[0])
+                    });
+                    const dataToSend = Object.assign(this._destination, {
+                        from: this.from.value,
+                        to: this.to.value,
+                        submitNo: this._submitNo++,
+                        saved: false
+                    })
+                    Client.trip.eventBus().emit('flow:new-data', dataToSend);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
     }
 }
