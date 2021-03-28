@@ -1,3 +1,6 @@
+#geonames id
 GEO_NAME=
+#weatherbit api key
 WEATHERBIT_KEY=
+#pixabay api key
 PIXABAY_KEY=
