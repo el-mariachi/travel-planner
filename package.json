@@ -8,7 +8,8 @@
     "dev": "webpack-dev-server --open --config webpack.dev.js",
     "lint": "eslint --ignore-path .gitignore .",
     "static": "webpack-dev-server --open --config webpack.static.js",
-    "test": "jest",
+    "test": "jest --watch",
+    "test:all": "jest",
     "start": "node src/server/server.js"
   },
   "repository": {

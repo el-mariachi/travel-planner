@@ -15,14 +15,23 @@ const fetchLocations = async (query, maxRows) => {
     } else {
         return [];
     }
-
 };
 // calls weatherbit API Weather Forecast 16 day / daily
 // returns forecast for <date>
+// weatherbit returns 404 with {error: "Invalid Parameters supplied."} for badly formatted request
+// rethrow it
 const fetchForecast = async (lat, lng, date) => {
     const base_url = 'http://api.weatherbit.io/v2.0/forecast/daily';
     const request_url = `${base_url}?lat=${lat}&lon=${lng}&key=${process.env.WEATHERBIT_KEY}`;
     const response = await fetch(request_url).then(res => res.json());
+    if (response.error) {
+        throw new Error(response.error)
+    }
+    if (!date) {
+        // if date is undefined, return 1st day
+        return response.data.map(({ clouds, pop, weather, precip, min_temp, max_temp }) => ({ clouds, pop, weather, precip, min_temp, max_temp }))[0];
+    }
+    // else return array with 1 day
     return response.data.filter(day => day.valid_date === date).map(({ clouds, pop, weather, precip, min_temp, max_temp }) => ({ clouds, pop, weather, precip, min_temp, max_temp }));
 
 };

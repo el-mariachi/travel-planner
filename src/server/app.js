@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 app.post('/api/locations', async (req, res) => {
     const { query, maxRows } = req.body;
     if (!(/^[\u00BF-\u1FFF\u2C00-\uD7FF\w,.'’ -]{2,}$/i.test(decodeURIComponent(query)))) {
-        res.sendStatus(400);
+        res.status(400).send('Not found');
         return;
     }
     try {
