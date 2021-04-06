@@ -5,7 +5,7 @@ describe('Testing EventBus', () => {
     const eventName = 'myEvent';
     const callbackFn = jest.fn();
     beforeEach(() => {
-        callbackFn.mockReset();
+        callbackFn.mockClear();
     });
     test('should init the this.listeners to {}', () => {
         expect(bus.listeners).toEqual({});

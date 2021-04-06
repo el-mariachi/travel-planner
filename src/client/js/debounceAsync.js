@@ -1,5 +1,5 @@
 // returns a debounced version of an async function
-export function debounceAsync(func, ms) {
+export function debounceAsync(func, ms = 500) {
     let timeout;
     return function () {
         clearTimeout(timeout);
