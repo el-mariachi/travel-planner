@@ -1,5 +1,33 @@
 import 'regenerator-runtime/runtime';
 import { getCountry } from '../src/client/js/getCountry';
+import fetch from 'node-fetch';
+
+jest.mock('node-fetch', () => jest.fn(request => {
+    const queryParts = request.split('/');
+    const query = queryParts[queryParts.length - 1];
+    if (!query || query === '' || query === 'undefined') {
+        return Promise.resolve({
+            json: () => ({ status: 400 })
+        });
+    } else if (query === 'cn' || query === 'CN') {
+        return Promise.resolve({
+            json: () => ({
+                name: 'China',
+                capital: 'Beijing',
+                currencies: [
+                    {
+                        name: "Chinese yuan",
+                    }
+                ],
+                languages: [
+                    {
+                        name: "Chinese",
+                    }
+                ]
+            })
+        });
+    }
+}));
 
 describe('Testing getCountry functionality', () => {
     test('getCountry should be defined', () => {
@@ -12,7 +40,9 @@ describe('Testing getCountry functionality', () => {
         const country = await getCountry('CN');
         const expected = {
             name: 'China',
-            capital: 'Beijing'
+            capital: 'Beijing',
+            currencies: [{ name: expect.any(String) }],
+            languages: [{ name: expect.any(String) }],
         };
         expect(country).toMatchObject(expected);
     });

@@ -21,11 +21,7 @@ jest.mock('../src/client/js/Primitive');
 jest.mock('../src/client/js/Trip');
 const clientMock = jest.fn();
 clientMock.trip = new Trip();
-// const eventBus = new EventBus();
-// clientMock.trip.eventBus = () => eventBus;
-// const mockReceiver = jest.fn();
-// clientMock.trip.eventBus().on('flow:new-data', mockReceiver);
-// clientMock.trip.dataReceived = jest.fn();
+
 beforeAll(() => {
     global.Client = clientMock;
 });
@@ -33,9 +29,7 @@ beforeEach(() => {
     Primitive.mockClear();
     mockDataReceived.mockClear();
 });
-// const mockedFragment = jest.fn(() => new DocumentFragment());
 jest.mock('../src/client/js/suggestionsFragment');
-// const mockedLocations = jest.fn(() => Array(4).fill('whatever'));
 const mockGetLocations = jest.fn();
 jest.mock('../src/client/js/getLocations');
 
