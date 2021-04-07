@@ -193,6 +193,7 @@ export class Form extends Component {
             this.fromError.clear();
         }
         // validate return date
+        // return date is optional, but if present, should be no less that departure
         if (this.to.value && new Date(this.to.value) < new Date(this.from.value)) {
             this.toError.set("Can't return before you leave");
             valid = false;
