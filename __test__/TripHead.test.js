@@ -5,8 +5,11 @@ import { TripHead } from "../src/client/js/TripHead";
 import Mustache from "mustache";
 import { tripHeadTemplate } from '../src/client/views/tripHead.tmpl';
 
-const mockRender = jest.fn();
-const mustacheSpy = jest.spyOn(Mustache, 'render');
+jest.mock('mustache', () => {
+    return {
+        render: jest.fn()
+    }
+});
 
 const headData = {
     countdown: 3,
@@ -25,7 +28,7 @@ describe('Testing TripHead functionality', () => {
     });
     it('should render template with correct data', () => {
         head.setProps(headData);
-        expect(mustacheSpy).toHaveBeenCalledWith(tripHeadTemplate, {
+        expect(Mustache.render).toHaveBeenCalledWith(tripHeadTemplate, {
             countdown: 3,
             name: 'London',
             from: '11/11/2000',
