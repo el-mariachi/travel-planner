@@ -117,11 +117,12 @@ export class Trip extends Component {
             // get hstorical
             this.mode.set('Recorded weather');
             this._weatherRoute = Trip.ROUTES.W_HS;
-        } else if (this.countDown === 0) {
-            this._completed = false;
-            // get forecast
-            this.mode.set('Weather forecast');
-            this._weatherRoute = Trip.ROUTES.W_FC;
+            //  // this branch seems to be redundant
+            // } else if (this.countDown === 0) {
+            //     this._completed = false;
+            //     // get forecast
+            //     this.mode.set('Weather forecast');
+            //     this._weatherRoute = Trip.ROUTES.W_FC;
         } else if (this.countDown < 16) {
             this._completed = false;
             // get forecast
