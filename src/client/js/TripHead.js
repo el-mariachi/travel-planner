@@ -12,6 +12,9 @@ export class TripHead extends Component {
         this.props = Object.assign({}, newProps);
         this.eventBus().emit(TripHead.EVENTS.FLOW_CDU);
     }
+    componentDidMount() {
+        return false;
+    }
     render() {
         if (Object.keys(this.props).length === 0) {
             return;

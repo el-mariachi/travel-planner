@@ -6,5 +6,6 @@ export class Button extends Component {
     }
     componentDidMount() {
         this.el.addEventListener('click', this.props.click);
+        return false;
     }
 }

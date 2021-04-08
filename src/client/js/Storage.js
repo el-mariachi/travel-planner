@@ -49,6 +49,8 @@ export class Storage extends Component {
         this.el.addEventListener('click', this.loadTrip.bind(this));
         // refresh countdowns using current date
         this._trips = this._trips.map(trip => this.countDown(trip));
+        // return true for render
+        return true;
     }
     componentDidUpdate() {
         this.saveTrips();

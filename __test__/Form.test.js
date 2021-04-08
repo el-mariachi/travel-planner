@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-// import 'regenerator-runtime/runtime';
 import { Form } from "../src/client/js/Form";
 import { Trip, mockDataReceived } from "../src/client/js/Trip";
 import { Primitive } from "../src/client/js/Primitive";

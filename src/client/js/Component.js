@@ -44,11 +44,14 @@ export class Component {
         // can be redefined in subclass
     }
     _componentDidMount() {
-        this.componentDidMount();
-        this.eventBus().emit(Component.EVENTS.FLOW_RENDER);
+        if (this.componentDidMount()) {
+            this.eventBus().emit(Component.EVENTS.FLOW_RENDER);
+        }
     }
     componentDidMount() {
         // can be redefined in subclasses
+        // return false to prevent initial render
+        return true;
     }
     _componentDidUpdate(oldProps, newProps) {
         if (this.componentDidUpdate(oldProps, newProps)) {

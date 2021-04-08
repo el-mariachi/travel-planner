@@ -48,7 +48,8 @@ module.exports = {
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: './src/client/views/index.html'
+            template: './src/client/views/index.html',
+            favicon: 'src/client/media/favicon.png'
         }),
         new MiniCssExtractPlugin(),
         new WorkboxPlugin.GenerateSW({

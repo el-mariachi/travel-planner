@@ -45,6 +45,8 @@ export class Trip extends Component {
         this.removeBtn = new Button(this.el.querySelector('.trip--control-remove'), { click: this.remove.bind(this) });
         // unit selector click hanler
         this.el.querySelector('.units').addEventListener('click', this.unitSelectorHandler.bind(this));
+        // don't render yet
+        return false;
     }
     componentDidUpdate() {
         // set classes on elements depending on received data
@@ -157,9 +159,7 @@ export class Trip extends Component {
     }
     render() {
         // hide form
-        if (Client) {
-            Client.form.eventBus().emit('hide');
-        }
+        Client.form.eventBus().emit('hide');
         // show trip
         this.show();
     }

@@ -17,9 +17,12 @@ export class WeatherReport extends Component {
     fahrenheit(celsius) {
         return (celsius * 9 / 5) + 32;
     }
+    componentDidMount() {
+        return false;
+    }
     render() {
         this.el.innerHTML = '';
-        if (Object.keys(this.props).length === 0) return;
+        // if (Object.keys(this.props).length === 0) return;
         if (this.props.error) {
             this.el.innerHTML = Mustache.render(weatherReportErrorTemplate, {
                 error: this.props.error

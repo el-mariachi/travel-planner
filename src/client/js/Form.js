@@ -57,6 +57,8 @@ export class Form extends Component {
         this.destination.addEventListener('keyup', this.predict.bind(this));
 
         this.destination.focus();
+        // initial render
+        return true;
     }
     reset() {
         // clears saved location data

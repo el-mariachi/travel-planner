@@ -38,10 +38,10 @@ module.exports = {
                 test: /\.(gif)$/i,
                 use: [{ loader: 'url-loader', options: { limit: 5000, mimeType: 'image/gif' } }]
             },
-            {
-                test: /\.ico$/i,
-                use: [{ loader: 'file-loader' }]
-            },
+            // {
+            //     test: /\.ico$/i,
+            //     use: [{ loader: 'file-loader' }]
+            // },
             {
                 test: /\.scss$/i,
                 use: ['style-loader', 'css-loader', 'sass-loader']
@@ -55,7 +55,8 @@ module.exports = {
     plugins: [
         new HTMLWebpackPlugin({
             template: './src/client/views/index.html',
-            chunks: ['index']
+            chunks: ['index'],
+            favicon: 'src/client/media/favicon.png'
         }),
         new HTMLWebpackPlugin({
             template: './src/static/form.html',
