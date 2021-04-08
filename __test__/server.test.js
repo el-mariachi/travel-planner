@@ -3,17 +3,14 @@ const request = require('supertest');
 const { app } = require('../src/server/app');
 const serverFunctions = require('../src/server/serverFuncs');
 
-describe('Test root path', () => {
-    test('If the project is built correctly for production it shoud respond to GET method. Using async/await', async () => {
-        const response = await request(app).get('/');
-        expect(response.statusCode).toEqual(200);
-    });
-    test('It should return the index.html file in response.text', async () => {
-        const response = await request(app).get('/');
-        expect(response.text).toBeDefined();
-        expect(response.text).toMatch(/^<!DOCTYPE html>/i);
-    });
-});
+// describe('Test root path', () => {
+
+//     test('It should return the index.html file in response.text', async () => {
+//         const response = await request(app).get('/');
+//         expect(response.text).toBeDefined();
+//         expect(response.text).toMatch(/^<!DOCTYPE html>/i);
+//     });
+// });
 
 describe('Test json middleware', () => {
     test('It should return correctly formatted JSON', async () => {
