@@ -1,6 +1,6 @@
 import { postToBackend } from './postToBackend';
 
-const getImage = (name, country, submitNo) => {
+const getImage = (name: string, country: string, submitNo: number): Promise<{[k: string]: any}> => {
     const endpoint = '/api/pix'
     return new Promise((res, rej) => {
         postToBackend(endpoint, { name, country, submitNo })

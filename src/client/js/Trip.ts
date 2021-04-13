@@ -1,7 +1,7 @@
 // class to handle weater, image and country fetching
 // and displaying/saving/removing trips
 
-import { Component } from './Component';
+import { Component, IProps } from './Component';
 import { CountryInfo } from './CountryInfo';
 import { daysDiff } from './daysDiff';
 import { getCountry } from './getCountry';
@@ -18,12 +18,27 @@ export class Trip extends Component {
         W_HS: "/api/historical",
         W_HSA: "/api/historical/average",
     };
+    private country;
+    private countryEl;
+    private head;
+    private headEl;
+    private mode;
+    private weather;
+    private weatherEl;
+    private saveBtn;
+    private closeBtn;
+    private removeBtn;
+    private countDown;
+    private data;
+    private _weatherRoute: string;
+    private today: Date;
+
     _base_class = 'trip';
     _image = null;
     _saved = false;
     _completed = false;
 
-    constructor(el, props) {
+    constructor(public el: HTMLElement, props: IProps = {}) {
         super(el, props);
     }
     registerEvents(eventBus) {
@@ -167,10 +182,10 @@ export class Trip extends Component {
     setImage(url) {
         if (url) {
             // show image
-            this.el.querySelector('.trip__image').style.backgroundImage = `url(${url})`;
+            this.el.querySelector('.trip__image').setAttribute('style', `background-image: url(${url})`);
         } else {
             // show background from css
-            this.el.querySelector('.trip__image').style.backgroundImage = '';
+            this.el.querySelector('.trip__image').removeAttribute('style');
         }
     }
     save() {

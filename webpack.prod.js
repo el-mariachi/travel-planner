@@ -5,7 +5,7 @@ const CSSMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
-    entry: './src/client/index.js',
+    entry: './src/client/index.ts',
     output: {
         libraryTarget: 'var',
         library: 'Client'
@@ -15,8 +15,15 @@ module.exports = {
         minimize: true,
         minimizer: [new TerserPlugin(), new CSSMinimizerPlugin()]
     },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.jsx']
+    },
     module: {
         rules: [
+            {
+                test: /\.tsx?$/,
+                loader: 'awesome-typescript-loader'
+            },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -52,8 +59,8 @@ module.exports = {
             favicon: 'src/client/media/favicon.png'
         }),
         new MiniCssExtractPlugin(),
-        new WorkboxPlugin.GenerateSW({
-            exclude: [/\.(?:jpe?g|png)$/]
-        })
+        // new WorkboxPlugin.GenerateSW({
+        //     exclude: [/\.(?:jpe?g|png)$/]
+        // })
     ]
 };

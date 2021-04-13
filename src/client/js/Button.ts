@@ -1,7 +1,7 @@
-import { Component } from './Component';
+import { Component, IProps } from './Component';
 // used for buttons in the Trip class
 export class Button extends Component {
-    constructor(el, props) {
+    constructor(public el: HTMLElement, public props: IProps) {
         super(el, props);
     }
     componentDidMount() {

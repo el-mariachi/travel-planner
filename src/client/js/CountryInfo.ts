@@ -1,12 +1,12 @@
 // the part of the Trip that displays the additional country info
 
-import { Component } from './Component';
+import { Component, IProps } from './Component';
 import Mustache from 'mustache';
 import { countryInfoTemplate } from '../views/countryInfo.tmpl';
 import { countryErrorTemplate } from '../views/countryError.tmpl';
 
 export class CountryInfo extends Component {
-    constructor(el, props = { error: "No info" }) {
+    constructor(public el: HTMLElement, public props: IProps = { error: "No info" }) {
         super(el, props);
     }
     setProps(newProps) {

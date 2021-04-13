@@ -1,11 +1,11 @@
 // renders trip head upon receiving props with setProps
 
-import { Component } from './Component';
+import { Component, IProps } from './Component';
 import Mustache from 'mustache';
 import { tripHeadTemplate } from '../views/tripHead.tmpl';
 
 export class TripHead extends Component {
-    constructor(el, props = {}) {
+    constructor(public el: HTMLElement, public props: IProps = {}) {
         super(el, props);
     }
     setProps(newProps) {

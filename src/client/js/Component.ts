@@ -1,5 +1,9 @@
 import { EventBus } from './event-bus';
 
+export interface IProps {
+    [k: string]: any;
+}
+
 export class Component {
     // these are events for all subclasses
     static EVENTS = {
@@ -14,10 +18,12 @@ export class Component {
         DELETE: "delete",
         USER_SUBMIT: "user:submit"
     }
-    constructor(el, props = {}) {
-        this.el = el;
-        this.props = props;
-        const eventBus = new EventBus;
+    protected eventBus;
+    protected _base_class;
+    constructor(public el: HTMLElement, public props: IProps = {}) {
+        // this.el = el;
+        // this.props = props;
+        const eventBus = new EventBus();
         this.eventBus = () => eventBus;
         this._registerEvents(eventBus);
         eventBus.emit(Component.EVENTS.INIT);

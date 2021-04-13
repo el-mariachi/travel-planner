@@ -2,16 +2,18 @@
 // trips data is serialized and saved to localstorage 
 // under the key supplied to the constructor
 
-import { Component } from './Component';
+import { Component, IProps } from './Component';
 import Mustache from 'mustache';
 const md5 = require('md5');
 import { daysDiff } from './daysDiff';
 import { tripsTemplate } from '../views/trips.tmpl';
 export class Storage extends Component {
 
+    private _trips: any[];
+    private today: Date;
     _current = {};
 
-    constructor(el, props) {
+    constructor(public el: HTMLElement, public props: IProps) {
         super(el, props);
         // this.props.key is the the key for localstorage
     }

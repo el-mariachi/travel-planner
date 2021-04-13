@@ -6,7 +6,7 @@ import { Trip } from './js/Trip';
 
 const localSorageKey = 'travel!@#$planner%^&*';
 const appStore = new Storage(document.querySelector('.trips'), { key: localSorageKey });
-const form = new Form(document.forms.newtrip);
+const form = new Form(document.forms['newtrip']);
 const trip = new Trip(document.querySelector('.trip'));
 
 export {

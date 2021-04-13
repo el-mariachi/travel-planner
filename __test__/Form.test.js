@@ -2,7 +2,9 @@
  * @jest-environment jsdom
  */
 import { Form } from "../src/client/js/Form";
-import { Trip, mockDataReceived } from "../src/client/js/Trip";
+// @ts-ignore
+import { Trip } from "../src/client/js/Trip";
+import { mockDataReceived } from "../src/client/js/__mocks__/Trip";
 import { Primitive } from "../src/client/js/Primitive";
 import { EventBus } from "../src/client/js/event-bus";
 import { dateString } from "../src/client/js/dateString";
@@ -55,12 +57,14 @@ describe('Testing Form class functionality', () => {
     div.appendChild(locations);
     const today = new Date();
     const todayString = dateString(today);
-    const yesterday = new Date(today - (1000 * 60 * 60 * 24));
+    const yesterday = new Date(+today - (1000 * 60 * 60 * 24));
     const yesterdayString = dateString(yesterday);
     const form = new Form(div);
     it('should run prediction', (done) => {
         destination.value = 'London';
-        form.predict();
+        // form.predict();
+        const keyUp = new Event('keyup');
+        destination.dispatchEvent(keyUp);
         try {
             setTimeout(() => {
                 expect(locations.classList.contains('locations--visible')).toBeTruthy();

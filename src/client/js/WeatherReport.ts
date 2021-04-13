@@ -1,13 +1,13 @@
 // renders weather report head upon receiving props with setProps
 
 
-import { Component } from './Component';
+import { Component, IProps } from './Component';
 import Mustache from 'mustache';
 import { weatherReportTemplate } from '../views/weatherReport.tmpl';
 import { weatherReportErrorTemplate } from '../views/weatherReportError.tmpl';
 
 export class WeatherReport extends Component {
-    constructor(el, props) {
+    constructor(public el: HTMLElement, public props: IProps = {}) {
         super(el, props);
     }
     setProps(newProps) {

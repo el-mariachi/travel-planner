@@ -1,5 +1,6 @@
 // used to register and dispatch events between app components
 export class EventBus {
+    public listeners;
     constructor() {
         this.listeners = {};
     }

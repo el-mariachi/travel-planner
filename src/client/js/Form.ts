@@ -14,8 +14,22 @@ import { debounceAsync } from './debounceAsync';
 // in order not to make too many expensive network requests
 const debouncedLocation = debounceAsync(getLocations, 500);
 
+interface IMyFormElement extends HTMLFormElement {
+    elements: HTMLFormControlsCollection;
+}
+
 
 export class Form extends Component {
+
+    private destRegEx: RegExp;
+    public destination;
+    public destinationError;
+    public from;
+    public fromError;
+    public to;
+    public toError;
+    public locations;
+    public list;
 
     _base_class = 'newtrip';
     _destination = null;
@@ -23,7 +37,7 @@ export class Form extends Component {
     _toDate = null;
     _submitNo = 0;
 
-    constructor(el) {
+    constructor(public el: IMyFormElement) {
         super(el);
         // this.today = new Date();
         this.destRegEx = /^[\u00BF-\u1FFF\u2C00-\uD7FF\w,.'’ -]{2,}$/i;
@@ -33,11 +47,11 @@ export class Form extends Component {
     }
     componentDidMount() {
         // set up DOM elements
-        this.destination = this.el.elements.destination;
+        this.destination = this.el.elements['destination'];
         this.destinationError = new Primitive(this.el.querySelector('#destination_error'));
-        this.from = this.el.elements.from;
+        this.from = this.el.elements['from'];
         this.fromError = new Primitive(this.el.querySelector('#from_error'));
-        this.to = this.el.elements.to;
+        this.to = this.el.elements['to'];
         this.toError = new Primitive(this.el.querySelector('#to_error'));
         this.locations = this.el.querySelector('.locations');
         this.list = this.el.querySelector('.locations__inner');
@@ -146,7 +160,7 @@ export class Form extends Component {
     }
     predict() {
         // displays search results list
-        // validate value
+        // validate value        
         if (!this.destRegEx.test(this.destination.value)) {
             return;
         }
@@ -176,7 +190,7 @@ export class Form extends Component {
     validate() {
         const today = new Date();
         // for comparisons to work correctly we need to reference midnight yesterday
-        const yesterday = new Date(today - (1000 * 60 * 60 * 24));
+        const yesterday = new Date(+today - (1000 * 60 * 60 * 24));
         yesterday.setHours(23);
         yesterday.setMinutes(59);
         let valid = true;
