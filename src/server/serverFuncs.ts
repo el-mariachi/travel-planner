@@ -1,5 +1,5 @@
-const dateString = require('./dateString');
-const fetch = require('node-fetch');
+import { dateString } from "./dateString";
+import fetch from 'node-fetch';
 
 /*--------------------API CALLS----------------------*/
 
@@ -55,10 +55,10 @@ const fetchHistoricalAvg = async (lat, lng, date) => {
     // using Promise.allSettled so that even if some requests fail, we still get our weather
     // another way is to use Promise.all and to only return data if all 5 requests were successful
     const average = await Promise.allSettled(Array(5).fill('').map(() => dateString(new Date(baseDate.setFullYear(--thisYear))))
-        .map(date => fetchHistorical(lat, lng, date)))
-        .then(results => results
-            .filter(result => result.status === 'fulfilled')
-            .flatMap(result => result.value)
+        .map((date: string): Promise<{[k: string]: any}> => fetchHistorical(lat, lng, date)))
+        .then((results) => results
+            .filter((result) => result.status === 'fulfilled')
+            .flatMap((result) => (result as PromiseFulfilledResult<{[k: string]: any}>).value)
             .reduce((acc, day, i, arr) => {
                 return {
                     clouds: acc.clouds + day.clouds / arr.length,
@@ -94,7 +94,7 @@ const fetchPix = async (name, country) => {
     return response.hits[0].webformatURL;
 };
 
-module.exports = {
+export {
     fetchLocations,
     fetchForecast,
     fetchHistorical,

@@ -1,4 +1,4 @@
-const dateString = date => {
+export const dateString = date => {
     if (!(date instanceof Date)) {
         return date;
     }
@@ -8,5 +8,3 @@ const dateString = date => {
 
     // return `${date.getFullYear()}-${month}-${day}`;
 };
-
-module.exports = dateString;

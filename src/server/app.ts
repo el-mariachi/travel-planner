@@ -2,9 +2,9 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
-const mockAPIjsonResponse = require('./mockAPI');
-const { fetchLocations, fetchForecast, fetchHistorical, fetchHistoricalAvg, fetchPix } = require('./serverFuncs');
-const app = express();
+import { jsonMock } from "./mockAPI";
+import { fetchLocations, fetchForecast, fetchHistorical, fetchHistoricalAvg, fetchPix } from "./serverFuncs";
+export const app = express();
 
 // set up middleware. bodyparser is not needed since express > 4.16
 app.use(express.json());
@@ -96,7 +96,5 @@ app.post('/api/pix', async (req, res) => {
 
 // test json response with mock
 app.get('/test/json', (req, res) => {
-    res.send(mockAPIjsonResponse);
+    res.send(jsonMock);
 });
-
-module.exports = { app, fetchLocations };
