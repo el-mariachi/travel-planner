@@ -7,6 +7,7 @@ const mockConsole = jest.fn();
 beforeAll(() => {
     global.alert = mockAlert;
     global.console = {
+        ...console,
         error: mockConsole
     };
 });
@@ -14,8 +15,9 @@ beforeAll(() => {
 const sampleData = {
     url: 'image url',
     submitNo: 1
-}
-postToBackend.mockImplementation((endpoint, request) => {
+};
+
+(postToBackend as unknown as jest.Mock).mockImplementation((endpoint, request) => {
     const { name, submitNo } = request;
     if (!name) {
         return Promise.reject('error')
@@ -33,6 +35,7 @@ describe('Testing getImage functionality', () => {
         });
     });
     it('should throw with no input', () => {
+        // @ts-ignore
         return expect(getImage()).rejects.toMatch('error');
     });
 });

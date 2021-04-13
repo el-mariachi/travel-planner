@@ -1,7 +1,7 @@
 import { locationFullName } from './locationFullName';
 
 // returns a document fragment to be inserted as search results
-const suggestionsFragment = data => {
+const suggestionsFragment = (data: {[k: string]: string | number}[]): DocumentFragment => {
     const fragment = new DocumentFragment();
     fragment.append(...data.map(geoname => {
         // only take these properties form input object

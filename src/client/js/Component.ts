@@ -18,7 +18,7 @@ export class Component {
         DELETE: "delete",
         USER_SUBMIT: "user:submit"
     }
-    protected eventBus;
+    public eventBus;
     protected _base_class;
     constructor(public el: HTMLElement, public props: IProps = {}) {
         // this.el = el;

@@ -7,6 +7,7 @@ const mockConsole = jest.fn();
 beforeAll(() => {
     global.alert = mockAlert;
     global.console = {
+        ...console,
         error: mockConsole
     };
 });
@@ -14,7 +15,7 @@ const maxRows = 10;
 const cityName = 'London';
 const sampleData = Array(maxRows).fill({ name: cityName });
 
-postToBackend.mockImplementation((endpoint, request) => {
+(postToBackend as unknown as jest.Mock).mockImplementation((endpoint, request) => {
     const { query, maxRows } = request;
     if (!query) {
         return Promise.reject('error')
@@ -29,6 +30,7 @@ describe('Testing getImage functionality', () => {
         });
     });
     it('should throw with no input', () => {
+        // @ts-ignore
         return expect(getLocations()).rejects.toMatch('error');
     });
 });

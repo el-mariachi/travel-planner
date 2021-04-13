@@ -1,7 +1,9 @@
 /**
  * @jest-environment jsdom
  */
+import { ClientLib } from "./ClientLib";
 import { Storage } from "../src/client/js/Storage";
+// @ts-ignore
 import { Trip, mockSetIndex, mockDataReceived } from "../src/client/js/Trip";
 import { tripsTemplate } from "../src/client/views/trips.tmpl";
 import { Mustache } from "mustache";
@@ -12,8 +14,8 @@ jest.mock('mustache', () => {
     }
 });
 jest.mock('../src/client/js/Trip');
-const clientMock = jest.fn();
-clientMock.trip = new Trip();
+const clientMock: ClientLib = jest.fn();
+clientMock.trip = new Trip(document.createElement('div'));
 
 beforeAll(() => {
     global.Client = clientMock;
@@ -66,7 +68,7 @@ const trip = {
 
 describe('Testing the Storage class', () => {
     const div = document.createElement('div');
-    const storage = new Storage(div, 'localStorageKey')
+    const storage = new Storage(div, {key: 'localStorageKey'})
     it('should render', () => {
         expect(renderSpy).toHaveBeenCalledTimes(1);
         renderSpy.mockRestore();
@@ -77,12 +79,14 @@ describe('Testing the Storage class', () => {
         saveSpy.mockRestore();
     });
     it('should delete by index', () => {
+        // @ts-ignore
         storage._trips = [{ a: 1 }, { a: 2 }, { a: 3 }];
         storage.delete(1);
+        // @ts-ignore
         expect(storage._trips).toEqual([{ a: 1, index: 0 }, { a: 3, index: 1 }]);
     });
     it('should load from localStorage if it is modified outside', () => {
-        loadSpy.mockClear();
+        // loadSpy.mockClear();
         const storageEvent = new Event('storage');
         window.dispatchEvent(storageEvent);
         expect(loadSpy).toHaveBeenCalledTimes(1);

@@ -7,6 +7,7 @@ export const mockDataReceived = jest.fn();
 export const mockSetIndex = jest.fn();
 
 export class Trip {
+    protected eventBus;
     constructor() {
         const eventBus = new EventBus;
         this.eventBus = () => eventBus;

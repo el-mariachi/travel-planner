@@ -1,15 +1,15 @@
 /**
  * @jest-environment jsdom
  */
+import { ClientLib } from "./ClientLib";
 import { Form } from "../src/client/js/Form";
 // @ts-ignore
-import { Trip } from "../src/client/js/Trip";
-import { mockDataReceived } from "../src/client/js/__mocks__/Trip";
+import { Trip, mockDataReceived } from "../src/client/js/Trip";
 import { Primitive } from "../src/client/js/Primitive";
-import { EventBus } from "../src/client/js/event-bus";
+// import { EventBus } from "../src/client/js/event-bus";
 import { dateString } from "../src/client/js/dateString";
-import { suggestionsFragment } from "../src/client/js/suggestionsFragment";
-import { getLocations } from "../src/client/js/getLocations";
+// import { suggestionsFragment } from "../src/client/js/suggestionsFragment";
+// import { getLocations } from "../src/client/js/getLocations";
 import { locationFullName } from "../src/client/js/locationFullName";
 
 const stdLocation = {
@@ -20,14 +20,14 @@ const stdLocation = {
 
 jest.mock('../src/client/js/Primitive');
 jest.mock('../src/client/js/Trip');
-const clientMock = jest.fn();
-clientMock.trip = new Trip();
+const clientMock: ClientLib = jest.fn();
+clientMock.trip = new Trip(document.createElement('div'));
 
 beforeAll(() => {
     global.Client = clientMock;
 });
 beforeEach(() => {
-    Primitive.mockClear();
+    (Primitive as unknown as jest.Mock).mockClear();
     mockDataReceived.mockClear();
 });
 jest.mock('../src/client/js/suggestionsFragment');
@@ -50,7 +50,7 @@ describe('Testing Form class functionality', () => {
     div.appendChild(from);
     div.appendChild(to);
     const list = document.createElement('ul');
-    list.classList = 'locations__inner';
+    list.className = 'locations__inner';
     div.appendChild(list);
     const locations = document.createElement('div');
     locations.className = 'locations';

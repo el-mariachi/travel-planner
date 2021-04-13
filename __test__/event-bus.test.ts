@@ -27,10 +27,12 @@ describe('Testing EventBus', () => {
     });
     test('should throw when asked to remove a nonexisting event', () => {
         expect(() => {
+            // @ts-ignore
             bus.off('nonExisting');
         }).toThrow();
     });
     test('should not remove listeners if not passed as a second argument', () => {
+        // @ts-ignore
         bus.off(eventName);
         bus.emit(eventName);
         expect(callbackFn).toHaveBeenCalledTimes(1);

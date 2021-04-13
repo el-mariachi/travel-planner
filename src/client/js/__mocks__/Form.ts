@@ -7,6 +7,7 @@ export const mockHide = jest.fn();
 export const mockReset = jest.fn();
 
 export class Form {
+    protected eventBus;
     constructor() {
         const eventBus = new EventBus;
         this.eventBus = () => eventBus;

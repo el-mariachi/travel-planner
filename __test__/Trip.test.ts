@@ -2,8 +2,12 @@
  * @jest-environment jsdom
  */
 // import 'regenerator-runtime/runtime';
+
+import { ClientLib } from "./ClientLib";
 import { Trip } from "../src/client/js/Trip";
+// @ts-ignore
 import { Storage, mockSave, mockDelete } from "../src/client/js/Storage";
+// @ts-ignore
 import { Form, mockHide, mockReset } from "../src/client/js/Form";
 // import { Primitive } from "../src/client/js/Primitive";
 import { CountryInfo } from '../src/client/js/CountryInfo';
@@ -15,7 +19,7 @@ import { getCountry } from '../src/client/js/getCountry';
 import { getWeather } from '../src/client/js/getWeather';
 import { getImage } from '../src/client/js/getImage';
 // import { Button } from '../src/client/js/Button';
-import { EventBus } from "../src/client/js/event-bus";
+// import { EventBus } from "../src/client/js/event-bus";
 
 // jest.mock('../src/client/js/Primitive');
 const mockCountryInfo = jest.fn((props) => { });
@@ -46,9 +50,9 @@ jest.mock('../src/client/js/getCountry');
 jest.mock('../src/client/js/getWeather');
 jest.mock('../src/client/js/getImage');
 
-const mockClient = jest.fn();
-mockClient.form = new Form();
-mockClient.appStore = new Storage();
+const mockClient: ClientLib = jest.fn();
+mockClient.form = new Form(document.createElement('form'));
+mockClient.appStore = new Storage(document.createElement('div'), {key: 'key'});
 
 beforeAll(() => {
     global.Client = mockClient;
@@ -58,7 +62,7 @@ beforeEach(() => {
     // Primitive.mockClear();
     // WeatherReport.mockClear();
     // mockWeatherReport.mockClear();
-    getWeather.mockClear();
+    (getWeather as unknown as jest.Mock).mockClear();
 });
 
 const formData = {
@@ -144,7 +148,7 @@ describe('Testing Tip functionality', () => {
     });
     it('should display error if getWeather fails', (done) => {
         mockWeatherReport.mockClear();
-        getWeather.mockImplementation(() => {
+        (getWeather as unknown as jest.Mock).mockImplementation(() => {
             return Promise.reject({ message: 'Weather error' });
         });
         trip.eventBus().emit('flow:new-data', formData);
@@ -155,7 +159,7 @@ describe('Testing Tip functionality', () => {
     });
     it('should display error if getCountry fails', (done) => {
         mockCountryInfo.mockClear();
-        getCountry.mockImplementation(() => {
+        (getCountry as unknown as jest.Mock).mockImplementation(() => {
             return Promise.reject();
         });
         trip.eventBus().emit('flow:new-data', formData);

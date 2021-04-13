@@ -17,6 +17,7 @@ describe('Testing the Component base class functionality', () => {
     });
     it('should show and hide itself by toggling a className on the container element', () => {
         const newComponent = new Component(div);
+        // @ts-ignore
         newComponent._base_class = 'base';
         newComponent.hide();
         expect(newComponent.el.className).toMatch('base--hidden');
