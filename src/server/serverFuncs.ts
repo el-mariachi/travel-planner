@@ -1,10 +1,24 @@
 import { dateString } from "./dateString";
 import fetch from 'node-fetch';
 
+export interface ILocation {
+    lat: number;
+    lng: number;
+    geonameId: number;
+    name: string;
+    adminName1: string;
+    countryName: string;
+}
+interface IWeather {
+    [k: string]: number | string | WeatherItem;
+}
+type WeatherItem = {
+    [k: string]: number | string;
+}
 /*--------------------API CALLS----------------------*/
 
 // calls Geonames API, returns an array of found locations or an empty array
-const fetchLocations = async (query, maxRows) => {
+const fetchLocations = async (query: string, maxRows: number): Promise<ILocation[]> => {
     const base_url = 'http://api.geonames.org/searchJSON';
     const searchParams = `featureClass=P&maxRows=${maxRows}`;
     const request_url = `${base_url}?name_startsWith=${query}&${searchParams}&username=${process.env.GEO_NAME}`;
@@ -20,7 +34,7 @@ const fetchLocations = async (query, maxRows) => {
 // returns forecast for <date>
 // weatherbit returns 404 with {error: "Invalid Parameters supplied."} for badly formatted request
 // rethrow it
-const fetchForecast = async (lat, lng, date) => {
+const fetchForecast = async (lat: number, lng: number, date: string): Promise<IWeather[]> => {
     const base_url = 'http://api.weatherbit.io/v2.0/forecast/daily';
     const request_url = `${base_url}?lat=${lat}&lon=${lng}&key=${process.env.WEATHERBIT_KEY}`;
     const response = await fetch(request_url).then(res => res.json());
@@ -29,26 +43,26 @@ const fetchForecast = async (lat, lng, date) => {
     }
     if (!date) {
         // if date is undefined, return 1st day
-        return response.data.map(({ clouds, pop, weather, precip, min_temp, max_temp }) => ({ clouds, pop, weather, precip, min_temp, max_temp }))[0];
+        return response.data.map(({ clouds, pop, weather, precip, min_temp, max_temp }: IWeather): IWeather => ({ clouds, pop, weather, precip, min_temp, max_temp }))[0];
     }
     // else return array with 1 day
-    return response.data.filter(day => day.valid_date === date).map(({ clouds, pop, weather, precip, min_temp, max_temp }) => ({ clouds, pop, weather, precip, min_temp, max_temp }));
+    return response.data.filter((day: IWeather) => day.valid_date === date).map(({ clouds, pop, weather, precip, min_temp, max_temp }: IWeather): IWeather => ({ clouds, pop, weather, precip, min_temp, max_temp }));
 
 };
 // calls weatherbit API Historical Weather daily
 // returns forecast for <date> (Promise)
-const fetchHistorical = (lat, lng, date) => {
+const fetchHistorical = (lat: number, lng: number, date: string): Promise<IWeather> => {
     const base_url = 'http://api.weatherbit.io/v2.0/history/daily';
     const next_day = new Date(date);
     next_day.setDate(next_day.getDate() + 1);
     const end_date = dateString(next_day);
     const request_url = `${base_url}?lat=${lat}&lon=${lng}&start_date=${date}&end_date=${end_date}&key=${process.env.WEATHERBIT_KEY}`;
     return fetch(request_url).then(res => res.json())
-        .then(({ data }) => data.map(({ clouds, precip, min_temp, max_temp }) => ({ clouds, precip, min_temp, max_temp })));
+        .then(({ data }) => data.map(({ clouds, precip, min_temp, max_temp }: IWeather): IWeather => ({ clouds, precip, min_temp, max_temp })));
 };
 
 // calls fetchHistorical to calculate average values over 5 years (max allowed by API)
-const fetchHistoricalAvg = async (lat, lng, date) => {
+const fetchHistoricalAvg = async (lat: number, lng: number, date: string): Promise<IWeather> => {
     const baseDate = new Date(date);
     let thisYear = new Date().getFullYear();
     const initialValue = { clouds: 0, precip: 0, min_temp: 0, max_temp: 0 };
@@ -78,7 +92,7 @@ const fetchHistoricalAvg = async (lat, lng, date) => {
 // calls pixabay API
 // returns image for location 
 // Pull in an image for the country from Pixabay API when the entered location brings up no results
-const fetchPix = async (name, country) => {
+const fetchPix = async (name: string, country: string): Promise<string> => {
     const base_url = 'https://pixabay.com/api/';
     const safeName = encodeURIComponent(name);
     let request_url = `${base_url}?image_type=photo&q=${safeName}&key=${process.env.PIXABAY_KEY}`;
