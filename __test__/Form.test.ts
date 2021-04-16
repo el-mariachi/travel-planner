@@ -2,21 +2,29 @@
  * @jest-environment jsdom
  */
 import { ClientLib } from "./ClientLib";
-import { Form } from "../src/client/js/Form";
+import { Form, IMyFormElement } from "../src/client/js/Form";
 // @ts-ignore
 import { Trip, mockDataReceived } from "../src/client/js/Trip";
 import { Primitive } from "../src/client/js/Primitive";
-// import { EventBus } from "../src/client/js/event-bus";
 import { dateString } from "../src/client/js/dateString";
-// import { suggestionsFragment } from "../src/client/js/suggestionsFragment";
-// import { getLocations } from "../src/client/js/getLocations";
 import { locationFullName } from "../src/client/js/locationFullName";
 
 const stdLocation = {
     name: 'London',
     countryName: 'United Kingdom',
-    adminName1: 'England'
+    adminName1: 'England',
+    lat: 12,
+    lng: 15,
+    geonameId: 12345,
+    countryCode: 'GB'
 };
+declare global {
+    namespace NodeJS {
+        interface Global {
+            Client: ClientLib;
+        }
+    }
+}
 
 jest.mock('../src/client/js/Primitive');
 jest.mock('../src/client/js/Trip');
@@ -59,7 +67,7 @@ describe('Testing Form class functionality', () => {
     const todayString = dateString(today);
     const yesterday = new Date(+today - (1000 * 60 * 60 * 24));
     const yesterdayString = dateString(yesterday);
-    const form = new Form(div);
+    const form = new Form(div as IMyFormElement);
     it('should run prediction', (done) => {
         destination.value = 'London';
         // form.predict();
@@ -107,13 +115,16 @@ describe('Testing Form class functionality', () => {
         const location = document.createElement('li');
         location.className = 'locations__item';
         location.textContent = locationFullName(stdLocation);
-        Object.keys(stdLocation).forEach(key => {
-            location.dataset[key] = stdLocation[key];
+        Object.keys(stdLocation).forEach((key) => {
+            location.dataset[key] = String(stdLocation[key as keyof typeof stdLocation]);
         });
         div.appendChild(location);
         const expected = {
             ...stdLocation,
-            locationFullName: locationFullName(stdLocation)
+            locationFullName: locationFullName(stdLocation),
+            lat: String(stdLocation.lat),
+            lng: String(stdLocation.lng),
+            geonameId: String(stdLocation.geonameId)
         }
         const click = new Event('click', { bubbles: true });
         location.dispatchEvent(click);
@@ -135,7 +146,7 @@ describe('Testing Form class functionality', () => {
         expect(mockDataReceived).toHaveBeenCalledWith(submitData);
     });
     it('should submit plan B', (done) => {
-        form._destination = false;
+        form._destination = undefined;
         destination.value = locationFullName(stdLocation);
         const submitEvent = new Event('submit');
         div.dispatchEvent(submitEvent);

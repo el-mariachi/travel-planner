@@ -2,7 +2,8 @@
 
 import { Component } from './Component';
 import { Primitive } from './Primitive';
-
+import { EventBus } from "./event-bus";
+import { ILocation } from "./types";
 import { dateString } from './dateString';
 import { locationFullName } from './locationFullName';
 
@@ -14,27 +15,31 @@ import { debounceAsync } from './debounceAsync';
 // in order not to make too many expensive network requests
 const debouncedLocation = debounceAsync(getLocations, 500);
 
-interface IMyFormElement extends HTMLFormElement {
-    elements: HTMLFormControlsCollection;
+interface IFormElement extends HTMLFormControlsCollection {
+    destination: HTMLInputElement;
+    from: HTMLInputElement;
+    to: HTMLInputElement;
 }
-
+export interface IMyFormElement extends HTMLFormElement {
+    elements: IFormElement;
+}
 
 export class Form extends Component {
 
     private destRegEx: RegExp;
-    public destination;
-    public destinationError;
-    public from;
-    public fromError;
-    public to;
-    public toError;
-    public locations;
-    public list;
+    public destination: HTMLInputElement;
+    public destinationError: Primitive;
+    public from: HTMLInputElement;
+    public fromError: Primitive;
+    public to: HTMLInputElement;
+    public toError: Primitive;
+    public locations: HTMLDivElement;
+    public list: HTMLUListElement;
 
     _base_class = 'newtrip';
-    _destination = null;
-    _fromDate = null;
-    _toDate = null;
+    _destination: ILocation = null;
+    _fromDate: string = null;
+    _toDate: string = null;
     _submitNo = 0;
 
     constructor(public el: IMyFormElement) {
@@ -42,7 +47,7 @@ export class Form extends Component {
         // this.today = new Date();
         this.destRegEx = /^[\u00BF-\u1FFF\u2C00-\uD7FF\w,.'’ -]{2,}$/i;
     }
-    registerEvents(eventBus) {
+    registerEvents(eventBus: EventBus) {
         eventBus.on(Form.EVENTS.USER_SUBMIT, this.submit.bind(this));
     }
     componentDidMount() {
@@ -83,7 +88,7 @@ export class Form extends Component {
         this.to.value = '';
         this.show();
     }
-    formSubmitted(event) {
+    formSubmitted(event: Event) {
         // stay on this page
         event.preventDefault();
         // validate form values as much as we can
@@ -138,18 +143,18 @@ export class Form extends Component {
         this.to.value = this._fromDate;
         this.to.setAttribute('min', this._fromDate);
     }
-    selectLocation(event) {
+    selectLocation(event: Event) {
         // suggested search results list click handler
         // saves data from the clicked item's dataset into this._destination
         const target = event.target;
-        if (target.className !== 'locations__item') {
+        if ((target as HTMLElement).className !== 'locations__item') {
             this.hideList();
             return;
         }
-        this._destination = Object.assign({}, target.dataset, {
-            locationFullName: target.textContent
+        this._destination = Object.assign({}, (target as HTMLElement).dataset as unknown as ILocation, {
+            locationFullName: (target as HTMLElement).textContent
         });
-        this.destination.value = target.textContent;
+        this.destination.value = (target as HTMLElement).textContent;
         this.hideList();
     }
     showList() {

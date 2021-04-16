@@ -8,7 +8,7 @@ import { Trip } from "../src/client/js/Trip";
 // @ts-ignore
 import { Storage, mockSave, mockDelete } from "../src/client/js/Storage";
 // @ts-ignore
-import { Form, mockHide, mockReset } from "../src/client/js/Form";
+import { Form, mockHide, mockReset, IMyFormElement } from "../src/client/js/Form";
 // import { Primitive } from "../src/client/js/Primitive";
 import { CountryInfo } from '../src/client/js/CountryInfo';
 import { TripHead } from '../src/client/js/TripHead';
@@ -21,6 +21,13 @@ import { getImage } from '../src/client/js/getImage';
 // import { Button } from '../src/client/js/Button';
 // import { EventBus } from "../src/client/js/event-bus";
 
+declare global {
+    namespace NodeJS {
+        interface Global {
+            Client: ClientLib;
+        }
+    }
+}
 // jest.mock('../src/client/js/Primitive');
 const mockCountryInfo = jest.fn((props) => { });
 jest.mock('../src/client/js/CountryInfo', () => {
@@ -51,7 +58,7 @@ jest.mock('../src/client/js/getWeather');
 jest.mock('../src/client/js/getImage');
 
 const mockClient: ClientLib = jest.fn();
-mockClient.form = new Form(document.createElement('form'));
+mockClient.form = new Form(document.createElement('form') as IMyFormElement);
 mockClient.appStore = new Storage(document.createElement('div'), {key: 'key'});
 
 beforeAll(() => {
@@ -139,7 +146,7 @@ describe('Testing Tip functionality', () => {
         expect(mode.textContent).toBe('Recorded weather');
     });
     it('should call the average historical route', () => {
-        formData.from = formData.to = dateString(new Date().setDate(new Date().getDate() + 20));
+        formData.from = formData.to = dateString(new Date().setDate(new Date().getDate() + 20) as unknown as Date);
         trip.eventBus().emit('flow:new-data', formData);
         const { lat, lng, from, submitNo } = formData;
         expect(getWeather).toHaveBeenCalledTimes(1);

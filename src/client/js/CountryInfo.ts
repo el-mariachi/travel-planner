@@ -9,7 +9,7 @@ export class CountryInfo extends Component {
     constructor(public el: HTMLElement, public props: IProps = { error: "No info" }) {
         super(el, props);
     }
-    setProps(newProps) {
+    setProps(newProps: IProps) {
         this.props = Object.assign({}, newProps);
         this.eventBus().emit(CountryInfo.EVENTS.FLOW_CDU);
     }
@@ -20,7 +20,7 @@ export class CountryInfo extends Component {
             });
             return;
         }
-        const getNames = allEntries => allEntries.map(({ name }) => name).join(', ');
+        const getNames = (allEntries: {name: string}[]): string => allEntries.map(({ name }) => name).join(', ');
         this.el.innerHTML = '';
         const { name, capital, currencies, languages, flag } = this.props;
         const allCurrencies = getNames(currencies);

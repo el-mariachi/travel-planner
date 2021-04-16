@@ -8,7 +8,7 @@ export class TripHead extends Component {
     constructor(public el: HTMLElement, public props: IProps = {}) {
         super(el, props);
     }
-    setProps(newProps) {
+    setProps(newProps: IProps) {
         this.props = Object.assign({}, newProps);
         this.eventBus().emit(TripHead.EVENTS.FLOW_CDU);
     }

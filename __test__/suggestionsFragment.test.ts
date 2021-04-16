@@ -16,7 +16,10 @@ describe("Tesing suggestionsFragment functionality", () => {
             name: 'Denver',
             geonameId: 1235,
             adminName1: 'Colorado',
-            countryName: 'USA'
+            countryName: 'USA',
+            lat: 12,
+            lng: 15,
+            countryCode: 'US'
         }];
         const actual = suggestionsFragment(input);
         const actualItem = actual.firstElementChild as HTMLElement;

@@ -6,6 +6,7 @@ describe('Testing dateString functionality', () => {
     });
     test('Testing dateString() with wrong input type', () => {
         const input = new Array(4).fill('value');
+        // @ts-ignore
         expect(dateString(input)).toBe(input);
     });
     test('Testing dateString return value', () => {

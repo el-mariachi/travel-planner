@@ -1,7 +1,8 @@
 import { locationFullName } from './locationFullName';
+import { ILocation, LocationKey } from "./types";
 
 // returns a document fragment to be inserted as search results
-const suggestionsFragment = (data: {[k: string]: string | number}[]): DocumentFragment => {
+const suggestionsFragment = (data: ILocation[]): DocumentFragment => {
     const fragment = new DocumentFragment();
     fragment.append(...data.map(geoname => {
         // only take these properties form input object
@@ -10,8 +11,8 @@ const suggestionsFragment = (data: {[k: string]: string | number}[]): DocumentFr
         listItem.className = 'locations__item';
         listItem.textContent = locationFullName(geoname);
         // loop over picked properties and store them as data-attrs
-        Object.keys(picked).forEach(key => {
-            listItem.dataset[key] = picked[key];
+        Object.keys(picked).forEach((key: keyof typeof picked) => {
+            listItem.dataset[key] = String(picked[key]);
         });
         return listItem;
     }));

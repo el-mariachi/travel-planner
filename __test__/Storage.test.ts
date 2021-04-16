@@ -6,7 +6,15 @@ import { Storage } from "../src/client/js/Storage";
 // @ts-ignore
 import { Trip, mockSetIndex, mockDataReceived } from "../src/client/js/Trip";
 import { tripsTemplate } from "../src/client/views/trips.tmpl";
-import { Mustache } from "mustache";
+import Mustache from "mustache";
+
+declare global {
+    namespace NodeJS {
+        interface Global {
+            Client: ClientLib;
+        }
+    }
+}
 
 jest.mock('mustache', () => {
     return {

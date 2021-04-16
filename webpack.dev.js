@@ -5,8 +5,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
     entry: {
         index: './src/client/index.ts',
-        form: './src/static/form.js',
-        current: './src/static/current.js'
+        // form: './src/static/form.js',
+        // current: './src/static/current.js'
     },
     output: {
         filename: '[name].js',

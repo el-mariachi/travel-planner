@@ -11,6 +11,8 @@ import { Primitive } from './Primitive';
 import { Button } from './Button';
 import { TripHead } from './TripHead';
 import { WeatherReport } from './WeatherReport';
+import { EventBus } from "./event-bus";
+import { ISavedTrip } from "./types";
 
 export class Trip extends Component {
     static ROUTES = {
@@ -18,30 +20,30 @@ export class Trip extends Component {
         W_HS: "/api/historical",
         W_HSA: "/api/historical/average",
     };
-    private country;
-    private countryEl;
-    private head;
-    private headEl;
-    private mode;
-    private weather;
-    private weatherEl;
-    private saveBtn;
-    private closeBtn;
-    private removeBtn;
-    private countDown;
-    private data;
+    private country: CountryInfo;
+    private countryEl: HTMLDivElement;
+    private head: TripHead;
+    private headEl: HTMLDivElement;
+    private mode: Primitive;
+    private weather: WeatherReport;
+    private weatherEl: HTMLDivElement;
+    private saveBtn: Button;
+    private closeBtn: Button;
+    private removeBtn: Button;
+    private countDown: number;
+    private data: ISavedTrip;
     private _weatherRoute: string;
     private today: Date;
 
     _base_class = 'trip';
-    _image = null;
+    _image: string = null;
     _saved = false;
     _completed = false;
 
     constructor(public el: HTMLElement, props: IProps = {}) {
         super(el, props);
     }
-    registerEvents(eventBus) {
+    registerEvents(eventBus: EventBus) {
         eventBus.on(Trip.EVENTS.FLOW_DATA, this.dataReceived.bind(this));
         eventBus.on('index', this.setIndex.bind(this));
     }
@@ -120,7 +122,7 @@ export class Trip extends Component {
         // return true or false for render
         return true;
     }
-    dataReceived(data) {
+    dataReceived(data: ISavedTrip) {
         this.eventBus().emit(Trip.EVENTS.RESET);
         // save data
         this.data = data;
@@ -155,13 +157,13 @@ export class Trip extends Component {
         // fire _component did update
         this.eventBus().emit(Trip.EVENTS.FLOW_CDU);
     }
-    setIndex(i) {
+    setIndex(i: number) {
         this.data.index = i;
     }
-    unitSelectorHandler(event) {
-        if (event.target.classList.contains('trip--selector-metric')) {
+    unitSelectorHandler(event: MouseEvent) {
+        if ((event.target as HTMLElement).classList.contains('trip--selector-metric')) {
             this.el.classList.remove('trip--units-imperial');
-        } else if (event.target.classList.contains('trip--selector-imperial')) {
+        } else if ((event.target as HTMLElement).classList.contains('trip--selector-imperial')) {
             this.el.classList.add('trip--units-imperial');
         }
     }
@@ -179,7 +181,7 @@ export class Trip extends Component {
         // show trip
         this.show();
     }
-    setImage(url) {
+    setImage(url: string) {
         if (url) {
             // show image
             this.el.querySelector('.trip__image').setAttribute('style', `background-image: url(${url})`);

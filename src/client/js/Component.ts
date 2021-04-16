@@ -1,4 +1,4 @@
-import { EventBus } from './event-bus';
+import { EventBus, EventBusFunc } from './event-bus';
 
 export interface IProps {
     [k: string]: any;
@@ -18,8 +18,8 @@ export class Component {
         DELETE: "delete",
         USER_SUBMIT: "user:submit"
     }
-    public eventBus;
-    protected _base_class;
+    public eventBus: EventBusFunc;
+    protected _base_class: string;
     constructor(public el: HTMLElement, public props: IProps = {}) {
         // this.el = el;
         // this.props = props;
@@ -28,7 +28,7 @@ export class Component {
         this._registerEvents(eventBus);
         eventBus.emit(Component.EVENTS.INIT);
     }
-    _registerEvents(eventBus) {
+    _registerEvents(eventBus: EventBus): void {
         eventBus.on(Component.EVENTS.INIT, this.init.bind(this));
         eventBus.on(Component.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
         eventBus.on(Component.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
@@ -37,41 +37,41 @@ export class Component {
         eventBus.on(Component.EVENTS.HIDE, this.hide.bind(this));
         this.registerEvents(eventBus);
     }
-    registerEvents(eventBus) {
+    registerEvents(eventBus: EventBus): void {
         // can be redefined in subclasses
     }
-    init() {
+    init(): void {
         this.eventBus().emit(Component.EVENTS.FLOW_CDM);
     }
-    _reset() {
+    _reset(): void {
         this.reset();
     }
-    reset() {
+    reset(): void {
         // can be redefined in subclass
     }
-    _componentDidMount() {
+    _componentDidMount(): void {
         if (this.componentDidMount()) {
             this.eventBus().emit(Component.EVENTS.FLOW_RENDER);
         }
     }
-    componentDidMount() {
+    componentDidMount(): boolean {
         // can be redefined in subclasses
         // return false to prevent initial render
         return true;
     }
-    _componentDidUpdate(oldProps, newProps) {
+    _componentDidUpdate(oldProps: IProps, newProps: IProps): void {
         if (this.componentDidUpdate(oldProps, newProps)) {
             this.eventBus().emit(Component.EVENTS.FLOW_RENDER);
         }
     }
-    componentDidUpdate(oldProps, newProps) {
+    componentDidUpdate(oldProps: IProps, newProps: IProps): boolean {
         // can be redefined in subclasses
         return true;
     }
-    show() {
+    show(): void {
         this.el.classList.remove(`${this._base_class}--hidden`);
     }
-    hide() {
+    hide(): void {
         this.el.classList.add(`${this._base_class}--hidden`);
     }
     _render() {

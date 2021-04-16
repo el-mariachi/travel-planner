@@ -1,5 +1,5 @@
 // returns standard ISO string for Date object
-const dateString = date => {
+const dateString = (date: Date): string => {
     if (!(date instanceof Date)) {
         return date;
     }

@@ -1,6 +1,6 @@
 require('dotenv').config();
 import path from "path";
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from 'cors';
 import { jsonMock } from "./mockAPI";
 import { fetchLocations, fetchForecast, fetchHistorical, fetchHistoricalAvg, fetchPix } from "./serverFuncs";
@@ -17,7 +17,7 @@ app.use('/', express.static(path.join(__dirname, '../../dist')));
 
 /*--------------------ROUTES-------------------------*/
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../../dist/index.html'));
 });
 

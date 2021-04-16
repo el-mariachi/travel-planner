@@ -10,11 +10,11 @@ export class WeatherReport extends Component {
     constructor(public el: HTMLElement, public props: IProps = {}) {
         super(el, props);
     }
-    setProps(newProps) {
+    setProps(newProps: IProps) {
         this.props = Object.assign({}, newProps);
         this.eventBus().emit(WeatherReport.EVENTS.FLOW_CDU);
     }
-    fahrenheit(celsius) {
+    fahrenheit(celsius: number) {
         return (celsius * 9 / 5) + 32;
     }
     componentDidMount() {
