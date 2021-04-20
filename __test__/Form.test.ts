@@ -146,7 +146,7 @@ describe('Testing Form class functionality', () => {
         expect(mockDataReceived).toHaveBeenCalledWith(submitData);
     });
     it('should submit plan B', (done) => {
-        form._destination = undefined;
+        form._destination = null;
         destination.value = locationFullName(stdLocation);
         const submitEvent = new Event('submit');
         div.dispatchEvent(submitEvent);

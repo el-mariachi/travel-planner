@@ -66,9 +66,9 @@ export class Storage extends Component {
     loadTrip(event: MouseEvent) {
         // trip click handler
         // sends clicked item to Trip
-        const target: HTMLElement = (event.target as HTMLElement).closest('.trips__item');
+        const target: HTMLElement = (event.target as HTMLElement).closest('.trips__item')!;
         if (!target) return;
-        const tripId = parseInt(target.dataset.index);
+        const tripId = parseInt(target.dataset.index!);
         Client.trip.eventBus().emit('flow:new-data', this._trips[tripId]);
         event.stopPropagation();
     }
@@ -80,11 +80,11 @@ export class Storage extends Component {
         this.el.innerHTML = '';
         let sch, cmpl;
         if (this._trips.length === 0) return;
-        const scheduled = this._trips.filter(trip => trip.countdown >= 0);
+        const scheduled = this._trips.filter(trip => trip.countdown! >= 0);
         if (scheduled.length > 0) {
             sch = { scheduled };
         }
-        const completed = this._trips.filter(trip => trip.countdown < 0);
+        const completed = this._trips.filter(trip => trip.countdown! < 0);
         if (completed.length > 0) {
             cmpl = { completed };
         }
@@ -104,8 +104,8 @@ export class Storage extends Component {
         if (this._trips.findIndex(trip => trip.hash === currentHash) === -1) {
             // the current data is unique
             this._trips.push({
-                hash: currentHash,
                 ...this.applyCountDown(this._current),
+                hash: currentHash,
                 // saved: true
             });
             this.sort(); // first sort trips
@@ -122,14 +122,14 @@ export class Storage extends Component {
 
     }
     delete(index: number): void {
-        if (index === undefined) return null;
+        if (index === undefined) return;
         this._trips.splice(index, 1);
         // reindex
         this._trips = this._trips.map((trip, index) => ({ ...trip, index }));
         this.eventBus().emit(Storage.EVENTS.FLOW_CDU);
     }
     sort() {
-        this._trips.sort((a, b) => a.countdown - b.countdown);
+        this._trips.sort((a, b) => a.countdown! - b.countdown!);
     }
     saveTrips() {
         localStorage.setItem(this.props.key, JSON.stringify(this._trips));

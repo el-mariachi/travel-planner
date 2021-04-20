@@ -37,9 +37,9 @@ export class Form extends Component {
     public list: HTMLUListElement;
 
     _base_class = 'newtrip';
-    _destination: ILocation = null;
-    _fromDate: string = null;
-    _toDate: string = null;
+    _destination: ILocation | null = null;
+    _fromDate: string | null = null;
+    _toDate: string | null = null;
     _submitNo = 0;
 
     constructor(public el: IMyFormElement) {
@@ -53,13 +53,13 @@ export class Form extends Component {
     componentDidMount() {
         // set up DOM elements
         this.destination = this.el.elements['destination'];
-        this.destinationError = new Primitive(this.el.querySelector('#destination_error'));
+        this.destinationError = new Primitive(this.el.querySelector('#destination_error')!);
         this.from = this.el.elements['from'];
-        this.fromError = new Primitive(this.el.querySelector('#from_error'));
+        this.fromError = new Primitive(this.el.querySelector('#from_error')!);
         this.to = this.el.elements['to'];
-        this.toError = new Primitive(this.el.querySelector('#to_error'));
-        this.locations = this.el.querySelector('.locations');
-        this.list = this.el.querySelector('.locations__inner');
+        this.toError = new Primitive(this.el.querySelector('#to_error')!);
+        this.locations = this.el.querySelector('.locations')!;
+        this.list = this.el.querySelector('.locations__inner')!;
         const today = new Date();
         this.from.setAttribute('min', dateString(today));
         this.to.setAttribute('min', dateString(today));
@@ -105,7 +105,7 @@ export class Form extends Component {
                         return;
                     }
                     //  compare new location name with the saved one
-                    if (locationFullName(response[0]) === locationFullName(this._destination)) {
+                    if (this._destination !== null && locationFullName(response[0]) === locationFullName(this._destination)) {
                         // location is same
                         return;
                     }
@@ -140,8 +140,10 @@ export class Form extends Component {
     }
     setReturnDate() {
         // you can't return before you leave
-        this.to.value = this._fromDate;
-        this.to.setAttribute('min', this._fromDate);
+        if (this._fromDate) {
+            this.to.value = this._fromDate;
+            this.to.setAttribute('min', this._fromDate);
+        }
     }
     selectLocation(event: Event) {
         // suggested search results list click handler
@@ -154,7 +156,7 @@ export class Form extends Component {
         this._destination = Object.assign({}, (target as HTMLElement).dataset as unknown as ILocation, {
             locationFullName: (target as HTMLElement).textContent
         });
-        this.destination.value = (target as HTMLElement).textContent;
+        this.destination.value = (target as HTMLElement).textContent || '';
         this.hideList();
     }
     showList() {

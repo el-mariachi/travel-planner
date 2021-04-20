@@ -36,7 +36,7 @@ export class Trip extends Component {
     private today: Date;
 
     _base_class = 'trip';
-    _image: string = null;
+    _image: string | undefined;
     _saved = false;
     _completed = false;
 
@@ -49,19 +49,19 @@ export class Trip extends Component {
     }
     componentDidMount() {
         // get DOM refs
-        this.countryEl = this.el.querySelector('.trip--meta-country');
+        this.countryEl = this.el.querySelector('.trip--meta-country')!;
         this.country = new CountryInfo(this.countryEl);
-        this.headEl = this.el.querySelector('.trip__head');
+        this.headEl = this.el.querySelector('.trip__head')!;
         this.head = new TripHead(this.headEl);
-        this.mode = new Primitive(this.el.querySelector('#mode'));
-        this.weatherEl = this.el.querySelector('#weather');
+        this.mode = new Primitive(this.el.querySelector('#mode')!);
+        this.weatherEl = this.el.querySelector('#weather')!;
         this.weather = new WeatherReport(this.weatherEl);
         // button click handlers
-        this.closeBtn = new Button(this.el.querySelector('.trip--control-close'), { click: this.close.bind(this) });
-        this.saveBtn = new Button(this.el.querySelector('.trip--control-save'), { click: this.save.bind(this) });
-        this.removeBtn = new Button(this.el.querySelector('.trip--control-remove'), { click: this.remove.bind(this) });
+        this.closeBtn = new Button(this.el.querySelector('.trip--control-close')!, { click: this.close.bind(this) });
+        this.saveBtn = new Button(this.el.querySelector('.trip--control-save')!, { click: this.save.bind(this) });
+        this.removeBtn = new Button(this.el.querySelector('.trip--control-remove')!, { click: this.remove.bind(this) });
         // unit selector click hanler
-        this.el.querySelector('.units').addEventListener('click', this.unitSelectorHandler.bind(this));
+        this.el.querySelector('.units')!.addEventListener('click', this.unitSelectorHandler.bind(this));
         // don't render yet
         return false;
     }
@@ -171,7 +171,7 @@ export class Trip extends Component {
         // clears old infos
         this.el.classList.remove('trip--saved');
         this._saved = false;
-        this._image = null;
+        this._image = undefined;
         this._completed = false;
         this.setImage(undefined);
     }
@@ -181,13 +181,13 @@ export class Trip extends Component {
         // show trip
         this.show();
     }
-    setImage(url: string) {
+    setImage(url: string | undefined) {
         if (url) {
             // show image
-            this.el.querySelector('.trip__image').setAttribute('style', `background-image: url(${url})`);
+            this.el.querySelector('.trip__image')!.setAttribute('style', `background-image: url(${url})`);
         } else {
             // show background from css
-            this.el.querySelector('.trip__image').removeAttribute('style');
+            this.el.querySelector('.trip__image')!.removeAttribute('style');
         }
     }
     save() {

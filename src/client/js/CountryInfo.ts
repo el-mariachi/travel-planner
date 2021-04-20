@@ -36,6 +36,6 @@ export class CountryInfo extends Component {
             langTitle
         });
         // show flag
-        this.el.querySelector('.trip__header').setAttribute('style', `background-image: url(${flag})`);
+        this.el.querySelector('.trip__header')!.setAttribute('style', `background-image: url(${flag})`);
     }
 }

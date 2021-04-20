@@ -40,7 +40,7 @@ describe('Testing CountryInfo functionality', () => {
             currTitle: expect.any(String),
             langTitle: expect.any(String)
         });
-        expect(info.el.querySelector('.trip__header').getAttribute('style')).toEqual(`background-image: url(${countryData.flag})`);
+        expect(info.el.querySelector('.trip__header')!.getAttribute('style')).toEqual(`background-image: url(${countryData.flag})`);
         renderSpy.mockRestore();
     });
 });
