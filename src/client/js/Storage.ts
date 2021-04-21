@@ -10,9 +10,9 @@ import { daysDiff } from './daysDiff';
 import { tripsTemplate } from '../views/trips.tmpl';
 export class Storage extends Component {
 
-    private _trips: ISavedTrip[];
-    private today: Date;
-    _current: ISavedTrip;
+    private _trips!: ISavedTrip[];
+    private today!: Date;
+    _current!: ISavedTrip;
 
     constructor(public el: HTMLElement, public props: IProps) {
         super(el, props);

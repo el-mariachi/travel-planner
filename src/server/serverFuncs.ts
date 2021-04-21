@@ -15,6 +15,10 @@ interface IWeather {
 type WeatherItem = {
     [k: string]: number | string;
 }
+type WeaterAPIResponse = {
+    error?: string;
+    data?: any[];
+}
 /*--------------------API CALLS----------------------*/
 
 // calls Geonames API, returns an array of found locations or an empty array
@@ -58,7 +62,12 @@ const fetchHistorical = (lat: number, lng: number, date: string): Promise<IWeath
     const end_date = dateString(next_day);
     const request_url = `${base_url}?lat=${lat}&lon=${lng}&start_date=${date}&end_date=${end_date}&key=${process.env.WEATHERBIT_KEY}`;
     return fetch(request_url).then(res => res.json())
-        .then(({ data }) => data.map(({ clouds, precip, min_temp, max_temp }: IWeather): IWeather => ({ clouds, precip, min_temp, max_temp })));
+        .then((json) => {
+            if (json.error !== undefined) {
+                throw new Error(json.error);
+            }
+            return json.data.map(({ clouds, precip, min_temp, max_temp }: IWeather): IWeather => ({ clouds, precip, min_temp, max_temp }))
+        });
 };
 
 // calls fetchHistorical to calculate average values over 5 years (max allowed by API)

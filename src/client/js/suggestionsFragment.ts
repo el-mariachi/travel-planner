@@ -11,8 +11,8 @@ const suggestionsFragment = (data: ILocation[]): DocumentFragment => {
         listItem.className = 'locations__item';
         listItem.textContent = locationFullName(geoname);
         // loop over picked properties and store them as data-attrs
-        Object.keys(picked).forEach((key: keyof typeof picked) => {
-            listItem.dataset[key] = String(picked[key]);
+        Object.keys(picked).forEach((key) => {
+            listItem.dataset[key] = String(picked[key as keyof typeof picked]);
         });
         return listItem;
     }));

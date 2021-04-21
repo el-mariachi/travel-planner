@@ -20,20 +20,20 @@ export class Trip extends Component {
         W_HS: "/api/historical",
         W_HSA: "/api/historical/average",
     };
-    private country: CountryInfo;
-    private countryEl: HTMLDivElement;
-    private head: TripHead;
-    private headEl: HTMLDivElement;
-    private mode: Primitive;
-    private weather: WeatherReport;
-    private weatherEl: HTMLDivElement;
-    private saveBtn: Button;
-    private closeBtn: Button;
-    private removeBtn: Button;
-    private countDown: number;
-    private data: ISavedTrip;
-    private _weatherRoute: string;
-    private today: Date;
+    private country!: CountryInfo;
+    private countryEl!: HTMLDivElement;
+    private head!: TripHead;
+    private headEl!: HTMLDivElement;
+    private mode!: Primitive;
+    private weather!: WeatherReport;
+    private weatherEl!: HTMLDivElement;
+    private saveBtn!: Button;
+    private closeBtn!: Button;
+    private removeBtn!: Button;
+    private countDown!: number;
+    private data!: ISavedTrip;
+    private _weatherRoute!: string;
+    private today!: Date;
 
     _base_class = 'trip';
     _image: string | undefined;
@@ -160,7 +160,7 @@ export class Trip extends Component {
     setIndex(i: number) {
         this.data.index = i;
     }
-    unitSelectorHandler(event: MouseEvent) {
+    unitSelectorHandler(event: Event) {
         if ((event.target as HTMLElement).classList.contains('trip--selector-metric')) {
             this.el.classList.remove('trip--units-imperial');
         } else if ((event.target as HTMLElement).classList.contains('trip--selector-imperial')) {

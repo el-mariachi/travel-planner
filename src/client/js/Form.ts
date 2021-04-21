@@ -27,14 +27,14 @@ export interface IMyFormElement extends HTMLFormElement {
 export class Form extends Component {
 
     private destRegEx: RegExp;
-    public destination: HTMLInputElement;
-    public destinationError: Primitive;
-    public from: HTMLInputElement;
-    public fromError: Primitive;
-    public to: HTMLInputElement;
-    public toError: Primitive;
-    public locations: HTMLDivElement;
-    public list: HTMLUListElement;
+    public destination!: HTMLInputElement;
+    public destinationError!: Primitive;
+    public from!: HTMLInputElement;
+    public fromError!: Primitive;
+    public to!: HTMLInputElement;
+    public toError!: Primitive;
+    public locations!: HTMLDivElement;
+    public list!: HTMLUListElement;
 
     _base_class = 'newtrip';
     _destination: ILocation | null = null;

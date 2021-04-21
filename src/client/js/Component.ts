@@ -19,7 +19,7 @@ export class Component {
         USER_SUBMIT: "user:submit"
     }
     public eventBus: EventBusFunc;
-    protected _base_class: string;
+    protected _base_class: string = 'Component';
     constructor(public el: HTMLElement, public props: IProps = {}) {
         // this.el = el;
         // this.props = props;
