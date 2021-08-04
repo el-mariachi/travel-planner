@@ -1,7 +1,7 @@
-import { postToBackend } from "../src/client/js/postToBackend";
-import { getImage } from "../src/client/js/getImage";
+import { postToBackend } from "../postToBackend";
+import { getImage } from "../getImage";
 
-jest.mock('../src/client/js/postToBackend');
+jest.mock('../postToBackend');
 const mockAlert = jest.fn();
 const mockConsole = jest.fn();
 beforeAll(() => {

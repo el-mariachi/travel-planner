@@ -2,10 +2,10 @@
  * @jest-environment jsdom
  */
 import { ClientLib } from "./ClientLib";
-import { Storage } from "../src/client/js/Storage";
+import { Storage } from "../Storage";
 // @ts-ignore
-import { Trip, mockSetIndex, mockDataReceived } from "../src/client/js/Trip";
-import { tripsTemplate } from "../src/client/views/trips.tmpl";
+import { Trip, mockSetIndex, mockDataReceived } from "../Trip";
+import { tripsTemplate } from "../../views/trips.tmpl";
 import Mustache from "mustache";
 
 declare global {
@@ -21,7 +21,7 @@ jest.mock('mustache', () => {
         render: jest.fn()
     }
 });
-jest.mock('../src/client/js/Trip');
+jest.mock('../Trip');
 const clientMock: ClientLib = jest.fn();
 clientMock.trip = new Trip(document.createElement('div'));
 

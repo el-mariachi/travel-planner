@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { Primitive } from "../src/client/js/Primitive";
+import { Primitive } from "../Primitive";
 
 describe('Testing Primitive class', () => {
     const span = document.createElement('span');

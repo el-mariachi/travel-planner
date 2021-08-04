@@ -1,9 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import { TripHead } from "../src/client/js/TripHead";
+import { TripHead } from "../TripHead";
 import Mustache from "mustache";
-import { tripHeadTemplate } from '../src/client/views/tripHead.tmpl';
+import { tripHeadTemplate } from '../../views/tripHead.tmpl';
 
 jest.mock('mustache', () => {
     return {

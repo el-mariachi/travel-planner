@@ -159,6 +159,7 @@ module.exports = {
   testPathIgnorePatterns: [
     "/node_modules/",
     "/notes/",
+    "/.*\\.d\\.ts$"
   ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files

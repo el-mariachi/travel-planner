@@ -1,4 +1,4 @@
-import { EventBus } from "../src/client/js/event-bus";
+import { EventBus } from "../event-bus";
 
 describe('Testing EventBus', () => {
     const bus = new EventBus()

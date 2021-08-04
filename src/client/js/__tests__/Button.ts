@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { Button } from '../src/client/js/Button';
+import { Button } from '../Button';
 
 test('Testing the click event on Button', () => {
     const spyMount = jest.spyOn(Button.prototype, 'componentDidMount')

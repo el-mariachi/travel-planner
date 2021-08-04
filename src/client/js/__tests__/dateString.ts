@@ -1,4 +1,4 @@
-import { dateString } from '../src/client/js/dateString';
+import { dateString } from '../dateString';
 
 describe('Testing dateString functionality', () => {
     test('Testing dateString() function', () => {

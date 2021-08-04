@@ -2,12 +2,12 @@
  * @jest-environment jsdom
  */
 import { ClientLib } from "./ClientLib";
-import { Form, IMyFormElement } from "../src/client/js/Form";
+import { Form, IMyFormElement } from "../Form";
 // @ts-ignore
-import { Trip, mockDataReceived } from "../src/client/js/Trip";
-import { Primitive } from "../src/client/js/Primitive";
-import { dateString } from "../src/client/js/dateString";
-import { locationFullName } from "../src/client/js/locationFullName";
+import { Trip, mockDataReceived } from "../Trip";
+import { Primitive } from "../Primitive";
+import { dateString } from "../dateString";
+import { locationFullName } from "../locationFullName";
 
 const waitForExpect = require("wait-for-expect");
 
@@ -28,8 +28,8 @@ declare global {
     }
 }
 
-jest.mock('../src/client/js/Primitive');
-jest.mock('../src/client/js/Trip');
+jest.mock('../Primitive');
+jest.mock('../Trip');
 const clientMock: ClientLib = jest.fn();
 clientMock.trip = new Trip(document.createElement('div'));
 
@@ -40,9 +40,9 @@ beforeEach(() => {
     (Primitive as unknown as jest.Mock).mockClear();
     mockDataReceived.mockClear();
 });
-jest.mock('../src/client/js/suggestionsFragment');
+jest.mock('../suggestionsFragment');
 const mockGetLocations = jest.fn();
-jest.mock('../src/client/js/getLocations');
+jest.mock('../getLocations');
 
 describe('Testing Form class functionality', () => {
     // setup minimal form structure

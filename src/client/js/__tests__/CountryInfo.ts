@@ -1,10 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import { CountryInfo } from '../src/client/js/CountryInfo';
+import { CountryInfo } from '../CountryInfo';
 import Mustache from "mustache";
-import { countryInfoTemplate } from '../src/client/views/countryInfo.tmpl';
-import { countryErrorTemplate } from '../src/client/views/countryError.tmpl';
+import { countryInfoTemplate } from '../../views/countryInfo.tmpl';
+import { countryErrorTemplate } from '../../views/countryError.tmpl';
 
 describe('Testing CountryInfo functionality', () => {
     test('Testing CountryInfo receiving error', () => {

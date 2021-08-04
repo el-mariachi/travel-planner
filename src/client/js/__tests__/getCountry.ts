@@ -2,7 +2,7 @@
 /**
  * @jest-environment jsdom
  */
-import { getCountry } from '../src/client/js/getCountry';
+import { getCountry } from '../getCountry';
 const realFetch = window.fetch;
 const fakeFetch = jest.fn();
 fakeFetch.mockImplementation(request => {

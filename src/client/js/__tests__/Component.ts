@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { Component } from "../src/client/js/Component";
+import { Component } from "../Component";
 
 describe('Testing the Component base class functionality', () => {
     const div = document.createElement('div');

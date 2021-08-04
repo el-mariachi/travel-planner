@@ -1,4 +1,4 @@
-import { daysDiff } from '../src/client/js/daysDiff';
+import { daysDiff } from '../daysDiff';
 
 describe('Testing daysDiff functionality', () => {
     test('Testing daysDiff() function', () => {

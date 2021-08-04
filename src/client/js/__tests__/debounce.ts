@@ -1,4 +1,4 @@
-import { debounce } from "../src/client/js/debounce";
+import { debounce } from "../debounce";
 
 test('Testing debounce function', () => {
     const testFn = jest.fn();

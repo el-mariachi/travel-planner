@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { suggestionsFragment } from '../src/client/js/suggestionsFragment';
+import { suggestionsFragment } from '../suggestionsFragment';
 
 describe("Tesing suggestionsFragment functionality", () => {
     test('Testing suggestionsFragment() function', () => {

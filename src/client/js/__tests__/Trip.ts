@@ -2,17 +2,17 @@
  * @jest-environment jsdom
  */
 import { ClientLib } from "./ClientLib";
-import { Trip } from "../src/client/js/Trip";
-import { Storage } from "../src/client/js/Storage";
-import { Form, IMyFormElement } from "../src/client/js/Form";
-import { CountryInfo } from '../src/client/js/CountryInfo';
-import { TripHead } from '../src/client/js/TripHead';
-import { WeatherReport } from '../src/client/js/WeatherReport';
-import { dateString } from "../src/client/js/dateString";
+import { Trip } from "../Trip";
+import { Storage } from "../Storage";
+import { Form, IMyFormElement } from "../Form";
+import { CountryInfo } from '../CountryInfo';
+import { TripHead } from '../TripHead';
+import { WeatherReport } from '../WeatherReport';
+import { dateString } from "../dateString";
 
-import { getCountry } from '../src/client/js/getCountry';
-import { getWeather } from '../src/client/js/getWeather';
-import { getImage } from '../src/client/js/getImage';
+import { getCountry } from '../getCountry';
+import { getWeather } from '../getWeather';
+import { getImage } from '../getImage';
 
 const waitForExpect = require("wait-for-expect");
 
@@ -25,7 +25,7 @@ declare global {
     }
 }
 const mockCountryInfo = jest.fn();
-jest.mock('../src/client/js/CountryInfo', () => {
+jest.mock('../CountryInfo', () => {
     return {
         CountryInfo: jest.fn(() => {
             return {
@@ -34,9 +34,9 @@ jest.mock('../src/client/js/CountryInfo', () => {
         })
     }
 });
-jest.mock('../src/client/js/TripHead');
+jest.mock('../TripHead');
 const mockWeatherReport = jest.fn();
-jest.mock('../src/client/js/WeatherReport', () => {
+jest.mock('../WeatherReport', () => {
     return {
         WeatherReport: jest.fn(() => {
             return {
@@ -45,9 +45,9 @@ jest.mock('../src/client/js/WeatherReport', () => {
         })
     }
 });
-jest.mock('../src/client/js/Form');
-jest.mock('../src/client/js/Storage', () => {
-    const originalModule = jest.requireActual('../src/client/js/Storage');
+jest.mock('../Form');
+jest.mock('../Storage', () => {
+    const originalModule = jest.requireActual('../Storage');
     return {
         ...originalModule,
         }
@@ -55,9 +55,9 @@ jest.mock('../src/client/js/Storage', () => {
 Storage.prototype.newTrip = jest.fn();
 Storage.prototype.delete = jest.fn();
 
-jest.mock('../src/client/js/getCountry'); // using manual mock
-jest.mock('../src/client/js/getWeather'); // using manual mock
-jest.mock('../src/client/js/getImage'); // using manual mock
+jest.mock('../getCountry'); // using manual mock
+jest.mock('../getWeather'); // using manual mock
+jest.mock('../getImage'); // using manual mock
 
 const mockClient: ClientLib = jest.fn();
 mockClient.form = new Form(document.createElement('form') as IMyFormElement);

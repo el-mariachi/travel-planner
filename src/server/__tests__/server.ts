@@ -1,7 +1,7 @@
 // import 'regenerator-runtime/runtime';
 const request = require('supertest');
-const { app } = require('../src/server/app');
-const serverFunctions = require('../src/server/serverFuncs');
+const { app } = require('../app');
+const serverFunctions = require('../serverFuncs');
 
 // describe('Test root path', () => {
 
@@ -23,7 +23,7 @@ describe('Test json middleware', () => {
         });
     });
 });
-jest.mock('../src/server/serverFuncs'); // this is a manual mock
+jest.mock('../serverFuncs'); // this is a manual mock
 describe('Test POST routes', () => {
 
     test('Test /locations route with no data', async () => {
