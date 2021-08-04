@@ -67,7 +67,9 @@ describe('Testing Form class functionality', () => {
     const todayString = dateString(today);
     const yesterday = new Date(+today - (1000 * 60 * 60 * 24));
     const yesterdayString = dateString(yesterday);
+    // create the form instance with that min structure
     const form = new Form(div as IMyFormElement);
+    
     it('should run prediction', (done) => {
         destination.value = 'London';
         // form.predict();

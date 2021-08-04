@@ -25,13 +25,18 @@ jest.mock('../src/client/js/Trip');
 const clientMock: ClientLib = jest.fn();
 clientMock.trip = new Trip(document.createElement('div'));
 
-beforeAll(() => {
-    global.Client = clientMock;
-});
-
 const renderSpy = jest.spyOn(Storage.prototype, 'render');
 const saveSpy = jest.spyOn(Storage.prototype, 'saveTrips');
 const loadSpy = jest.spyOn(Storage.prototype, 'loadSaved');
+
+beforeAll(() => {
+    global.Client = clientMock;
+});
+afterAll(() => {
+    renderSpy.mockRestore();
+    saveSpy.mockRestore();
+    loadSpy.mockRestore();
+});
 
 const trip = {
     "lng": "113.54611",
@@ -79,12 +84,10 @@ describe('Testing the Storage class', () => {
     const storage = new Storage(div, {key: 'localStorageKey'})
     it('should render', () => {
         expect(renderSpy).toHaveBeenCalledTimes(1);
-        renderSpy.mockRestore();
     });
     it('should receive and save new trip', () => {
         storage.eventBus().emit('flow:new-data', trip);
         expect(saveSpy).toHaveBeenCalledTimes(1);
-        saveSpy.mockRestore();
     });
     it('should delete by index', () => {
         // @ts-ignore
@@ -98,6 +101,5 @@ describe('Testing the Storage class', () => {
         const storageEvent = new Event('storage');
         window.dispatchEvent(storageEvent);
         expect(loadSpy).toHaveBeenCalledTimes(1);
-        loadSpy.mockRestore();
     });
 });

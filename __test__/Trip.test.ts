@@ -5,11 +5,8 @@
 
 import { ClientLib } from "./ClientLib";
 import { Trip } from "../src/client/js/Trip";
-// @ts-ignore
-import { Storage, mockSave, mockDelete } from "../src/client/js/Storage";
-// @ts-ignore
-import { Form, mockHide, mockReset, IMyFormElement } from "../src/client/js/Form";
-// import { Primitive } from "../src/client/js/Primitive";
+import { Storage } from "../src/client/js/Storage";
+import { Form, IMyFormElement } from "../src/client/js/Form";
 import { CountryInfo } from '../src/client/js/CountryInfo';
 import { TripHead } from '../src/client/js/TripHead';
 import { WeatherReport } from '../src/client/js/WeatherReport';
@@ -18,8 +15,9 @@ import { dateString } from "../src/client/js/dateString";
 import { getCountry } from '../src/client/js/getCountry';
 import { getWeather } from '../src/client/js/getWeather';
 import { getImage } from '../src/client/js/getImage';
-// import { Button } from '../src/client/js/Button';
-// import { EventBus } from "../src/client/js/event-bus";
+
+const waitForExpect = require("wait-for-expect");
+
 
 declare global {
     namespace NodeJS {
@@ -28,8 +26,7 @@ declare global {
         }
     }
 }
-// jest.mock('../src/client/js/Primitive');
-const mockCountryInfo = jest.fn((props) => { });
+const mockCountryInfo = jest.fn();
 jest.mock('../src/client/js/CountryInfo', () => {
     return {
         CountryInfo: jest.fn(() => {
@@ -40,7 +37,7 @@ jest.mock('../src/client/js/CountryInfo', () => {
     }
 });
 jest.mock('../src/client/js/TripHead');
-const mockWeatherReport = jest.fn((props) => { });
+const mockWeatherReport = jest.fn();
 jest.mock('../src/client/js/WeatherReport', () => {
     return {
         WeatherReport: jest.fn(() => {
@@ -51,25 +48,33 @@ jest.mock('../src/client/js/WeatherReport', () => {
     }
 });
 jest.mock('../src/client/js/Form');
-jest.mock('../src/client/js/Storage');
+jest.mock('../src/client/js/Storage', () => {
+    const originalModule = jest.requireActual('../src/client/js/Storage');
+    return {
+        ...originalModule,
+        }
+});
+Storage.prototype.newTrip = jest.fn();
+Storage.prototype.delete = jest.fn();
 
-jest.mock('../src/client/js/getCountry');
-jest.mock('../src/client/js/getWeather');
-jest.mock('../src/client/js/getImage');
+jest.mock('../src/client/js/getCountry'); // using manual mock
+jest.mock('../src/client/js/getWeather'); // using manual mock
+jest.mock('../src/client/js/getImage'); // using manual mock
 
 const mockClient: ClientLib = jest.fn();
 mockClient.form = new Form(document.createElement('form') as IMyFormElement);
 mockClient.appStore = new Storage(document.createElement('div'), {key: 'key'});
+
 
 beforeAll(() => {
     global.Client = mockClient;
 });
 
 beforeEach(() => {
-    // Primitive.mockClear();
-    // WeatherReport.mockClear();
-    // mockWeatherReport.mockClear();
     (getWeather as unknown as jest.Mock).mockClear();
+});
+afterAll(() => {
+    jest.resetAllMocks();
 });
 
 const formData = {
@@ -121,6 +126,8 @@ describe('Testing Tip functionality', () => {
     const spyRender = jest.spyOn(Trip.prototype, 'render');
     // create new Trip instance
     const trip = new Trip(div);
+
+    // mockClient.trip = trip;
     test('should not render initially', () => {
         expect(spyRender).toHaveBeenCalledTimes(0);
         spyRender.mockRestore();
@@ -153,46 +160,43 @@ describe('Testing Tip functionality', () => {
         expect(getWeather).toHaveBeenCalledWith('/api/historical/average', { lat, lng, from, submitNo });
         expect(mode.textContent).toBe('Usual weather');
     });
-    it('should display error if getWeather fails', (done) => {
+    it('should display error if getWeather fails', async () => {
         mockWeatherReport.mockClear();
         (getWeather as unknown as jest.Mock).mockImplementation(() => {
             return Promise.reject({ message: 'Weather error' });
         });
         trip.eventBus().emit('flow:new-data', formData);
-        setTimeout(() => {
+        await waitForExpect(() => {
             expect(mockWeatherReport).toHaveBeenCalledWith({ error: 'Weather error' });
-            done();
-        }, 100);
+        });
     });
-    it('should display error if getCountry fails', (done) => {
+    it('should display error if getCountry fails', async () => {
         mockCountryInfo.mockClear();
         (getCountry as unknown as jest.Mock).mockImplementation(() => {
             return Promise.reject();
         });
         trip.eventBus().emit('flow:new-data', formData);
-        setTimeout(() => {
+        await waitForExpect(() => {
             expect(mockCountryInfo).toHaveBeenCalledWith({ error: 'Country info unavailable' });
-            done();
-        }, 100);
+        });
     });
-    it('should populate country info', (done) => {
+    it('should populate country info', () => {
         mockCountryInfo.mockClear();
         trip.eventBus().emit('flow:new-data', Object.assign(formData, { countryInfo: 'country info' }));
-        setTimeout(() => {
-            expect(mockCountryInfo).toHaveBeenCalledWith('country info');
-            done();
-        }, 100);
+        expect(mockCountryInfo).toHaveBeenCalledTimes(1);
+        expect(mockCountryInfo).toHaveBeenCalledWith('country info');
     });
     it('should save', () => {
         const click = new Event('click');
         saveBtn.dispatchEvent(click);
         expect(div.classList.contains('trip--saved')).toBeTruthy();
-        expect(mockSave).toHaveBeenCalledTimes(1);
+        
+        expect(mockClient.appStore.newTrip).toHaveBeenCalledTimes(1);
     });
     it('should delete', () => {
         const click = new Event('click');
         removeBtn.dispatchEvent(click);
         expect(div.classList.contains('trip--saved')).toBeFalsy();
-        expect(mockDelete).toHaveBeenCalledTimes(1);
+        expect(mockClient.appStore.delete).toHaveBeenCalledTimes(1);
     });
 });

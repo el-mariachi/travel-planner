@@ -59,6 +59,7 @@ export class Storage extends Component {
         this.saveTrips();
         return true; // for render
     }
+    @log
     applyCountDown(trip: ISavedTrip): ISavedTrip {
         this.today = new Date();
         return { ...trip, countdown: daysDiff(new Date(trip.from), this.today) };
@@ -133,5 +134,16 @@ export class Storage extends Component {
     }
     saveTrips() {
         localStorage.setItem(this.props.key, JSON.stringify(this._trips));
+    }
+}
+
+// Used as a decorator
+function log(target: Object, methodName: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    descriptor.value = function(...args: any[]) {
+        console.log(`${methodName}(${JSON.stringify(args)})`);
+        const returnValue = originalMethod?.apply(this, args);
+        console.log(`${methodName}(${JSON.stringify(args)}) => ${returnValue}`);
+        return returnValue;
     }
 }
