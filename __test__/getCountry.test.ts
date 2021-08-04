@@ -2,9 +2,7 @@
 /**
  * @jest-environment jsdom
  */
-import 'regenerator-runtime/runtime';
 import { getCountry } from '../src/client/js/getCountry';
-// import fetch from 'node-fetch';
 const realFetch = window.fetch;
 const fakeFetch = jest.fn();
 fakeFetch.mockImplementation(request => {
@@ -40,34 +38,7 @@ beforeAll(() => {
 afterAll(() => {
     window.fetch = realFetch;
 });
-/*
-jest.mock('node-fetch', () => jest.fn(request => {
-    const queryParts = request.split('/');
-    const query = queryParts[queryParts.length - 1];
-    if (!query || query === '' || query === 'undefined') {
-        return Promise.resolve({
-            json: () => ({ status: 400 })
-        });
-    } else if (query === 'cn' || query === 'CN') {
-        return Promise.resolve({
-            json: () => ({
-                name: 'China',
-                capital: 'Beijing',
-                currencies: [
-                    {
-                        name: "Chinese yuan",
-                    }
-                ],
-                languages: [
-                    {
-                        name: "Chinese",
-                    }
-                ]
-            })
-        });
-    }
-}));
-*/
+
 describe('Testing getCountry functionality', () => {
     test('getCountry should be defined', () => {
         expect(getCountry).toBeDefined();

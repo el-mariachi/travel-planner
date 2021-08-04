@@ -9,6 +9,8 @@ import { Primitive } from "../src/client/js/Primitive";
 import { dateString } from "../src/client/js/dateString";
 import { locationFullName } from "../src/client/js/locationFullName";
 
+const waitForExpect = require("wait-for-expect");
+
 const stdLocation = {
     name: 'London',
     countryName: 'United Kingdom',
@@ -70,20 +72,16 @@ describe('Testing Form class functionality', () => {
     // create the form instance with that min structure
     const form = new Form(div as IMyFormElement);
     
-    it('should run prediction', (done) => {
+    it('should run prediction', async () => {
         destination.value = 'London';
         // form.predict();
         const keyUp = new Event('keyup');
         destination.dispatchEvent(keyUp);
-        try {
-            setTimeout(() => {
+            await waitForExpect(() => {
                 expect(locations.classList.contains('locations--visible')).toBeTruthy();
                 expect(list.innerHTML).toBe('<li>List Item</li>');
-                done();
-            }, 600)
-        } catch (error) {
-            done(error);
-        }
+            });
+
     });
     it('should pass validation', () => {
         from.value = todayString;
@@ -98,7 +96,6 @@ describe('Testing Form class functionality', () => {
         expect(form.validate()).toBeFalsy();
         from.value = yesterdayString;
         expect(form.validate()).toBeFalsy();
-        from.value = yesterdayString;
     });
     it('should change end date to match start date when the latter is changed', () => {
         form.from.value = todayString;
@@ -147,15 +144,14 @@ describe('Testing Form class functionality', () => {
         expect(mockDataReceived).toHaveBeenCalledTimes(1);
         expect(mockDataReceived).toHaveBeenCalledWith(submitData);
     });
-    it('should submit plan B', (done) => {
+    it('should submit plan B', async () => {
         form._destination = null;
         destination.value = locationFullName(stdLocation);
         const submitEvent = new Event('submit');
         div.dispatchEvent(submitEvent);
-        setTimeout(() => {
+        await waitForExpect(() => {
             expect(mockDataReceived).toHaveBeenCalledTimes(1);
-            done();
-        }, 500);
+        });
     });
     it('should reset', () => {
         form.reset();

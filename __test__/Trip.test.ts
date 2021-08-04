@@ -1,8 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-// import 'regenerator-runtime/runtime';
-
 import { ClientLib } from "./ClientLib";
 import { Trip } from "../src/client/js/Trip";
 import { Storage } from "../src/client/js/Storage";
