@@ -45,7 +45,7 @@ app.post('/api/forecast', async (req, res) => {
     try {
         const [forecast] = await fetchForecast(lat, lng, from); // destructure array
         res.status(200).json({ submitNo, ...forecast });
-    } catch (err) {
+    } catch (err: any) {
         // forward error message to client
         // maybe it's better to send error status instead
         res.status(200).json({ submitNo, error: err.message });
@@ -62,7 +62,7 @@ app.post('/api/historical', async (req, res) => {
         } else {
             throw new Error('Weather data unavailable')
         }
-    } catch (err) {
+    } catch (err: any) {
         // forward error message to client
         // maybe it's better to send error status instead
         res.status(200).json({ submitNo, error: err.message })
@@ -74,7 +74,7 @@ app.post('/api/historical/average', async (req, res) => {
     try {
         const weatherAvg = await fetchHistoricalAvg(lat, lng, from);
         res.status(200).json({ submitNo, ...weatherAvg });
-    } catch (err) {
+    } catch (err: any) {
         // forward error message to client
         // maybe it's better to send error status instead
         res.status(200).json({ submitNo, error: err.message })

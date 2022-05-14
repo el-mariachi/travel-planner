@@ -27,10 +27,10 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: 'babel-loader',
-                options: {
-                    presets: ['@babel/env']
-                }
+                loader: 'awesome-typescript-loader'
+                // options: {
+                //     presets: ['@babel/env']
+                // }
             },
             {
                 test: /\.js$/,
