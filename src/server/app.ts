@@ -1,14 +1,14 @@
 require('dotenv').config();
 import path from "path";
-import express from "express";
+import express, { RequestHandler } from "express";
 import cors from 'cors';
 import { jsonMock } from "./mockAPI";
 import { fetchLocations, fetchForecast, fetchHistorical, fetchHistoricalAvg, fetchPix } from "./serverFuncs";
 export const app = express();
 
 // set up middleware. bodyparser is not needed since express > 4.16
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json() as RequestHandler);
+app.use(express.urlencoded({ extended: true }) as RequestHandler);
 app.use(cors());
 
 // assets path
