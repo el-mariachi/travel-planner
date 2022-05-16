@@ -1,7 +1,10 @@
 {
-    "presets": ["@babel/env"],
+    "presets": [
+        ["@babel/env", {"targets": {"node": "current"}}],
+        "@babel/typescript"
+    ],
     "plugins": [
-        "@babel/plugin-syntax-class-properties",
+        ["@babel/plugin-proposal-decorators", {"legacy": true}],
         "@babel/plugin-proposal-class-properties"
     ]
 }

@@ -60,7 +60,11 @@ module.exports = {
   // globalTeardown: undefined,
 
   // A set of global variables that need to be available in all test environments
-  // globals: {},
+  // globals: {
+  //   "ts-jest": {
+  //     "tsConfig": '<rootDir>/tsconfig.json'
+  //   }
+  // },
 
   // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
   // maxWorkers: "50%",
@@ -93,7 +97,7 @@ module.exports = {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  // preset: undefined,
+  preset: "ts-jest",
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -118,7 +122,7 @@ module.exports = {
 
   // A list of paths to directories that Jest should use to search for files in
   // roots: [
-  //   "<rootDir>"
+  //   "<rootDir>/src"
   // ],
 
   // Allows you to use a custom runner instead of Jest's default test runner
@@ -154,11 +158,12 @@ module.exports = {
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   testPathIgnorePatterns: [
     "/node_modules/",
-    "/notes/"
+    "/notes/",
+    "/.*\\.d\\.ts$"
   ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
-  // testRegex: [],
+  // testRegex: ["(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$"],
 
   // This option allows the use of a custom results processor
   // testResultsProcessor: undefined,
@@ -173,7 +178,11 @@ module.exports = {
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
-  // transform: undefined,
+  // transform: {
+  //   '^.+\\.(ts|tsx)?$': 'ts-jest',
+  //   // "^.+\\.(js|jsx)$": "babel-jest",
+  //   "^.+\\.(js|jsx)$": "./jestTransform.js",
+  // },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
