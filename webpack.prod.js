@@ -5,7 +5,7 @@ const CSSMinimizerPlugin = require('css-minimizer-webpack-plugin');
 // const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
-    entry: './src/client/index.ts',
+    entry: './src/client/index',
     output: {
         libraryTarget: 'var',
         library: 'Client'

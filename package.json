@@ -4,14 +4,15 @@
   "description": "Udacity Front End Developer Nanodegree Capstone",
   "main": "src/client/index",
   "scripts": {
-    "build": "rm -rf dist && webpack --config webpack.prod.js",
+    "build": "webpack --config webpack.prod.js",
     "dev": "webpack-dev-server --open --config webpack.dev.js",
     "lint": "eslint --ignore-path .gitignore .",
     "static": "webpack-dev-server --open --config webpack.static.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "start": "ts-node src/server/server.ts"
+    "start": "node src/server/server",
+    "postinstall": "tsc"
   },
   "repository": {
     "type": "git",
