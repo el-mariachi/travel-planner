@@ -2,6 +2,7 @@ require('dotenv').config();
 import path from "path";
 import express, { RequestHandler } from "express";
 import cors from 'cors';
+import favicon from 'serve-favicon';
 import { jsonMock } from "./mockAPI";
 import { fetchLocations, fetchForecast, fetchHistorical, fetchHistoricalAvg, fetchPix } from "./serverFuncs";
 export const app = express();
@@ -10,6 +11,7 @@ export const app = express();
 app.use(express.json() as RequestHandler);
 app.use(express.urlencoded({ extended: true }) as RequestHandler);
 app.use(cors());
+app.use(favicon(path.join(__dirname, '../', 'client', 'media', 'favicon.ico')))
 
 // assets path
 app.use('/', express.static(path.join(__dirname, '../../dist')));
