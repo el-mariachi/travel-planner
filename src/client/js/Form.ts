@@ -141,7 +141,9 @@ export class Form extends Component {
     setReturnDate() {
         // you can't return before you leave
         if (this._fromDate) {
-            this.to.value = this._fromDate;
+            if (!this.to.value || this.to.value < this._fromDate) {
+                this.to.value = this._fromDate;
+            }
             this.to.setAttribute('min', this._fromDate);
         }
     }

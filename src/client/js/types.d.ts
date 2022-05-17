@@ -10,6 +10,14 @@ export interface ILocation {
 }
 type LocationKey = keyof ILocation;
 
+export interface IWeatherRequestData {
+    lat: string;
+    lng: string;
+    from: string;
+    to: string;
+    submitNo: number;
+}
+
 export interface ICountry {
     name: string;
     currencies: {

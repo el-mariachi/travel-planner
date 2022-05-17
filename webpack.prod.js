@@ -2,6 +2,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CSSMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 // const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
@@ -59,6 +60,11 @@ module.exports = {
             // favicon: 'src/client/media/favicon.ico'
         }),
         new MiniCssExtractPlugin(),
+        new CopyPlugin({
+            patterns: [
+                { from: 'src/client/media/weather-icons' }
+            ]
+        }),
         // new WorkboxPlugin.GenerateSW({
         //     exclude: [/\.(?:jpe?g|png)$/]
         // })

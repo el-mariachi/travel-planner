@@ -1,6 +1,7 @@
 import { postToBackend } from './postToBackend';
+import { IWeatherRequestData } from './types';
 
-const getWeather = (url: string, data: {[k: string]: any}): Promise<{[k: string]: any}> => {
+const getWeather = (url: string, data: IWeatherRequestData): Promise<{[k: string]: any}> => {
     return new Promise((res, rej) => {
         postToBackend(url, data)
             .then(result => res(result))

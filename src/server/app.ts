@@ -5,6 +5,7 @@ import cors from 'cors';
 import favicon from 'serve-favicon';
 import { jsonMock } from "./mockAPI";
 import { fetchLocations, fetchForecast, fetchHistorical, fetchHistoricalAvg, fetchPix } from "./serverFuncs";
+import { timelineRequest } from './visualCrossing';
 export const app = express();
 
 // set up middleware. bodyparser is not needed since express > 4.16
@@ -45,7 +46,7 @@ app.post('/api/locations', async (req, res) => {
 app.post('/api/forecast', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
     try {
-        const [forecast] = await fetchForecast(lat, lng, from); // destructure array
+        const [forecast] = await timelineRequest(lat, lng, from); // destructure array
         res.status(200).json({ submitNo, ...forecast });
     } catch (err: any) {
         // forward error message to client

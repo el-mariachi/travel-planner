@@ -10,7 +10,7 @@ import { getImage } from './getImage';
 import { Primitive } from './Primitive';
 import { Button } from './Button';
 import { TripHead } from './TripHead';
-import { WeatherReport } from './WeatherReport';
+import { WeatherReport } from './WeatherReportVC';
 import { EventBus } from "./event-bus";
 import { ISavedTrip } from "./types";
 
@@ -84,8 +84,8 @@ export class Trip extends Component {
         // update head
         this.head.setProps(Object.assign({ countdown: this.countDown }, this.data));
         // fetch weather
-        const { lat, lng, from, submitNo } = this.data;
-        getWeather(this._weatherRoute, { lat, lng, from, submitNo })
+        const { lat, lng, from, to, submitNo } = this.data;
+        getWeather(this._weatherRoute, { lat, lng, from, to, submitNo })
             .then(res => {
                 if (res.submitNo < submitNo) return; // async requests may return in order that's different from how they were sent
                 this.weather.setProps(res);
@@ -134,12 +134,6 @@ export class Trip extends Component {
             // get hstorical
             this.mode.set('Recorded weather');
             this._weatherRoute = Trip.ROUTES.W_HS;
-            //  // this branch seems to be redundant
-            // } else if (this.countDown === 0) {
-            //     this._completed = false;
-            //     // get forecast
-            //     this.mode.set('Weather forecast');
-            //     this._weatherRoute = Trip.ROUTES.W_FC;
         } else if (this.countDown < 16) {
             this._completed = false;
             // get forecast
