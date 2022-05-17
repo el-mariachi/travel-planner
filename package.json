@@ -12,7 +12,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "start:local": "ts-node src/server/server.ts",
-    "start": "node dist/server/server",
+    "start": "node src/server/server",
     "heroku-postbuild": "tsc"
   },
   "repository": {
@@ -39,6 +39,7 @@
     "mustache": "^4.1.0",
     "node-fetch": "^2.6.1",
     "sass": "^1.51.0",
+    "serve-favicon": "^2.5.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4",
     "webpack": "^4.46.0",
