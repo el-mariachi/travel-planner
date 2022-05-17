@@ -75,7 +75,7 @@ const trip = {
             }
         ],
         "capital": "",
-        "flag": "https://restcountries.eu/data/mac.svg"
+        "flag": "https://flagcdn.com/mo.svg"
     }
 }
 

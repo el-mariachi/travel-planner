@@ -1,7 +1,6 @@
 import { ICountry } from "./types";
 // goes to restcountries directly
 const getCountry = (query: string): Promise<ICountry> => {
-    // const base_url = 'https://restcountries.eu/rest/v2/alpha/';
     const base_url = 'https://restcountries.com/v2/alpha/';
     const countryQuery = encodeURIComponent(query);
     return fetch(`${base_url}${countryQuery}`)
