@@ -12,7 +12,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "start:local": "ts-node src/server/server.ts",
-    "start": "node server/server",
+    "start": "node dist/server/server",
     "heroku-postbuild": "tsc"
   },
   "repository": {
