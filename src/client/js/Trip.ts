@@ -128,23 +128,29 @@ export class Trip extends Component {
         this.data = data;
         // check incoming date
         this.today = new Date();
+        // set trip time properties
+        // ! no more need for different weather routes
+        // Visual Crossing handles this internally
+        this._weatherRoute = Trip.ROUTES.W_FC;
         this.countDown = daysDiff(new Date(data.from), this.today);
         if (this.countDown < 0) {
             this._completed = true;
             // get hstorical
             this.mode.set('Recorded weather');
-            this._weatherRoute = Trip.ROUTES.W_HS;
+            // this._weatherRoute = Trip.ROUTES.W_HS;
         } else if (this.countDown < 16) {
             this._completed = false;
             // get forecast
             this.mode.set('Weather forecast');
-            this._weatherRoute = Trip.ROUTES.W_FC;
+            // this._weatherRoute = Trip.ROUTES.W_FC;
         } else {
             this._completed = false;
             // get average historical
             this.mode.set('Usual weather');
-            this._weatherRoute = Trip.ROUTES.W_HSA;
+            // this._weatherRoute = Trip.ROUTES.W_HSA;
         }
+
+
         // set other properties
         this._saved = data.saved;
         this._image = data.image

@@ -43,6 +43,7 @@ app.post('/api/locations', async (req, res) => {
 });
 
 // forecast route
+// now uses visual crossing service
 app.post('/api/forecast', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
     try {
@@ -55,6 +56,7 @@ app.post('/api/forecast', async (req, res) => {
     }
 });
 // historical route is hit whenever the date is in the past
+// depreciated
 app.post('/api/historical', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
     try {
@@ -72,6 +74,7 @@ app.post('/api/historical', async (req, res) => {
     }
 });
 // average historical route is hit whenever the date is 16 or more days ahead
+// depreciated
 app.post('/api/historical/average', async (req, res) => {
     const { lat, lng, from, submitNo } = req.body;
     try {
