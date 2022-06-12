@@ -1,6 +1,6 @@
 import { dateString } from "./dateString";
 import fetch from 'node-fetch';
-
+import { stringify } from "query-string";
 export interface ILocation {
     lat: number;
     lng: number;
@@ -117,10 +117,30 @@ const fetchPix = async (name: string, country: string): Promise<string> => {
     return response.hits[0].webformatURL;
 };
 
+const fetchPex = async (name: string, admName1: string): Promise<string> => {
+    const base_url = 'https://api.pexels.com/v1/search';
+    const queryParams = stringify({
+        query: `${name} ${admName1}`,
+        orientation: 'landscape'
+    })
+    const urlWithParams = `${base_url}?${queryParams}`;
+    const response = await fetch(urlWithParams, {
+        method: 'GET',
+        headers: {
+            'Authorization': process.env.PEXELS_KEY!
+        }
+    }).then(res => res.json());
+    if (response.total_results === 0) {
+        throw new Error('No image found');
+    }    
+    return response.photos;
+}
+
 export {
     fetchLocations,
     fetchForecast,
     fetchHistorical,
     fetchHistoricalAvg,
-    fetchPix
+    fetchPix,
+    fetchPex
 }

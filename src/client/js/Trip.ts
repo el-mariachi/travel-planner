@@ -110,10 +110,10 @@ export class Trip extends Component {
                 });
         }
         // fetch location image
-        getImage(this.data.name, this.data.countryName, submitNo)
-            .then(img => {
-                if (img.submitNo < submitNo) return;
-                this.setImage(img.url);
+        getImage(this.data.name, this.data.adminName1, submitNo)
+            .then(resp => {
+                if (resp.submitNo < submitNo) return;                
+                this.setImage(resp.imageArray[0].src.medium);
             })
             .catch(err => {
                 console.log(err, err.message);
