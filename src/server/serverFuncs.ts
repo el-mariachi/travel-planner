@@ -102,27 +102,27 @@ const fetchHistoricalAvg = async (lat: number, lng: number, date: string): Promi
 // calls Shutterstock API
 // returns image for location 
 // Pull in an image for the country from Pixabay API when the entered location brings up no results
-const fetchShutter = async (name: string, country: string): Promise<string> => {
+const fetchShutter = async (name: string, country: string): Promise<any> => {
     const url = 'https://api.shutterstock.com/v2/images/search';
     const request_url = stringifyUrl({
         url,
         query: {
             image_type: 'photo',
             query: name,
-            region: 'DE'
+            region: country
         }
-    });
+    });    
     let response = await fetch(request_url, {
         method: 'GET',
         headers: {
-            'Authentication': `Bearer ${process.env.SHUTTERSTOCK_API_TOKEN}`
+            'Authorization': `Bearer ${process.env.SHUTTERSTOCK_API_TOKEN}`
         }
     }).then(res => res.json());
-
-    if (response.totalHits === 0) {
-        throw new Error('No image found');
+    
+    if (response.total_count === 0) {
+        throw new Error( 'API could not find any images');
     }
-    return response.hits[0].webformatURL;
+    return response.data[0];
 };
 // calls pixabay API
 // returns image for location 

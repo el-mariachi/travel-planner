@@ -4,7 +4,7 @@ import express, { RequestHandler } from "express";
 import cors from 'cors';
 import favicon from 'serve-favicon';
 import { jsonMock } from "./mockAPI";
-import { fetchLocations, fetchForecast, fetchHistorical, fetchHistoricalAvg, fetchPix } from "./serverFuncs";
+import { fetchLocations, fetchForecast, fetchHistorical, fetchHistoricalAvg, fetchShutter } from "./serverFuncs";
 import { timelineRequest } from './visualCrossing';
 export const app = express();
 
@@ -92,10 +92,10 @@ app.post('/api/historical/average', async (req, res) => {
 app.post('/api/pix', async (req, res) => {
     const { name, country, submitNo } = req.body;
     try {
-        const url = await fetchPix(name, country);
-        res.status(200).json({ url, submitNo });
-    } catch (err) {
-        res.status(404).send({ error: 'No image found' });
+        const image = await fetchShutter(name, country);
+        res.status(200).json({ image, submitNo });
+    } catch (err: any) {        
+        res.status(404).json({error: err.message});
     }
 
 });

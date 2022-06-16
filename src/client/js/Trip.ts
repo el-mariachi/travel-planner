@@ -110,13 +110,18 @@ export class Trip extends Component {
                 });
         }
         // fetch location image
-        getImage(this.data.name, this.data.countryCode, submitNo)
-            .then(img => {
-                if (img.submitNo < submitNo) return;
-                this.setImage(img.url);
+        const searchQuery = `${this.data.name} ${this.data.adminName1} ${this.data.countryName}`;
+        getImage(searchQuery, this.data.countryCode, submitNo)
+            .then(response => {                
+                if (response.submitNo < submitNo) return;
+                if (response.error) {
+                    this.setImage({error: response.error});
+                    return;
+                }   
+                this.setImage({url: response.image.assets.preview_1000.url});
             })
             .catch(err => {
-                console.log(err, err.message);
+                console.log(err);
                 this.setImage(undefined);
             })
         // return true or false for render
@@ -181,9 +186,13 @@ export class Trip extends Component {
         // show trip
         this.show();
     }
-    setImage(url: string | undefined) {
-        if (url) {
+    setImage(image: {url?: string, error?: string} | undefined) {
+        if (image && image.url) {
             // show image
+            this.el.querySelector('.trip__image')!.setAttribute('style', `background-image: url(${image.url})`);
+        } else if (image && image.error) {
+            // show image with error message
+            const url = `https://via.placeholder.com/512x324?text=${image.error.replace(/ /g, '+')}`;
             this.el.querySelector('.trip__image')!.setAttribute('style', `background-image: url(${url})`);
         } else {
             // show background from css
