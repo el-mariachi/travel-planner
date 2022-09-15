@@ -4,3 +4,7 @@ GEO_NAME=
 VC_WEATHER_KEY=
 #pixabay api key
 PIXABAY_KEY=
+#Pexels key
+PEXELS_KEY=
+#Shutterstock token
+SHUTTERSTOCK_API_TOKEN=
