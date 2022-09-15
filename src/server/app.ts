@@ -104,3 +104,6 @@ app.post('/api/pix', async (req, res) => {
 app.get('/test/json', (req, res) => {
     res.send(jsonMock);
 });
+app.post('/test/json', (req, res) => {
+    res.status(200).json({...jsonMock, type: 'POST'});
+})
