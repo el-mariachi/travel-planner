@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import axios from 'axios';
 
 interface IWeather {
     [k: string]: number | string | WeatherItem;
@@ -18,12 +18,12 @@ const timelineRequest = async (lat: number, lng: number, date: string): Promise<
     const apiKeyOption = `${process.env.VC_WEATHER_KEY}`;
     const request = `${base_url}${location}/${date}/${date}?contentType=${typeOption}&unitGroup=${unitOption}&include=${includeOption}&elements=${elementsOption}&key=${apiKeyOption}&iconSet=${iconsOption}`;
     
-    const response = await fetch(request)
+    const response = await axios.get(request)
         .then(response => {
-            if (!response.ok) {
+            if (response.status !== 200) {
                 throw new Error('Network request to weather API failed');
             }
-            return response.json();
+            return response.data;
         });
     if (response.errorCode) {
         throw new Error(response.message);

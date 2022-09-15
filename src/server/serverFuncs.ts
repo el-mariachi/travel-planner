@@ -1,5 +1,5 @@
 import { dateString } from "./dateString";
-import fetch from 'node-fetch';
+import axios from "axios";
 import { stringifyUrl } from "query-string";
 
 export interface ILocation {
@@ -27,7 +27,7 @@ const fetchLocations = async (query: string, maxRows: number): Promise<ILocation
     const base_url = 'http://api.geonames.org/searchJSON';
     const searchParams = `featureClass=P&maxRows=${maxRows}`;
     const request_url = `${base_url}?name_startsWith=${query}&${searchParams}&username=${process.env.GEO_NAME}`;
-    const result = await fetch(request_url).then(res => res.json());
+    const result = await axios.get(request_url).then(({data}) => data);
     // throw new Error('any') // breaks code for testing, caught is in the calling route
     if (result && result.totalResultsCount > 0) {
         return result.geonames;
@@ -42,7 +42,7 @@ const fetchLocations = async (query: string, maxRows: number): Promise<ILocation
 const fetchForecast = async (lat: number, lng: number, date: string): Promise<IWeather[]> => {
     const base_url = 'http://api.weatherbit.io/v2.0/forecast/daily';
     const request_url = `${base_url}?lat=${lat}&lon=${lng}&key=${process.env.WEATHERBIT_KEY}`;
-    const response = await fetch(request_url).then(res => res.json());
+    const response = await axios.get(request_url).then(({data}) => data);
     if (response.error) {
         throw new Error(response.error)
     }
@@ -62,7 +62,7 @@ const fetchHistorical = (lat: number, lng: number, date: string): Promise<IWeath
     next_day.setDate(next_day.getDate() + 1);
     const end_date = dateString(next_day);
     const request_url = `${base_url}?lat=${lat}&lon=${lng}&start_date=${date}&end_date=${end_date}&key=${process.env.WEATHERBIT_KEY}`;
-    return fetch(request_url).then(res => res.json())
+    return axios.get(request_url).then(({data}) => data)
         .then((json) => {
             if (json.error !== undefined) {
                 throw new Error(json.error);
@@ -111,13 +111,13 @@ const fetchShutter = async (name: string, country: string): Promise<any> => {
             query: name,
             region: country
         }
-    });    
-    let response = await fetch(request_url, {
-        method: 'GET',
+    });
+    let response;
+    response = await axios.get(request_url, {
         headers: {
             'Authorization': `Bearer ${process.env.SHUTTERSTOCK_API_TOKEN}`
         }
-    }).then(res => res.json());
+    }).then(({data}) => data);
     
     if (response.total_count === 0) {
         throw new Error( 'API could not find any images');
@@ -131,11 +131,11 @@ const fetchPix = async (name: string, country: string): Promise<string> => {
     const base_url = 'https://pixabay.com/api/';
     const safeName = encodeURIComponent(name);
     let request_url = `${base_url}?image_type=photo&q=${safeName}&key=${process.env.PIXABAY_KEY}`;
-    let response = await fetch(request_url).then(res => res.json());
+    let response = await axios.get(request_url).then(({data}) => data);
     if (response.totalHits === 0) {
         const safeName = encodeURIComponent(country);
         let request_url = `${base_url}?image_type=photo&q=${safeName}&key=${process.env.PIXABAY_KEY}`;
-        response = await fetch(request_url).then(res => res.json());
+        response = await axios.get(request_url).then(({data}) => data);
         if (response.totalHits === 0) {
             throw new Error('No image found');
         }
