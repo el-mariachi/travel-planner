@@ -1,6 +1,6 @@
 // app is split out into a separate file for testing purposes
 // no need to listen to the port fot the tests
-import { app } from "./app";
+import { app } from "./src/server/app";
 const port = process.env.PORT || 3000;
 
 // start server

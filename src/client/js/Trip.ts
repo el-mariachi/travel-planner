@@ -13,10 +13,11 @@ import { TripHead } from './TripHead';
 import { WeatherReport } from './WeatherReportVC';
 import { EventBus } from "./event-bus";
 import { ISavedTrip } from "./types";
+import { apiUrlNetlify } from "./api-url-netlify";
 
 export class Trip extends Component {
     static ROUTES = {
-        W_FC: "/api/forecast",
+        W_FC: `${apiUrlNetlify}/api/forecast`,
         W_HS: "/api/historical",
         W_HSA: "/api/historical/average",
     };

@@ -1,8 +1,9 @@
 import { postToBackend } from './postToBackend';
 import { ILocation } from "./types";
+import { apiUrlNetlify } from "./api-url-netlify";
 
 const getLocations = (query: string, maxRows = 30): Promise<ILocation[]> => {
-    const base_url = '/api/locations';
+    const base_url = `${apiUrlNetlify}/api/locations`;
 
     return new Promise((res, rej) => {
         postToBackend(base_url, { query, maxRows })

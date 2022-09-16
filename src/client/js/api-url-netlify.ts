@@ -1,0 +1,1 @@
+export const apiUrlNetlify = `/.netlify/functions/app`;
