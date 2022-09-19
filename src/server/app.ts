@@ -106,7 +106,7 @@ router.post('/api/pix', async (req, res) => {
 });
 
 // test json response with mock
-router.get('/test/json', (req, res) => {
+app.get('/test/json', (req, res) => {
     res.send(jsonMock);
 });
 router.post('/test/json', (req, res) => {
