@@ -19,7 +19,7 @@ const timelineRequest = async (lat: number, lng: number, date: string): Promise<
     const request = `${base_url}${location}/${date}/${date}?contentType=${typeOption}&unitGroup=${unitOption}&include=${includeOption}&elements=${elementsOption}&key=${apiKeyOption}&iconSet=${iconsOption}`;
     
     const response = await fetch(request)
-        .then(response => {
+        .then((response: any) => {
             if (!response.ok) {
                 throw new Error('Network request to weather API failed');
             }
